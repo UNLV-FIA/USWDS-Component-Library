@@ -1,0 +1,9 @@
+@if(isInCardGroup){
+    <li class="usa-card" [ngClass]="{'usa-card--flag flex-1': isCardFlagType, 'usa-card--media-right':(setFlagOrientationRight && isCardFlagType)}">
+} 
+<div class="usa-card__container">
+    <ng-content>Card</ng-content>
+</div>
+@if(isInCardGroup){
+    </li>
+}

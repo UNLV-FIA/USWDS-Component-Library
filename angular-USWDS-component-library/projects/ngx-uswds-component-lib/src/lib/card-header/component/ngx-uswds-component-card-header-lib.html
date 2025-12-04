@@ -1,0 +1,11 @@
+<div class="usa-card__header">
+    @if (CardHeaderLevel === "H4"){
+        <h4 class="usa-card__heading">{{CardHeaderContent}}</h4>
+    } @else if (CardHeaderLevel === "H3"){
+        <h3 class="usa-card__heading">{{CardHeaderContent}}</h3>
+    } @else if (CardHeaderLevel === "H2"){
+        <h2 class="usa-card__heading">{{CardHeaderContent}}</h2>
+    } @else {
+        <h1 class="usa-card__heading">{{CardHeaderContent}}</h1>
+    }
+</div>

@@ -58,12 +58,12 @@
               {
                 "glob": "**/*",
                 "input": "./node_modules/@uswds/uswds/dist/fonts/",
-                "output": "/assets/uswds/fonts/"
+                "output": "projects/uswds-component-demo/src/assets/uswds/fonts/"
               },
               {
                 "glob": "**/*",
                 "input": "./node_modules/@uswds/uswds/dist/img/",
-                "output": "/assets/uswds/img/"
+                "output": "projects/uswds-component-demo/src/assets/uswds/img/"
               }
             ],
             "stylePreprocessorOptions": {
@@ -72,7 +72,7 @@
               ]
             },
             "styles": [
-              "projects/uswds-component-demo/src/styles/styles.scss"
+              "projects/uswds-component-demo/src/sass/styles.scss"
             ]
           },
           "configurations": {

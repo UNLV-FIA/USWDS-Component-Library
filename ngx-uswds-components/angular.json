@@ -31,6 +31,90 @@
           }
         }
       }
+    },
+    "uswds-component-demo": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/uswds-component-demo",
+      "sourceRoot": "projects/uswds-component-demo/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "outputPath": "dist/uswds-component-demo",
+            "browser": "projects/uswds-component-demo/src/main.ts",
+            "tsConfig": "projects/uswds-component-demo/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "projects/uswds-component-demo/public"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@uswds/uswds/dist/fonts/",
+                "output": "/assets/uswds/fonts/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@uswds/uswds/dist/img/",
+                "output": "/assets/uswds/img/"
+              }
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "./node_modules/@uswds/uswds/packages"
+              ]
+            },
+            "styles": [
+              "projects/uswds-component-demo/src/styles/styles.scss"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "uswds-component-demo:build:production"
+            },
+            "development": {
+              "buildTarget": "uswds-component-demo:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test"
+        }
+      }
     }
   }
 }

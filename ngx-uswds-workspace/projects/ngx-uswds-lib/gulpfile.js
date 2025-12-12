@@ -13,13 +13,13 @@ const uswds = require("@uswds/compile");
 uswds.settings.version = 3;
 
 // Source Path Settings
-uswds.paths.src.uswds = "";
-uswds.paths.src.sass = "";
-uswds.paths.src.theme = "";
-uswds.paths.src.fonts = "";
-uswds.paths.src.img = "";
-uswds.paths.src.js = "";
-uswds.paths.src.projectSass = "";
+uswds.paths.src.uswds = "./node_modules/@uswds";
+uswds.paths.src.sass = "./node_modules/@uswds/uswds/packages";
+uswds.paths.src.theme = "./node_modules/@uswds/uswds/dist/theme";
+uswds.paths.src.fonts = "./node_modules/@uswds/uswds/dist/fonts";
+uswds.paths.src.img = "./node_modules/@uswds/uswds/dist/img";
+uswds.paths.src.js = "./node_modules/@uswds/uswds/dist/js";
+uswds.paths.src.projectSass = "./sass";
 uswds.paths.src.projectIcons = "";
 
 // Destination Path Settings

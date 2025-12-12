@@ -57,7 +57,8 @@
             ],
             "styles": [
               "projects/ngx-uswds-demo/src/styles.scss"
-            ]
+            ],
+            "preserveSymlinks": true
           },
           "configurations": {
             "production": {
@@ -78,7 +79,11 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": {
+                "scripts": true,
+                "styles": true,
+                "vendor": true
+              }
             }
           },
           "defaultConfiguration": "production"
@@ -93,7 +98,14 @@
               "buildTarget": "ngx-uswds-demo:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "prebundle": {
+              "exclude": [
+                "ngx-uswds-lib"
+              ]
+            }
+          }
         },
         "test": {
           "builder": "@angular/build:unit-test"

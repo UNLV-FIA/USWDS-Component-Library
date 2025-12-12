@@ -3,5 +3,8 @@
   "dest": "../../dist/ngx-uswds-lib",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "assets": [
+    "sass/styles.scss"
+  ]
 }

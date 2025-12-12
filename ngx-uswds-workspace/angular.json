@@ -56,9 +56,15 @@
               }
             ],
             "styles": [
-              "projects/ngx-uswds-demo/src/styles.scss"
+              "projects/ngx-uswds-demo/src/styles.scss",
+              "node_modules/ngx-uswds-lib/sass/styles.scss"
             ],
-            "preserveSymlinks": true
+            "preserveSymlinks": true,
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "./node_modules/ngx-uswds-lib/node_modules/@uswds/uswds/packages"
+              ]
+            }
           },
           "configurations": {
             "production": {

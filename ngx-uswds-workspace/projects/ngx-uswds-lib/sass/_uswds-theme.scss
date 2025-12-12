@@ -13,3 +13,10 @@ in the form $setting: value,
 //    $setting: value
 //  );
 //
+
+@use "uswds-core" with (
+  $theme-show-compile-warnings: true,
+  $theme-show-notifications: false,
+  $theme-font-path: "../assets/uswds/fonts",
+  $theme-image-path: "../assets/uswds/img"
+);

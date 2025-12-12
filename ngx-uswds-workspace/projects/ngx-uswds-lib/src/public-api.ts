@@ -3,3 +3,4 @@
  */
 
 export * from './lib/ngx-uswds-lib';
+export * from './components/uswds-button/uswds-button';

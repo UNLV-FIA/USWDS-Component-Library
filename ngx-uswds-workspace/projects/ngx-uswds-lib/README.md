@@ -2,6 +2,29 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
 
+## Library Integration
+
+To include the `ngx-uswds-lib` library in your Angular project, you must make a few adjustments to your application's `angular.json` file.
+
+Add/update styles to include the library Sass file:
+```json
+...
+"styles": [
+   ...
+   "node_modules/ngx-uswds-lib/sass/styles.scss"
+]
+...
+```
+
+Add/update style preprocessor options to include USWDS packages:
+```json
+"stylePreprocessorOptions": {
+   "includePaths": [
+      "./node_modules/ngx-uswds-lib/node_modules/@uswds/uswds/packages"
+   ]
+}
+```
+
 ## Code scaffolding
 
 Angular CLI includes powerful code scaffolding tools. To generate a new component, run:

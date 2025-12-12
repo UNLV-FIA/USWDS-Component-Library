@@ -33,6 +33,12 @@
     },
     {
       "path": "./projects/ngx-uswds-lib/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/ngx-uswds-demo/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/ngx-uswds-demo/tsconfig.spec.json"
     }
   ]
 }

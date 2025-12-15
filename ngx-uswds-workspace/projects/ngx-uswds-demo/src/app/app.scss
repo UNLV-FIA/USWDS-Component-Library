@@ -1,0 +1,14 @@
+.header-section { 
+    width: 100%;
+    height: 100px;
+    background-color: green;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.demo-content-section { 
+    display: flex; 
+    flex-direction: column; 
+    flex-grow: 1;
+}

@@ -1,0 +1,1 @@
+export type cardHeaderLevelOptions = "H4" | "H3" | "H2" | "H1";

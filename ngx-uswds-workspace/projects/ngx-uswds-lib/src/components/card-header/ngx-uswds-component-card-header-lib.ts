@@ -1,5 +1,5 @@
 import { Component, Input} from '@angular/core';
-import { cardHeaderLevelOptions } from '../types/ngx-uswds-type-card-header';
+import { cardHeaderLevelOptions } from './ngx-uswds-type-card-header';
 
 @Component({
   selector: 'uswds-card-header',

@@ -1,0 +1,7 @@
+:host {
+  display: block;
+}
+
+.usa-banner__content[hidden] {
+  display: none;
+}

@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { UswdsButton, USWDSCard } from 'ngx-uswds-lib'; // example, can remove
+// import { RouterOutlet } from '@angular/router';
+import { UswdsButton, USWDSCard, BannerComponent } from 'ngx-uswds-lib'; // example, can remove
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [ BannerComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

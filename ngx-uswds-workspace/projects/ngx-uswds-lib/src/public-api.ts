@@ -11,4 +11,5 @@ export * from './components/card-footer/ngx-uswds-component-card-footer-lib';
 export * from './components/card-header/ngx-uswds-component-card-header-lib';
 export * from './components/card-media/ngx-uswds-component-card-media-lib';
 
-
+// Banner Component
+export * from './components/banner/ngx-uswds-component-banner-lib';

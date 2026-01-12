@@ -4,7 +4,7 @@ import { UswdsButton, USWDSCard, UswdsAlert} from 'ngx-uswds-lib'; // example, c
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, UswdsAlert],
+  imports: [UswdsAlert],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

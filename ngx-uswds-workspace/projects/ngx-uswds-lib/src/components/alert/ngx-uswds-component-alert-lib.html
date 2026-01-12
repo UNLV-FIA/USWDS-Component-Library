@@ -1,1 +1,13 @@
-<p>ngx-uswds-component-alert-lib works!</p>
+<div class="usa-alert" [ngClass]="alertClass()" >
+   
+    <div class="usa-alert__body">
+        <div>
+              <h4 class="usa-alert__heading">{{headerText()}}</h4>
+          <p class="usa-alert__text">
+                <ng-content></ng-content>
+          </p>
+        </div>
+        
+    </div>
+  
+</div>

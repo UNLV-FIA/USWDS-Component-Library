@@ -1,8 +1,8 @@
-import { Component, input, computed } from '@angular/core';
-import { CommonModule, NgClass, NgIf } from '@angular/common';
+import { Component, input, computed, Input } from '@angular/core';
+import { CommonModule, NgClass } from '@angular/common';
 
 type AlertType = 'Informative' | 'Warning' | 'Success' | 'Error' | 'Emergency'
-const assetsPath = 'assets/img'
+const assetsPath = '/assets/img'
 @Component({
   selector: 'lib-ngx-uswds-component-alert-lib',
   imports: [NgClass],
@@ -13,6 +13,7 @@ export class UswdsAlert {
   type = input.required<AlertType>();
   headerText = input('');
   text = input(''); 
+
 
 
 

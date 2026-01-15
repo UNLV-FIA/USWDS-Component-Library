@@ -6,14 +6,42 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 To include the `ngx-uswds-lib` library in your Angular project, you must make a few adjustments to your application's `angular.json` file.
 
+Add/update assets to include library images, fonts, etc:
+```json
+"assets": [
+   /* other assets */
+   {
+      "glob": "**/*",
+      "input": "node_modules/ngx-uswds-lib/node_modules/@uswds/uswds/dist/img",
+      "output": "node_modules/@uswds/uswds/dist/img"
+   },
+   {
+      "glob": "*.*",
+      "input": "node_modules/ngx-uswds-lib/node_modules/@uswds/uswds/dist/img",
+      "output": "assets/img"
+   },
+   {
+      "glob": "**/*",
+      "input": "node_modules/ngx-uswds-lib/node_modules/@uswds/uswds/dist/fonts",
+      "output": "node_modules/@uswds/uswds/dist/fonts"
+   }
+]
+```
+
 Add/update styles to include the library Sass file:
 ```json
-...
 "styles": [
-   ...
+   /* other styles */
    "node_modules/ngx-uswds-lib/sass/styles.scss"
 ]
-...
+```
+
+Add/update scripts to include library Javascript file:
+```json
+"scripts": [
+   /* other scripts */
+   "node_modules/ngx-uswds-lib/node_modules/@uswds/uswds/dist/js/uswds.js"
+]
 ```
 
 Add/update style preprocessor options to include USWDS packages:

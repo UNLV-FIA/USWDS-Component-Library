@@ -53,11 +53,29 @@
               {
                 "glob": "**/*",
                 "input": "projects/ngx-uswds-demo/public"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/ngx-uswds-lib/node_modules/@uswds/uswds/dist/img",
+                "output": "node_modules/@uswds/uswds/dist/img"
+              },
+              {
+                "glob": "*.*",
+                "input": "node_modules/ngx-uswds-lib/node_modules/@uswds/uswds/dist/img",
+                "output": "assets/img"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/ngx-uswds-lib/node_modules/@uswds/uswds/dist/fonts",
+                "output": "node_modules/@uswds/uswds/dist/fonts"
               }
             ],
             "styles": [
               "projects/ngx-uswds-demo/src/styles.scss",
               "node_modules/ngx-uswds-lib/sass/styles.scss"
+            ],
+            "scripts": [
+              "node_modules/ngx-uswds-lib/node_modules/@uswds/uswds/dist/js/uswds.js"
             ],
             "preserveSymlinks": true,
             "stylePreprocessorOptions": {

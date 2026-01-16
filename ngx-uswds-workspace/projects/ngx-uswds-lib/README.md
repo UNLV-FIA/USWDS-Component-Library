@@ -16,7 +16,7 @@ Add/update assets to include library images, fonts, etc:
       "output": "node_modules/@uswds/uswds/dist/img"
    },
    {
-      "glob": "*.*",
+      "glob": "**/*",
       "input": "node_modules/ngx-uswds-lib/node_modules/@uswds/uswds/dist/img",
       "output": "assets/img"
    },
@@ -33,14 +33,6 @@ Add/update styles to include the library Sass file:
 "styles": [
    /* other styles */
    "node_modules/ngx-uswds-lib/sass/styles.scss"
-]
-```
-
-Add/update scripts to include library Javascript file:
-```json
-"scripts": [
-   /* other scripts */
-   "node_modules/ngx-uswds-lib/node_modules/@uswds/uswds/dist/js/uswds.js"
 ]
 ```
 

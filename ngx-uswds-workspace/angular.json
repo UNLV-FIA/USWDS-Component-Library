@@ -60,7 +60,7 @@
                 "output": "node_modules/@uswds/uswds/dist/img"
               },
               {
-                "glob": "*.*",
+                "glob": "**/*",
                 "input": "node_modules/ngx-uswds-lib/node_modules/@uswds/uswds/dist/img",
                 "output": "assets/img"
               },
@@ -73,9 +73,6 @@
             "styles": [
               "projects/ngx-uswds-demo/src/styles.scss",
               "node_modules/ngx-uswds-lib/sass/styles.scss"
-            ],
-            "scripts": [
-              "node_modules/ngx-uswds-lib/node_modules/@uswds/uswds/dist/js/uswds.js"
             ],
             "preserveSymlinks": true,
             "stylePreprocessorOptions": {

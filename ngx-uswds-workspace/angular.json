@@ -54,6 +54,21 @@
               {
                 "glob": "**/*",
                 "input": "projects/ngx-uswds-demo/public"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/ngx-uswds-lib/node_modules/@uswds/uswds/dist/img",
+                "output": "node_modules/@uswds/uswds/dist/img"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/ngx-uswds-lib/node_modules/@uswds/uswds/dist/img",
+                "output": "assets/img"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/ngx-uswds-lib/node_modules/@uswds/uswds/dist/fonts",
+                "output": "node_modules/@uswds/uswds/dist/fonts"
               }
             ],
             "styles": [

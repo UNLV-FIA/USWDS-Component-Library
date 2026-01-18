@@ -170,8 +170,6 @@ describe('BannerComponent', () => {
         });
     });
 
-//////////////////////////////////////////////////////////////////// HUH
-
 
     describe('Computed properties', () => {
     it('should use custom aria-label if provided', () => {

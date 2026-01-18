@@ -17,9 +17,26 @@ In the `src/components` directory, create a new folder for your component.
 #### Implement the Component
 - Reference the **official USWDS component documentation and source code** throughout development.
 - Ensure the Angular component:
-- Matches USWDS structure and behavior
-- Supports **all variants, states, and configurations** listed on the USWDS website
-- Follows existing `ngx-uswds-lib` coding patterns and conventions
+  - Matches USWDS structure and behavior
+  - Supports **all variants, states, and configurations** listed on the USWDS website
+  - Follows existing `ngx-uswds-lib` coding patterns and conventions
+- Import and enable required USWDS dependencies, for example:
+```ts
+import { accordion } from '@uswds/uswds/js'; // import this
+
+@Component({
+  selector: 'lib-uswds-accordion',
+  imports: [],
+  templateUrl: './uswds-accordion.html',
+  styleUrl: './uswds-accordion.css',
+})
+export class UswdsAccordion {
+  ngOnInit() {
+    accordion.on(); // enable this
+  }
+}
+
+```
 
 #### Verify and Test
 - Confirm visual and functional parity with the USWDS examples
@@ -28,9 +45,9 @@ In the `src/components` directory, create a new folder for your component.
 #### Submit a Pull Request
 - Open a pull request targeting the main development branch
 - Clearly describe:
-- The implemented component
-- Supported variations
-- Any deviations from the USWDS reference (if applicable) 
+  - The implemented component
+  - Supported variations
+  - Any deviations from the USWDS reference (if applicable) 
 
 ### Component Testing and Verification
 #### Link Library and Demo Application 

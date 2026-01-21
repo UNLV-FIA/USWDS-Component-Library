@@ -1,4 +1,4 @@
-<div class="usa-alert" [ngClass]="alertClass()">
+<div class="usa-alert" [ngClass]="[alertClassReturn(), slimAlert() ? 'usa-alert--slim' : '', setNoIcon() ? 'usa-alert--no-icon' : '']">
   <div class="usa-alert__body">
       <div>
         <h4 class="usa-alert__heading logo_alert_wrap">{{ headerText() }}</h4>

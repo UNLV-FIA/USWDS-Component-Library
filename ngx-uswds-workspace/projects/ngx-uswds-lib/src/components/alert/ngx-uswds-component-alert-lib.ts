@@ -11,8 +11,11 @@ const assetsPath = '/assets/img'
 })
 export class UswdsAlert {
   type = input.required<AlertType>();
+  slimAlert = input<Boolean>(false); 
+  setNoIcon = input<Boolean>(false); 
   headerText = input('');
   text = input(''); 
+
 
 
 
@@ -24,30 +27,17 @@ export class UswdsAlert {
     return val; 
   })
 
-  alertClass = computed(() => ({
-    'usa-alert--info': this.alertType() === 'Informative', 
-    'usa-alert--warning': this.alertType() == 'Warning',
-    'usa-alert--success': this.alertType() == 'Success',
-    'usa-alert--error': this.alertType() == 'Error',
-    'usa-alert--emergency': this.alertType() == 'Emergency'
-  }))
-
-  iconHref = computed(() => {
-    switch (this.type()) {
-      case 'Informative':
-        return `${assetsPath}/info.svg`
-      case 'Warning':
-        return `${assetsPath}/warning.svg`
-      case 'Success':
-        return `${assetsPath}/check_circle.svg`
-      case 'Error':
-        return `${assetsPath}/error.svg`
-      case 'Emergency':
-        return `${assetsPath}/error_outline.svg`
-      default:
-         return `${assetsPath}/info.svg`
+  alertClassReturn(): string {
+    switch (this.alertType()) {
+      case 'Informative': return 'usa-alert--info';
+      case 'Warning': return 'usa-alert--warning';
+      case 'Success': return 'usa-alert--success';
+      case 'Error': return 'usa-alert--error'; 
+      case 'Emergency': return 'usa-alert--Emergency';
+      default: return ''
     }
-  })
+  };
+
  
 
 }

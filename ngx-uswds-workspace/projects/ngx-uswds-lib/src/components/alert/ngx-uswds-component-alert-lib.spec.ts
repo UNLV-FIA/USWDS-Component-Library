@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UswdsAlert } from './ngx-uswds-component-alert-lib';
+import { AlertType } from './alert.types';
 
 describe('NgxUswdsComponentAlertLib', () => {
   let component: UswdsAlert;
@@ -8,16 +9,51 @@ describe('NgxUswdsComponentAlertLib', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UswdsAlert]
-    })
-    .compileComponents();
+      imports: [UswdsAlert],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(UswdsAlert);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('type', 'Informative');
+    fixture.detectChanges();
     await fixture.whenStable();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should have the class of Informative assigned', () => {
+    fixture.detectChanges();
+    const el: HTMLElement = fixture.nativeElement.querySelector('.usa-alert');
+    expect(el.classList.contains('usa-alert--info')).toBeTruthy();
+  });
+
+  it('should change to a Warning when updating the type to Warning', () => {
+    fixture.componentRef.setInput('type', 'Warning'); 
+    fixture.detectChanges(); 
+    const el: HTMLElement = fixture.nativeElement.querySelector('.usa-alert'); 
+    expect(el.classList.contains('usa-alert--warning')).toBeTruthy();
+  })
+
+  it('should change to a Success when updating the type to Success', () => {
+    fixture.componentRef.setInput('type', 'Success'); 
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('.usa-alert'); 
+    expect(el.classList.contains('usa-alert--success')).toBeTruthy();
+  })
+
+  it('should change to an Error when updating the type to Error', () => {
+    fixture.componentRef.setInput('type', 'Error'); 
+    fixture.detectChanges(); 
+    const el = fixture.nativeElement.querySelector('.usa-alert'); 
+    expect(el.classList.contains('usa-alert--error')).toBeTruthy();
+  })
+
+  it('should chnage to an Emergency when updating the type to Emergency', () => {
+    fixture.componentRef.setInput('type', 'Emergency'); 
+    fixture.detectChanges(); 
+    const el = fixture.nativeElement.querySelector('.usa-alert'); 
+    expect(el.classList.contains('usa-alert--emergency')).toBeTruthy();
+  })
 });

@@ -1,0 +1,1 @@
+export type AlertType = 'Informative' | 'Warning' | 'Success' | 'Error' | 'Emergency'

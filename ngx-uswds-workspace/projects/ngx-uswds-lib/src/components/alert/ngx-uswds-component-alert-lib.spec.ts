@@ -73,19 +73,19 @@ describe('NgxUswdsComponentAlertLib', () => {
 });
 
 describe('ChkReqProps', () => {
-  let component: UswdsAlert; 
-  let fixture: ComponentFixture<UswdsAlert>; 
+  let component: UswdsAlert;
+  let fixture: ComponentFixture<UswdsAlert>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UswdsAlert]
-    }).compileComponents(); 
-  })
+      imports: [UswdsAlert],
+    }).compileComponents();
+  });
 
   it('should throw an error if the requiredProp of Type is missing', () => {
-    fixture = TestBed.createComponent(UswdsAlert); 
+    fixture = TestBed.createComponent(UswdsAlert);
     expect(() => {
       fixture.detectChanges();
-    }).toThrowError(/NG0950/); 
-  })
-})
+    }).toThrowError(/NG0950/);
+  });
+});

@@ -71,3 +71,21 @@ describe('NgxUswdsComponentAlertLib', () => {
     expect(el.classList.contains('usa-alert--no-icon')).toBeTruthy();
   });
 });
+
+describe('ChkReqProps', () => {
+  let component: UswdsAlert; 
+  let fixture: ComponentFixture<UswdsAlert>; 
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [UswdsAlert]
+    }).compileComponents(); 
+  })
+
+  it('should throw an error if the requiredProp of Type is missing', () => {
+    fixture = TestBed.createComponent(UswdsAlert); 
+    expect(() => {
+      fixture.detectChanges();
+    }).toThrowError(/NG0950/); 
+  })
+})

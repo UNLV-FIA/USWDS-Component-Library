@@ -35,7 +35,7 @@ export class UswdsAlert {
       case 'Emergency':
         return 'usa-alert--emergency';
       default:
-        return '';
+        throw Error('Provided Type does exist, valid options: [Informative, Warning, Success, Error, Emergency]');
     }
   }
 }

@@ -88,4 +88,12 @@ describe('ChkReqProps', () => {
       fixture.detectChanges();
     }).toThrowError(/NG0950/);
   });
+
+  it('should throw an error if an invalid prop of Type is provided', () => {
+    fixture = TestBed.createComponent(UswdsAlert);
+    fixture.componentRef.setInput('type', 'badINput');
+    expect(() => {
+      fixture.detectChanges();
+    }).toThrowError("Provided Type does exist, valid options: [Informative, Warning, Success, Error, Emergency]");
+  })
 });

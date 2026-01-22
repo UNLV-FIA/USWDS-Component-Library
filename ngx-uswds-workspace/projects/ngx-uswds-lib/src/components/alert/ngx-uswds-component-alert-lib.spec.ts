@@ -30,30 +30,44 @@ describe('NgxUswdsComponentAlertLib', () => {
   });
 
   it('should change to a Warning when updating the type to Warning', () => {
-    fixture.componentRef.setInput('type', 'Warning'); 
-    fixture.detectChanges(); 
-    const el: HTMLElement = fixture.nativeElement.querySelector('.usa-alert'); 
+    fixture.componentRef.setInput('type', 'Warning');
+    fixture.detectChanges();
+    const el: HTMLElement = fixture.nativeElement.querySelector('.usa-alert');
     expect(el.classList.contains('usa-alert--warning')).toBeTruthy();
-  })
+  });
 
   it('should change to a Success when updating the type to Success', () => {
-    fixture.componentRef.setInput('type', 'Success'); 
+    fixture.componentRef.setInput('type', 'Success');
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector('.usa-alert'); 
+    const el = fixture.nativeElement.querySelector('.usa-alert');
     expect(el.classList.contains('usa-alert--success')).toBeTruthy();
-  })
+  });
 
   it('should change to an Error when updating the type to Error', () => {
-    fixture.componentRef.setInput('type', 'Error'); 
-    fixture.detectChanges(); 
-    const el = fixture.nativeElement.querySelector('.usa-alert'); 
+    fixture.componentRef.setInput('type', 'Error');
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('.usa-alert');
     expect(el.classList.contains('usa-alert--error')).toBeTruthy();
-  })
+  });
 
-  it('should chnage to an Emergency when updating the type to Emergency', () => {
-    fixture.componentRef.setInput('type', 'Emergency'); 
-    fixture.detectChanges(); 
-    const el = fixture.nativeElement.querySelector('.usa-alert'); 
+  it('should change to an Emergency when updating the type to Emergency', () => {
+    fixture.componentRef.setInput('type', 'Emergency');
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('.usa-alert');
     expect(el.classList.contains('usa-alert--emergency')).toBeTruthy();
-  })
+  });
+
+  it('should change to a Slim Alert when adding the slim true element', () => {
+    fixture.componentRef.setInput('slimAlert', 'true');
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('.usa-alert');
+    expect(el.classList.contains('usa-alert--slim')).toBeTruthy();
+  });
+
+  it('should allow no icons to display when setting setNoIcons to True', () => {
+    fixture.componentRef.setInput('setNoIcon', 'true');
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('.usa-alert');
+    expect(el.classList.contains('usa-alert--no-icon')).toBeTruthy();
+  });
 });

@@ -33,7 +33,7 @@ export class UswdsAlert {
       case 'Warning': return 'usa-alert--warning';
       case 'Success': return 'usa-alert--success';
       case 'Error': return 'usa-alert--error'; 
-      case 'Emergency': return 'usa-alert--Emergency';
+      case 'Emergency': return 'usa-alert--emergency';
       default: return ''
     }
   };

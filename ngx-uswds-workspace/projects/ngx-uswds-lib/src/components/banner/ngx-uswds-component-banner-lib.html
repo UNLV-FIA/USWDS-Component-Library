@@ -34,35 +34,39 @@
         <div class="usa-banner__guidance tablet:grid-col-6">
           <img 
             class="usa-banner__icon usa-media-block__img" 
-            [src]="dotGovIconPath" 
-            role="img"
+            [src]="dotGovIconPath"
             alt=""
             aria-hidden="true"
           />
           <div class="usa-media-block__body">
             <p>
               <strong>{{ domainLabel }}</strong><br />
-              <ng-container *ngIf="lang === 'en'">
-                A <strong>{{ domainStrong }}</strong> {{ domainDescription.replace('A .gov ', '').replace('A .mil ', '') }}
-              </ng-container>
-              <ng-container *ngIf="lang === 'es'">
-                Un sitio web <strong>{{ domainStrong }}</strong> {{ domainDescription.replace('Un sitio web .gov ', '').replace('Un sitio web .mil ', '') }}
-              </ng-container>
+              @if(lang === 'en'){
+                <ng-container>
+                  A <strong>{{ domainStrong }}</strong> {{ domainDescription.replace('A .gov ', '').replace('A .mil ', '') }}
+                </ng-container>
+              }@else {
+                <ng-container>
+                  Un sitio web <strong>{{ domainStrong }}</strong> {{ domainDescription.replace('Un sitio web .gov ', '').replace('Un sitio web .mil ', '') }}
+                </ng-container>
+              }
+
+
             </p>
           </div>
         </div>
         <div class="usa-banner__guidance tablet:grid-col-6">
           <img 
             class="usa-banner__icon usa-media-block__img" 
-            [src]="httpsIconPath" 
-            role="img"
+            [src]="httpsIconPath"
             alt=""
             aria-hidden="true"
           />
           <div class="usa-media-block__body">
             <p>
               <strong>{{ secureLabel }}</strong><br />
-              <ng-container *ngIf="lang === 'en'">
+            @if(lang === 'en'){
+              <ng-container>
                 A <strong>lock</strong> (
                 <span class="icon-lock">
                   <svg
@@ -71,7 +75,6 @@
                     height="64"
                     viewBox="0 0 52 64"
                     class="usa-banner__lock-image"
-                    role="img"
                     [attr.aria-labelledby]="lockIconId + '-description'"
                     focusable="false"
                   >
@@ -85,8 +88,9 @@
                   </svg>
                 </span>
                 ) or <strong>https://</strong> means you've safely connected to the <strong>{{ domainStrong }}</strong> website. Share sensitive information only on official, secure websites.
-              </ng-container>
-              <ng-container *ngIf="lang === 'es'">
+              </ng-container>              
+            }@else {
+              <ng-container>
                 Un <strong>candado</strong> (
                 <span class="icon-lock">
                   <svg
@@ -95,7 +99,6 @@
                     height="64"
                     viewBox="0 0 52 64"
                     class="usa-banner__lock-image"
-                    role="img"
                     [attr.aria-labelledby]="lockIconId + '-description'"
                     focusable="false"
                   >
@@ -110,6 +113,7 @@
                 </span>
                 ) o <strong>https://</strong> significa que usted se conectó de forma segura a un sitio web <strong>{{ domainStrong }}</strong>. Comparta información sensible sólo en sitios web oficiales y seguros.
               </ng-container>
+            }
             </p>
           </div>
         </div>

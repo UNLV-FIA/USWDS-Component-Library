@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BannerComponent } from './ngx-uswds-component-banner-lib';
+import { USWDSBanner } from './ngx-uswds-component-banner-lib';
 import { BANNER_CONTENT } from './banner-content';
 
-describe('BannerComponent', () => {
-    let component: BannerComponent;
-    let fixture: ComponentFixture<BannerComponent>;
+describe('USWDSBanner', () => {
+    let component: USWDSBanner;
+    let fixture: ComponentFixture<USWDSBanner>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [BannerComponent]
+            imports: [USWDSBanner]
         }).compileComponents();
 
-        fixture = TestBed.createComponent(BannerComponent);
+        fixture = TestBed.createComponent(USWDSBanner);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
@@ -205,7 +205,7 @@ describe('BannerComponent', () => {
 
         it('should render guidance images', () => {
             // Create a fresh fixture with expanded state
-            const testFixture = TestBed.createComponent(BannerComponent);
+            const testFixture = TestBed.createComponent(USWDSBanner);
             const testComponent = testFixture.componentInstance;
             testComponent.isExpanded = true;
             testFixture.detectChanges();
@@ -217,7 +217,7 @@ describe('BannerComponent', () => {
 
         it('should render lock SVG with proper accessibility attributes', () => {
             // Create a fresh fixture with expanded state
-            const testFixture = TestBed.createComponent(BannerComponent);
+            const testFixture = TestBed.createComponent(USWDSBanner);
             const testComponent = testFixture.componentInstance;
             testComponent.isExpanded = true;
             testFixture.detectChanges();
@@ -230,7 +230,7 @@ describe('BannerComponent', () => {
 
         it('should set correct accordion ID on content', () => {
             // Create a fresh fixture to avoid change detection errors
-            const testFixture = TestBed.createComponent(BannerComponent);
+            const testFixture = TestBed.createComponent(USWDSBanner);
             const testComponent = testFixture.componentInstance;
             testComponent.tld = 'mil';
             testComponent.lang = 'es';

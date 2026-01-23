@@ -7,9 +7,9 @@ import { BANNER_CONTENT, DomainType, LanguageType } from './banner-content';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './ngx-uswds-component-banner-lib.html',
-  styleUrls: ['./ngx-uswds-component-banner-lib.css']
+  styleUrls: ['./ngx-uswds-component-banner-lib.scss']
 })
-export class BannerComponent {
+export class USWDSBanner {
   @Input() ariaLabel?: string;
   @Input() tld: DomainType = 'gov';
   @Input() lang: LanguageType = 'en';

@@ -172,26 +172,27 @@ describe('BannerComponent', () => {
         });
 
         it('should update aria-expanded when toggled', () => {
-            fixture.detectChanges();
             const button = fixture.nativeElement.querySelector('.usa-accordion__button');
-            
+
             expect(button.getAttribute('aria-expanded')).toBe('false');
-            
-            component.toggleAccordion();
+
+            // Simulate button click to avoid change detection errors
+            button.click();
             fixture.detectChanges();
-            
+
             expect(button.getAttribute('aria-expanded')).toBe('true');
         });
 
         it('should show/hide content when toggled', () => {
-            fixture.detectChanges();
             const content = fixture.nativeElement.querySelector('.usa-banner__content');
-            
+
             expect(content.hidden).toBe(true);
-            
-            component.toggleAccordion();
+
+            // Simulate button click to avoid change detection errors
+            const button = fixture.nativeElement.querySelector('.usa-accordion__button');
+            button.click();
             fixture.detectChanges();
-            
+
             expect(content.hidden).toBe(false);
         });
 
@@ -203,30 +204,39 @@ describe('BannerComponent', () => {
         });
 
         it('should render guidance images', () => {
-            component.isExpanded = true;
-            fixture.detectChanges();
-            
-            const compiled = fixture.nativeElement;
+            // Create a fresh fixture with expanded state
+            const testFixture = TestBed.createComponent(BannerComponent);
+            const testComponent = testFixture.componentInstance;
+            testComponent.isExpanded = true;
+            testFixture.detectChanges();
+
+            const compiled = testFixture.nativeElement;
             const icons = compiled.querySelectorAll('.usa-banner__icon');
             expect(icons.length).toBe(2);
         });
 
         it('should render lock SVG with proper accessibility attributes', () => {
-            component.isExpanded = true;
-            fixture.detectChanges();
-            
-            const svg = fixture.nativeElement.querySelector('.usa-banner__lock-image');
+            // Create a fresh fixture with expanded state
+            const testFixture = TestBed.createComponent(BannerComponent);
+            const testComponent = testFixture.componentInstance;
+            testComponent.isExpanded = true;
+            testFixture.detectChanges();
+
+            const svg = testFixture.nativeElement.querySelector('.usa-banner__lock-image');
             expect(svg).toBeTruthy();
             expect(svg.getAttribute('role')).toBe('img');
             expect(svg.getAttribute('focusable')).toBe('false');
         });
 
         it('should set correct accordion ID on content', () => {
-            component.tld = 'mil';
-            component.lang = 'es';
-            fixture.detectChanges();
-            
-            const content = fixture.nativeElement.querySelector('.usa-banner__content');
+            // Create a fresh fixture to avoid change detection errors
+            const testFixture = TestBed.createComponent(BannerComponent);
+            const testComponent = testFixture.componentInstance;
+            testComponent.tld = 'mil';
+            testComponent.lang = 'es';
+            testFixture.detectChanges();
+
+            const content = testFixture.nativeElement.querySelector('.usa-banner__content');
             expect(content.id).toBe('gov-banner-dot-mil-lang-es');
         });
     });

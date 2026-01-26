@@ -83,7 +83,7 @@ describe('ChkReqProps', () => {
     }).compileComponents();
   });
 
-  it('should throw an error if the requiredProp of Type is missing', () => {
+  it('should throw an error if a requiredProp of Type or HeaderText is missing', () => {
     fixture = TestBed.createComponent(UswdsAlert);
     expect(() => {
       fixture.detectChanges();
@@ -100,7 +100,7 @@ describe('ChkReqProps', () => {
   })
   it('should throw an error if headerText is empty of Type is provided', () => {
     fixture = TestBed.createComponent(UswdsAlert);
-    fixture.componentRef.setInput('type', 'badINput');
+    fixture.componentRef.setInput('type', 'Informational');
     fixture.componentRef.setInput('headerText', '')
     expect(() => {
       fixture.detectChanges();

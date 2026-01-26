@@ -15,6 +15,7 @@ describe('NgxUswdsComponentAlertLib', () => {
     fixture = TestBed.createComponent(UswdsAlert);
     component = fixture.componentInstance;
     fixture.componentRef.setInput('type', 'Informative');
+    fixture.componentRef.setInput('headerText', 'Hello There')
     fixture.detectChanges();
     await fixture.whenStable();
   });

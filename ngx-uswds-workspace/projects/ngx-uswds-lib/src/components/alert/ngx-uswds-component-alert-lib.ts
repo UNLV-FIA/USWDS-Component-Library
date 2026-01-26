@@ -1,4 +1,4 @@
-import { Component, input, computed, Input } from '@angular/core';
+import { Component, input, computed, Input, OnInit } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
 import { AlertType } from './alert.types';
 
@@ -8,12 +8,16 @@ import { AlertType } from './alert.types';
   templateUrl: './ngx-uswds-component-alert-lib.html',
   styleUrl: './ngx-uswds-component-alert-lib.css',
 })
-export class UswdsAlert {
+export class UswdsAlert implements OnInit {
   type = input.required<AlertType>();
   slimAlert = input<Boolean>(false);
   setNoIcon = input<Boolean>(false);
   headerText = input.required<string>();
   text = input('');
+
+  ngOnInit(): void {
+    if (!this.headerText() || this.headerText().trim() == '') throw new Error("Propery 'headerText' is required and cannot be an empty string");
+  }
 
   // Computed Variables to help with css later
   alertType = computed(() => {

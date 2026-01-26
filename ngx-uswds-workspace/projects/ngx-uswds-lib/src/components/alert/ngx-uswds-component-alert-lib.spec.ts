@@ -93,8 +93,17 @@ describe('ChkReqProps', () => {
   it('should throw an error if an invalid prop of Type is provided', () => {
     fixture = TestBed.createComponent(UswdsAlert);
     fixture.componentRef.setInput('type', 'badINput');
+    fixture.componentRef.setInput('headerText', 'Hello There')
     expect(() => {
       fixture.detectChanges();
     }).toThrowError("Provided Type does exist, valid options: [Informative, Warning, Success, Error, Emergency]");
+  })
+  it('should throw an error if headerText is empty of Type is provided', () => {
+    fixture = TestBed.createComponent(UswdsAlert);
+    fixture.componentRef.setInput('type', 'badINput');
+    fixture.componentRef.setInput('headerText', '')
+    expect(() => {
+      fixture.detectChanges();
+    }).toThrowError("Propery 'headerText' is required and cannot be an empty string");
   })
 });

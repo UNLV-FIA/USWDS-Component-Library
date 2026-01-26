@@ -12,7 +12,7 @@ export class UswdsAlert {
   type = input.required<AlertType>();
   slimAlert = input<Boolean>(false);
   setNoIcon = input<Boolean>(false);
-  headerText = input('');
+  headerText = input.required<string>();
   text = input('');
 
   // Computed Variables to help with css later

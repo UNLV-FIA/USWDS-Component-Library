@@ -8,12 +8,41 @@ import { AlertType } from './alert.types';
   templateUrl: './ngx-uswds-component-alert-lib.html',
   styleUrl: './ngx-uswds-component-alert-lib.css',
 })
+  
+  /***
+   * @class
+   * @description
+   * An angular component that renders a customizable alert keeping users informed of imporatnd and sometimes time-sensitive changes. 
+   * @selector lib-ngx-uswds-component-alert-lib
+   */
 export class UswdsAlert implements OnInit {
+  /**
+   * Chooses which version of the uswds alert to display. 
+   * Possible Values
+   * - `Informative`
+   * - `Warning` 
+   * - `Success` 
+   * - `Error` 
+   * - `Emergency`
+   */
   type = input.required<AlertType>();
+  /**
+   * Chooses whether to display the slim version of the alert
+   * @default false 
+   * 
+   */
   slimAlert = input<Boolean>(false);
+  /**
+   * Choose whether to display an icon or not
+   * @default false
+   * 
+   */
   setNoIcon = input<Boolean>(false);
+  /**
+   * Sets the header of the alert
+   *
+   */
   headerText = input.required<string>();
-  text = input('');
 
   ngOnInit(): void {
     if (!this.headerText() || this.headerText().trim() == '') throw new Error("Propery 'headerText' is required and cannot be an empty string");

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { USWDSCard } from './component/ngx-uswds-component-card-lib';
+import { USWDSCard } from './ngx-uswds-component-card-lib';
 
 describe('USWDSCard', () => {
   let component:USWDSCard;

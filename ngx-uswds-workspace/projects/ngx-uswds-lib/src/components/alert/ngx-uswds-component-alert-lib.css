@@ -1,0 +1,6 @@
+.logo_alert_wrap{
+    display: flex;
+    flex-direction: row; 
+    gap: 8px;
+
+}

@@ -73,7 +73,7 @@
             ],
             "styles": [
               "projects/ngx-uswds-demo/src/styles.scss",
-              "projects/ngx-uswds-lib/sass/styles.scss"
+              "node_modules/ngx-uswds-lib/sass/styles.scss"
             ],
             "preserveSymlinks": true,
             "stylePreprocessorOptions": {

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BANNER_CONTENT, DomainType, LanguageType } from './banner-content';
 
@@ -38,77 +38,47 @@ import { BANNER_CONTENT, DomainType, LanguageType } from './banner-content';
   styleUrls: ['./ngx-uswds-component-banner-lib.scss']
 })
 export class USWDSBanner {
-  @Input() ariaLabel?: string;
-  @Input() tld: DomainType = 'gov';
-  @Input() lang: LanguageType = 'en';
-  @Input() accordionId?: string;
-  @Input() assetsPath: string = '/assets/img';
-  
-  isExpanded: boolean = false;
+  ariaLabel = input<string>();
+  tld = input<DomainType>('gov');
+  lang = input<LanguageType>('en');
+  accordionId = input<string>();
+  assetsPath = input<string>('/assets/img');
+
+  isExpanded = signal(false);
 
   toggleAccordion(): void {
-    this.isExpanded = !this.isExpanded;
+    this.isExpanded.update(v => !v);
   }
 
-  get computedAriaLabel(): string {
-    if (this.ariaLabel) return this.ariaLabel;
-    return BANNER_CONTENT[this.lang][this.tld].header;
-  }
+  computedAriaLabel = computed(() => {
+    const label = this.ariaLabel();
+    if (label) return label;
+    return BANNER_CONTENT[this.lang()][this.tld()].header;
+  });
 
-  get computedAccordionId(): string {
-    if (this.accordionId) return this.accordionId;
-    const langSuffix = this.lang === 'es' ? '-lang-es' : '';
-    const tldSuffix = this.tld === 'mil' ? '-dot-mil' : '';
+  computedAccordionId = computed(() => {
+    const id = this.accordionId();
+    if (id) return id;
+    const langSuffix = this.lang() === 'es' ? '-lang-es' : '';
+    const tldSuffix = this.tld() === 'mil' ? '-dot-mil' : '';
     return `gov-banner${tldSuffix}${langSuffix}`;
-  }
+  });
 
-  get lockIconId(): string {
-    const langSuffix = this.lang === 'es' ? '-spanish' : '';
-    const tldSuffix = this.tld === 'mil' ? '-dot-mil' : '-default';
+  lockIconId = computed(() => {
+    const langSuffix = this.lang() === 'es' ? '-spanish' : '';
+    const tldSuffix = this.tld() === 'mil' ? '-dot-mil' : '-default';
     return `banner-lock${tldSuffix}${langSuffix}`;
-  }
+  });
 
-  get headerText(): string {
-    return BANNER_CONTENT[this.lang][this.tld].header;
-  }
-
-  get buttonText(): string {
-    return BANNER_CONTENT[this.lang][this.tld].button;
-  }
-
-  get domainLabel(): string {
-    return BANNER_CONTENT[this.lang][this.tld].domainLabel;
-  }
-
-  get domainDescription(): string {
-    return BANNER_CONTENT[this.lang][this.tld].domainDescription;
-  }
-
-  get secureLabel(): string {
-    return BANNER_CONTENT[this.lang][this.tld].secureLabel;
-  }
-
-  get secureDescription(): string {
-    return BANNER_CONTENT[this.lang][this.tld].secureDescription;
-  }
-
-  get domainStrong(): string {
-    return `.${this.tld}`;
-  }
-
-  get lockWord(): string {
-    return this.lang === 'es' ? 'candado' : 'lock';
-  }
-
-  get flagImagePath(): string {
-    return `${this.assetsPath}/us_flag_small.png`;
-  }
-
-  get dotGovIconPath(): string {
-    return `${this.assetsPath}/icon-dot-gov.svg`;
-  }
-
-  get httpsIconPath(): string {
-    return `${this.assetsPath}/icon-https.svg`;
-  }
+  headerText = computed(() => BANNER_CONTENT[this.lang()][this.tld()].header);
+  buttonText = computed(() => BANNER_CONTENT[this.lang()][this.tld()].button);
+  domainLabel = computed(() => BANNER_CONTENT[this.lang()][this.tld()].domainLabel);
+  domainDescription = computed(() => BANNER_CONTENT[this.lang()][this.tld()].domainDescription);
+  secureLabel = computed(() => BANNER_CONTENT[this.lang()][this.tld()].secureLabel);
+  secureDescription = computed(() => BANNER_CONTENT[this.lang()][this.tld()].secureDescription);
+  domainStrong = computed(() => `.${this.tld()}`);
+  lockWord = computed(() => this.lang() === 'es' ? 'candado' : 'lock');
+  flagImagePath = computed(() => `${this.assetsPath()}/us_flag_small.png`);
+  dotGovIconPath = computed(() => `${this.assetsPath()}/icon-dot-gov.svg`);
+  httpsIconPath = computed(() => `${this.assetsPath()}/icon-https.svg`);
 }

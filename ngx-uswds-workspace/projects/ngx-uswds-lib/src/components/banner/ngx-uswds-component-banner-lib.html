@@ -1,53 +1,53 @@
-<section class="usa-banner" [attr.aria-label]="computedAriaLabel">
+<section class="usa-banner" [attr.aria-label]="computedAriaLabel()">
   <div class="usa-accordion">
     <header class="usa-banner__header">
       <div class="usa-banner__inner">
         <div class="grid-col-auto">
-          <img 
+          <img
             aria-hidden="true"
-            class="usa-banner__header-flag" 
-            [src]="flagImagePath" 
+            class="usa-banner__header-flag"
+            [src]="flagImagePath()"
             alt=""
           />
         </div>
         <div class="grid-col-fill tablet:grid-col-auto" aria-hidden="true">
-          <p class="usa-banner__header-text">{{ headerText }}</p>
-          <p class="usa-banner__header-action">{{ buttonText }}</p>
+          <p class="usa-banner__header-text">{{ headerText() }}</p>
+          <p class="usa-banner__header-action">{{ buttonText() }}</p>
         </div>
         <button
           type="button"
           class="usa-accordion__button usa-banner__button"
-          [attr.aria-expanded]="isExpanded"
-          [attr.aria-controls]="computedAccordionId"
+          [attr.aria-expanded]="isExpanded()"
+          [attr.aria-controls]="computedAccordionId()"
           (click)="toggleAccordion()"
         >
-          <span class="usa-banner__button-text">{{ buttonText }}</span>
+          <span class="usa-banner__button-text">{{ buttonText() }}</span>
         </button>
       </div>
     </header>
-    <div 
-      class="usa-banner__content usa-accordion__content" 
-      [id]="computedAccordionId"
-      [hidden]="!isExpanded"
+    <div
+      class="usa-banner__content usa-accordion__content"
+      [id]="computedAccordionId()"
+      [hidden]="!isExpanded()"
     >
       <div class="grid-row grid-gap-lg">
         <div class="usa-banner__guidance tablet:grid-col-6">
-          <img 
-            class="usa-banner__icon usa-media-block__img" 
-            [src]="dotGovIconPath"
+          <img
+            class="usa-banner__icon usa-media-block__img"
+            [src]="dotGovIconPath()"
             alt=""
             aria-hidden="true"
           />
           <div class="usa-media-block__body">
             <p>
-              <strong>{{ domainLabel }}</strong><br />
-              @if(lang === 'en'){
+              <strong>{{ domainLabel() }}</strong><br />
+              @if(lang() === 'en'){
                 <ng-container>
-                  A <strong>{{ domainStrong }}</strong> {{ domainDescription.replace('A .gov ', '').replace('A .mil ', '') }}
+                  A <strong>{{ domainStrong() }}</strong> {{ domainDescription().replace('A .gov ', '').replace('A .mil ', '') }}
                 </ng-container>
               }@else {
                 <ng-container>
-                  Un sitio web <strong>{{ domainStrong }}</strong> {{ domainDescription.replace('Un sitio web .gov ', '').replace('Un sitio web .mil ', '') }}
+                  Un sitio web <strong>{{ domainStrong() }}</strong> {{ domainDescription().replace('Un sitio web .gov ', '').replace('Un sitio web .mil ', '') }}
                 </ng-container>
               }
 
@@ -56,16 +56,16 @@
           </div>
         </div>
         <div class="usa-banner__guidance tablet:grid-col-6">
-          <img 
-            class="usa-banner__icon usa-media-block__img" 
-            [src]="httpsIconPath"
+          <img
+            class="usa-banner__icon usa-media-block__img"
+            [src]="httpsIconPath()"
             alt=""
             aria-hidden="true"
           />
           <div class="usa-media-block__body">
             <p>
-              <strong>{{ secureLabel }}</strong><br />
-            @if(lang === 'en'){
+              <strong>{{ secureLabel() }}</strong><br />
+            @if(lang() === 'en'){
               <ng-container>
                 A <strong>lock</strong> (
                 <span class="icon-lock">
@@ -76,11 +76,11 @@
                     viewBox="0 0 52 64"
                     class="usa-banner__lock-image"
                     role="img"
-                    [attr.aria-labelledby]="lockIconId + '-description'"
+                    [attr.aria-labelledby]="lockIconId() + '-description'"
                     focusable="false"
                   >
-                    <title [id]="lockIconId + '-title'">Lock</title>
-                    <desc [id]="lockIconId + '-description'">Locked padlock icon</desc>
+                    <title [id]="lockIconId() + '-title'">Lock</title>
+                    <desc [id]="lockIconId() + '-description'">Locked padlock icon</desc>
                     <path
                       fill="#000000"
                       fill-rule="evenodd"
@@ -88,8 +88,8 @@
                     />
                   </svg>
                 </span>
-                ) or <strong>https://</strong> means you've safely connected to the <strong>{{ domainStrong }}</strong> website. Share sensitive information only on official, secure websites.
-              </ng-container>              
+                ) or <strong>https://</strong> means you've safely connected to the <strong>{{ domainStrong() }}</strong> website. Share sensitive information only on official, secure websites.
+              </ng-container>
             }@else {
               <ng-container>
                 Un <strong>candado</strong> (
@@ -100,11 +100,11 @@
                     height="64"
                     viewBox="0 0 52 64"
                     class="usa-banner__lock-image"
-                    [attr.aria-labelledby]="lockIconId + '-description'"
+                    [attr.aria-labelledby]="lockIconId() + '-description'"
                     focusable="false"
                   >
-                    <title [id]="lockIconId + '-title'">Lock</title>
-                    <desc [id]="lockIconId + '-description'">Locked padlock icon</desc>
+                    <title [id]="lockIconId() + '-title'">Lock</title>
+                    <desc [id]="lockIconId() + '-description'">Locked padlock icon</desc>
                     <path
                       fill="#000000"
                       fill-rule="evenodd"
@@ -112,7 +112,7 @@
                     />
                   </svg>
                 </span>
-                ) o <strong>https://</strong> significa que usted se conectó de forma segura a un sitio web <strong>{{ domainStrong }}</strong>. Comparta información sensible sólo en sitios web oficiales y seguros.
+                ) o <strong>https://</strong> significa que usted se conectó de forma segura a un sitio web <strong>{{ domainStrong() }}</strong>. Comparta información sensible sólo en sitios web oficiales y seguros.
               </ng-container>
             }
             </p>

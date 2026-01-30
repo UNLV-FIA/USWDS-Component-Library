@@ -5,13 +5,6 @@
 // Button Component
 export * from './components/uswds-button/uswds-button';
 
-// Card Components
-export * from './components/card/ngx-uswds-component-card-lib';
-export * from './components/card-body/ngx-uswds-component-card-body-lib';
-export * from './components/card-footer/ngx-uswds-component-card-footer-lib';
-export * from './components/card-header/ngx-uswds-component-card-header-lib';
-export * from './components/card-media/ngx-uswds-component-card-media-lib';
-
 // Alert Component
 export * from './components/uswds-alert/uswds-alert'
 

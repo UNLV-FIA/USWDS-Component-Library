@@ -31,11 +31,11 @@ import { BANNER_CONTENT, DomainType, LanguageType } from './banner-content';
  *   Useful when assets are hosted in a different location.
  */
 @Component({
-  selector: 'uswds-banner',
+  selector: 'ngx-uswds-banner',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './ngx-uswds-component-banner-lib.html',
-  styleUrls: ['./ngx-uswds-component-banner-lib.scss']
+  templateUrl: './uswds-banner.html',
+  styleUrls: ['./uswds-banner.scss']
 })
 export class USWDSBanner {
   ariaLabel = input<string>();

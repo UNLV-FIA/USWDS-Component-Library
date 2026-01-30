@@ -15,5 +15,5 @@ export * from './components/card-media/ngx-uswds-component-card-media-lib';
 export * from './components/uswds-alert/uswds-alert'
 
 // Banner Component
-export * from './components/banner/ngx-uswds-component-banner-lib';
+export * from './components/uswds-banner/uswds-banner';
 

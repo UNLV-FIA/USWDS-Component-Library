@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { USWDSBanner } from './ngx-uswds-component-banner-lib';
+import { USWDSBanner } from './uswds-banner';
 import { BANNER_CONTENT } from './banner-content';
 
 describe('USWDSBanner', () => {

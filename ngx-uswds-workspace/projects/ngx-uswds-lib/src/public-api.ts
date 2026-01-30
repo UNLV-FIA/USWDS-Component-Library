@@ -12,7 +12,7 @@ export * from './components/card-header/ngx-uswds-component-card-header-lib';
 export * from './components/card-media/ngx-uswds-component-card-media-lib';
 
 // Alert Component
-export * from './components/alert/ngx-uswds-component-alert-lib'
+export * from './components/uswds-alert/uswds-alert'
 
 // Banner Component
 export * from './components/banner/ngx-uswds-component-banner-lib';

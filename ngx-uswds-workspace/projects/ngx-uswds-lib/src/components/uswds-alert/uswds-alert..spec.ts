@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UswdsAlert } from './ngx-uswds-component-alert-lib';
+import { UswdsAlert } from './uswds-alert';
 import { AlertType } from './alert.types';
 
 describe('NgxUswdsComponentAlertLib', () => {

@@ -3,17 +3,17 @@ import { CommonModule, NgClass } from '@angular/common';
 import { AlertType } from './alert.types';
 
 @Component({
-  selector: 'lib-ngx-uswds-component-alert-lib',
+  selector: 'ngx-uswds-alert',
   imports: [NgClass],
-  templateUrl: './ngx-uswds-component-alert-lib.html',
-  styleUrl: './ngx-uswds-component-alert-lib.css',
+  templateUrl: './uswds-alert.html',
+  styleUrl: './uswds-alert.css',
 })
   
   /***
    * @class
    * @description
    * An angular component that renders a customizable alert keeping users informed of imporatnd and sometimes time-sensitive changes. 
-   * @selector lib-ngx-uswds-component-alert-lib
+   * @selector lib-uswds-alert
    */
 export class UswdsAlert implements OnInit {
   /**

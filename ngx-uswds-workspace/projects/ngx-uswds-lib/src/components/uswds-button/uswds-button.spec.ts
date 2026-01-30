@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UswdsButton } from './ngx-uswds-component-button-lib';
+import { UswdsButton } from './uswds-button';
 
 describe('UswdsButton', () => {
   let component: UswdsButton;

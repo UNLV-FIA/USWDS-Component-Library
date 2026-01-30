@@ -37,7 +37,7 @@ import { BANNER_CONTENT, DomainType, LanguageType } from './banner-content';
   templateUrl: './uswds-banner.html',
   styleUrls: ['./uswds-banner.scss']
 })
-export class USWDSBanner {
+export class UswdsBanner {
   ariaLabel = input<string>();
   tld = input<DomainType>('gov');
   lang = input<LanguageType>('en');

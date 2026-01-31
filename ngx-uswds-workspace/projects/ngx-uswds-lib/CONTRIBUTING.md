@@ -26,7 +26,7 @@ ng generate component src/components/uswds-test
 import { accordion } from '@uswds/uswds/js'; // import this
 
 @Component({
-  selector: 'lib-uswds-accordion',
+  selector: 'ngx-uswds-accordion',
   imports: [],
   templateUrl: './uswds-accordion.html',
   styleUrl: './uswds-accordion.css',

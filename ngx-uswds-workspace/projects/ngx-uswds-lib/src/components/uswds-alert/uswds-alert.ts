@@ -13,7 +13,7 @@ import { AlertType } from './alert.types';
    * @class
    * @description
    * An angular component that renders a customizable alert keeping users informed of imporatnd and sometimes time-sensitive changes. 
-   * @selector lib-uswds-alert
+   * @selector ngx-uswds-alert
    */
 export class UswdsAlert implements OnInit {
   /**

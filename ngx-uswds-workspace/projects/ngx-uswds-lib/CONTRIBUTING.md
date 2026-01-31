@@ -11,9 +11,10 @@ Create a new branch dedicated **only** to the selected component.
 - Use a descriptive branch name (e.g., `feature/accordion`, `component/alert`).
 
 #### Create the Component Directory
-In the `src/components` directory, create a new folder for your component.
-- The folder name **must match the component name** as listed on the USWDS website.
-
+In the `/ngx-uswds-workspace/projects/ngx-uswds-lib` directory, execute the following command:
+```
+ng generate component src/components/uswds-test
+```
 #### Implement the Component
 - Reference the **official USWDS component documentation and source code** throughout development.
 - Ensure the Angular component:
@@ -25,7 +26,7 @@ In the `src/components` directory, create a new folder for your component.
 import { accordion } from '@uswds/uswds/js'; // import this
 
 @Component({
-  selector: 'lib-uswds-accordion',
+  selector: 'ngx-uswds-accordion',
   imports: [],
   templateUrl: './uswds-accordion.html',
   styleUrl: './uswds-accordion.css',

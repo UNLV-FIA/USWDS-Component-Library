@@ -17,3 +17,6 @@ export * from './components/alert/ngx-uswds-component-alert-lib'
 // Banner Component
 export * from './components/banner/ngx-uswds-component-banner-lib';
 
+// Accordion Component
+export * from './components/accordion/ngx-uswds-component-accordion-lib';
+export type { AccordionItem, AccordionVariant } from './components/accordion/accordion-item';

@@ -1,13 +1,12 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { UswdsButton, USWDSCard} from 'ngx-uswds-lib'; // example, can remove
+import { AccordionComponent } from 'ngx-uswds-lib';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [RouterOutlet, AccordionComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App {
-  protected readonly title = signal('ngx-uswds-demo');
-}
+export class App {}

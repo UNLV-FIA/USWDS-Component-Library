@@ -2,18 +2,12 @@
  * Public API Surface of ngx-uswds-lib
  */
 
-export * from './components/button/ngx-uswds-component-button-lib';
-
-// Card Components
-export * from './components/card/ngx-uswds-component-card-lib';
-export * from './components/card-body/ngx-uswds-component-card-body-lib';
-export * from './components/card-footer/ngx-uswds-component-card-footer-lib';
-export * from './components/card-header/ngx-uswds-component-card-header-lib';
-export * from './components/card-media/ngx-uswds-component-card-media-lib';
+// Button Component
+export * from './components/uswds-button/uswds-button';
 
 // Alert Component
-export * from './components/alert/ngx-uswds-component-alert-lib'
+export * from './components/uswds-alert/uswds-alert'
 
 // Banner Component
-export * from './components/banner/ngx-uswds-component-banner-lib';
+export * from './components/uswds-banner/uswds-banner';
 

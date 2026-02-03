@@ -44,6 +44,13 @@ To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use th
 ng test
 ```
 
+To execute unit tests with code coverage, run the following command from the `/ngx-uswds-workspace` directory:
+```bash
+ng test --coverage
+```
+
+Your coverage report should be available in the `/ngx-uswds-workspace/coverage/index.html` file.
+
 ## Running end-to-end tests
 
 For end-to-end (e2e) testing, run:

@@ -6,7 +6,7 @@ import { AlertType } from './alert.types';
   selector: 'ngx-uswds-alert',
   imports: [NgClass],
   templateUrl: './uswds-alert.html',
-  styleUrl: './uswds-alert.css',
+  styleUrl: './uswds-alert.scss',
 })
   
   /***

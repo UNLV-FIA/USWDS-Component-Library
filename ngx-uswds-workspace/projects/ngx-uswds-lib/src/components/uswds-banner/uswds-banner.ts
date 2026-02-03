@@ -35,7 +35,7 @@ import { BANNER_CONTENT, DomainType, LanguageType } from './banner-content';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './uswds-banner.html',
-  styleUrls: ['./uswds-banner.scss']
+  styleUrl: './uswds-banner.scss'
 })
 export class UswdsBanner {
   ariaLabel = input<string>();

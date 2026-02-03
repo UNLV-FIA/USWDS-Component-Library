@@ -9,6 +9,11 @@
   "projects": {
     "ngx-uswds-lib": {
       "projectType": "library",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "projects/ngx-uswds-lib",
       "sourceRoot": "projects/ngx-uswds-lib/src",
       "prefix": "ngx",

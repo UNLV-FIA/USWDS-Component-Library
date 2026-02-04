@@ -1,4 +1,4 @@
-import { Component, OnInit, input } from '@angular/core';
+import { Component, EventEmitter, OnInit, input, output } from '@angular/core';
 import { button } from '@uswds/uswds/js';
 import { ButtonType, ButtonStyle, ButtonState } from './uswds-button.types';
 import { CommonModule } from '@angular/common';
@@ -11,16 +11,43 @@ import { startWith } from 'rxjs';
   styleUrl: './uswds-button.css',
 })
 export class UswdsButton implements OnInit {
-  text = input.required<string>();
-  type = input.required<ButtonType>();
-  disabled = input<boolean>(false);
-  ariaDisabled = input<boolean>(false);
-  // Two options (double selection not allowed):
-  // 1. Big Button
-  // 2. Normal Sized Button
-  bigButton = input<boolean>(false);
-  // Color Selection
   /**
+   * Sets the text of the button
+   */
+  text = input.required<string>();
+  /**
+   * Chooses the type of button, view defined types
+   * Possible Values:
+   * - 'submit'
+   * - 'button'
+   * - 'reset'
+   */
+  type = input.required<ButtonType>();
+  /**
+   * Enables or disables the button
+   * @default false
+   */
+  disabled = input<boolean>(false);
+  
+  /**
+   * Sets the aria-disabled
+   * @default false
+   */
+  ariaDisabled = input<boolean>(false);
+
+  /**
+   * Allows function passthrough, 
+   * will run a function provided on the click event. 
+   */
+  clicked = output<void>()
+  
+  /**
+   * Set the button to big
+    @default false  
+  */
+  bigButton = input<boolean>(false);
+  /** 
+   * Select the color style for the component
    * 1. Default
    * 2. Secondary Color
    * 3. Accent Cool Color
@@ -31,8 +58,8 @@ export class UswdsButton implements OnInit {
    */
   buttonStyle = input<ButtonStyle>('Default');
 
-  // Button State
   /**
+   * Define the button state manually
    * 1. Default
    * 2. Hover
    * 3. Active

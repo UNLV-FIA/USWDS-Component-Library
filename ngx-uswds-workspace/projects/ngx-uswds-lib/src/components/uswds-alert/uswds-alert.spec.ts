@@ -1,12 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed, } from '@angular/core/testing';
+import { describe, beforeEach, it, } from 'vitest';
 import { UswdsAlert } from './uswds-alert';
 import { AlertType } from './alert.types';
 
 describe('NgxUswdsComponentAlertLib', () => {
   let component: UswdsAlert;
-  let fixture: ComponentFixture<UswdsAlert>;
-
+  let fixture: ComponentFixture<UswdsAlert>;  
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [UswdsAlert],

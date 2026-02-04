@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, EventEmitter, OnInit, input, output } from '@angular/core';
 import { button } from '@uswds/uswds/js';
 import { ButtonType, ButtonStyle, ButtonState } from './uswds-button.types';
@@ -106,4 +107,16 @@ export class UswdsButton implements OnInit {
         return '';
     }
   }
+=======
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'ngx-uswds-button',
+  imports: [],
+  templateUrl: './uswds-button.html',
+  styleUrl: './uswds-button.scss',
+})
+export class UswdsButton {
+  @Input() text: string = "EMPTY";
+>>>>>>> main
 }

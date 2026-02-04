@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "test:coverage": "ng test --coverage --watch=false",
     "prepare": "husky"
   },
   "prettier": {
@@ -21,10 +21,10 @@
       }
     ]
   },
-  "lint-staged": { 
-    "src/**/*.{ts, html, css}": [
-      "npx",
-      "ng-lint-staged --fix --"
+  "lint-staged": {
+    "projects/ngx-uswds-lib/src/components/**/*.{ts,html,scss,css}": [
+      "npx prettier --write ",
+      "npx eslint --fix"
     ]
   },
   "private": true,
@@ -43,13 +43,18 @@
     "@angular/build": "^21.0.3",
     "@angular/cli": "^21.0.3",
     "@angular/compiler-cli": "^21.0.0",
+    "@eslint/css": "^0.14.1",
+    "@eslint/js": "^9.39.2",
     "@vitest/coverage-v8": "^4.0.15",
+    "eslint": "^9.39.2",
+    "globals": "^17.3.0",
     "husky": "^9.1.7",
+    "jiti": "^2.6.1",
     "jsdom": "^27.1.0",
     "lint-staged": "^16.2.7",
-    "ng-lint-staged": "^12.0.4",
     "ng-packagr": "^21.0.0",
     "typescript": "~5.9.2",
+    "typescript-eslint": "^8.54.0",
     "vitest": "^4.0.8"
   }
 }

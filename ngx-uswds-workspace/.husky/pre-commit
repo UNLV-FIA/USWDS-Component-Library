@@ -1,2 +1,2 @@
 cd ngx-uswds-workspace
-npx lint-staged
+npx.cmd lint-staged

@@ -1,2 +1,0 @@
-cd ngx-uswds-workspace
-npm.cmd run test:coverage

@@ -15,7 +15,6 @@ type BannerContentType = {
     [domain in DomainType]: BannerText;
   };
 };
-// Comment
 
 export const BANNER_CONTENT: BannerContentType = {
   en: {

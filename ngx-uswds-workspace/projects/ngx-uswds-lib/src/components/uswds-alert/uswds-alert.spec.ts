@@ -19,7 +19,7 @@ describe('NgxUswdsComponentAlertLib', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeFalsy();
+    expect(component).toBeTruthy();
   });
 
   it('should have the class of Informative assigned', () => {

@@ -89,7 +89,7 @@ export class UswdsButton implements OnInit {
       case 'OutlineInverse':
         return 'usa-button--inverse';
       case 'Unstyled':
-        return 'usa-button-unstyled';
+        return 'usa-button--unstyled';
       default:
         return '';
     }

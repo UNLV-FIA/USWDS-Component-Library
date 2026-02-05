@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test:coverage": "ng test --coverage --watch=false",
-    "prepare": "husky"
+    "prepare": "cd .. && husky ngx-uswds-workspace/.husky"
   },
   "prettier": {
     "printWidth": 100,

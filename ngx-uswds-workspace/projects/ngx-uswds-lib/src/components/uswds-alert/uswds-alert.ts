@@ -69,7 +69,7 @@ export class UswdsAlert implements OnInit {
       case 'Emergency':
         return 'usa-alert--emergency';
       default:
-        throw Error(
+        throw new Error(
           'Provided Type does exist, valid options: [Informative, Warning, Success, Error, Emergency]',
         );
     }

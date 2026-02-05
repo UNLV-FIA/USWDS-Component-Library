@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { UswdsButton } from './uswds-button';
 
 describe('UswdsButton', () => {
@@ -8,9 +7,8 @@ describe('UswdsButton', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UswdsButton]
-    })
-    .compileComponents();
+      imports: [UswdsButton],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(UswdsButton);
     component = fixture.componentInstance;

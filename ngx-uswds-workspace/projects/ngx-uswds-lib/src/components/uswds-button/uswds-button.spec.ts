@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UswdsButton } from './uswds-button';
-import { button } from '@uswds/uswds/js';
 
 describe('UswdsButton', () => {
   let component: UswdsButton;
@@ -87,23 +86,23 @@ describe('UswdsButton', () => {
   });
 
   it('should change to focus when focused on', () => {
-    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button'); 
-    button.focus()
-    fixture.detectChanges(); 
-    expect(button.classList.contains('usa-focus'))
-  })
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
+    button.focus();
+    fixture.detectChanges();
+    expect(button.classList.contains('usa-focus'));
+  });
 
   it('should change to hover when hovered on', () => {
     const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
-    button.dispatchEvent(new Event('mouseenter')); 
-    fixture.detectChanges(); 
+    button.dispatchEvent(new Event('mouseenter'));
+    fixture.detectChanges();
     expect(button.classList.contains('usa-button--hover'));
-  })
+  });
 
   it('should change to active when active', () => {
     const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
-    button.dispatchEvent(new Event('mousedown')); 
+    button.dispatchEvent(new Event('mousedown'));
     fixture.detectChanges();
     expect(button.classList.contains('usa-button--active'));
-  })
+  });
 });

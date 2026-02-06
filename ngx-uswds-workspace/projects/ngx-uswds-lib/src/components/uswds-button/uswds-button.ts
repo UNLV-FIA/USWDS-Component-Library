@@ -1,8 +1,7 @@
-import { Component, EventEmitter, OnInit, input, output } from '@angular/core';
+import { Component, OnInit, input, output } from '@angular/core';
 import { button } from '@uswds/uswds/js';
 import { ButtonType, ButtonStyle, ButtonState } from './uswds-button.types';
 import { CommonModule } from '@angular/common';
-import { startWith } from 'rxjs';
 
 @Component({
   selector: 'ngx-uswds-button',
@@ -28,7 +27,7 @@ export class UswdsButton implements OnInit {
    * @default false
    */
   disabled = input<boolean>(false);
-  
+
   /**
    * Sets the aria-disabled
    * @default false
@@ -36,17 +35,17 @@ export class UswdsButton implements OnInit {
   ariaDisabled = input<boolean>(false);
 
   /**
-   * Allows function passthrough, 
-   * will run a function provided on the click event. 
+   * Allows function passthrough,
+   * will run a function provided on the click event.
    */
-  clicked = output<void>()
-  
+  clicked = output<void>();
+
   /**
    * Set the button to big
     @default false  
   */
   bigButton = input<boolean>(false);
-  /** 
+  /**
    * Select the color style for the component
    * 1. Default
    * 2. Secondary Color

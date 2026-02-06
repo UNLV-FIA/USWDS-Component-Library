@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { UswdsButton } from './uswds-button';
 import { button } from '@uswds/uswds/js';
 

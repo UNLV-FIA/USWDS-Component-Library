@@ -1,12 +1,12 @@
 import { Component, input, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AccordionItem, AccordionVariant } from './accordion-item';
+import { AccordionItem, AccordionVariant } from './accordion-types';
 
 @Component({
   selector: 'uswds-accordion',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './ngx-uswds-component-accordion-lib.html',
+  templateUrl: './uswds-accordion.html',
   styleUrls: []
 })
 export class AccordionComponent implements OnInit {

@@ -12,5 +12,5 @@ export * from './components/uswds-alert/uswds-alert'
 export * from './components/uswds-banner/uswds-banner';
 
 // Accordion Component
-export * from './components/accordion/ngx-uswds-component-accordion-lib';
-export type { AccordionItem, AccordionVariant } from './components/accordion/accordion-item';
+export * from './components/uswds-accordion/uswds-accordion';
+export type { AccordionItem, AccordionVariant } from './components/uswds-accordion/accordion-types';

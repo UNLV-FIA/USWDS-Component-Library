@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AccordionComponent } from './ngx-uswds-component-accordion-lib';
-import { AccordionItem } from './accordion-item';
+import { AccordionComponent } from './uswds-accordion';
+import { AccordionItem } from './accordion-types';
 
 describe('AccordionComponent', () => {
   let component: AccordionComponent;

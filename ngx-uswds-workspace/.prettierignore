@@ -1,0 +1,8 @@
+/dist
+/coverage
+/projects/ngx-uswds-demo
+/.vscode
+/husky
+/.angular
+**/*.json
+**/*.md

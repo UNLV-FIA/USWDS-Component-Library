@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'lib-uswds-button',
+  selector: 'ngx-uswds-button',
   imports: [],
-  templateUrl: './ngx-uswds-component-button-lib.html',
-  styleUrl: './ngx-uswds-component-button-lib.css',
+  templateUrl: './uswds-button.html',
+  styleUrl: './uswds-button.scss',
 })
 export class UswdsButton {
   @Input() text: string = "EMPTY";

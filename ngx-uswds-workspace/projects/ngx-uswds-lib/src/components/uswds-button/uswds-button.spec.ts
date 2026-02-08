@@ -1,17 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { USWDSCard } from './ngx-uswds-component-card-lib';
+import { UswdsButton } from './uswds-button';
 
-describe('USWDSCard', () => {
-  let component:USWDSCard;
-  let fixture: ComponentFixture<USWDSCard>;
+describe('UswdsButton', () => {
+  let component: UswdsButton;
+  let fixture: ComponentFixture<UswdsButton>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [USWDSCard]
-    })
-    .compileComponents();
+      imports: [UswdsButton],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(USWDSCard);
+    fixture = TestBed.createComponent(UswdsButton);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

@@ -8,9 +8,9 @@ describe('AccordionComponent', () => {
 
   function threeItems(): AccordionItem[] {
     return [
-      { heading: 'First',  content: '<p>Content 1</p>', expandedByDefault: true },
+      { heading: 'First', content: '<p>Content 1</p>', expandedByDefault: true },
       { heading: 'Second', content: '<p>Content 2</p>' },
-      { heading: 'Third',  content: '<p>Content 3</p>' }
+      { heading: 'Third', content: '<p>Content 3</p>' },
     ];
   }
 
@@ -28,7 +28,7 @@ describe('AccordionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AccordionComponent]
+      imports: [AccordionComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AccordionComponent);
@@ -41,367 +41,286 @@ describe('AccordionComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should default variant to borderless', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.detectChanges();
-    expect(component.variant()).toBe('borderless');
-  });
-
-  it('should default multiselectable to false', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.detectChanges();
-    expect(component.multiselectable()).toBe(false);
-  });
-
-  it('should default items to an empty array', () => {
-    fixture.detectChanges();
-    expect(component.items()).toEqual([]);
-  });
-
-  it('should open the item marked expandedByDefault on init', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.detectChanges();
-
-    expect(component.isExpanded(0)).toBe(true);
-    expect(component.isExpanded(1)).toBe(false);
-    expect(component.isExpanded(2)).toBe(false);
-  });
-
-  it('should open no items when none are marked expandedByDefault', () => {
-    fixture.componentRef.setInput('items', [
-      { heading: 'A', content: '<p>A</p>' },
-      { heading: 'B', content: '<p>B</p>' }
-    ]);
-    fixture.detectChanges();
-
-    expect(component.isExpanded(0)).toBe(false);
-    expect(component.isExpanded(1)).toBe(false);
-  });
-
-  it('should open only the first expandedByDefault item in single-select mode', () => {
-    fixture.componentRef.setInput('items', [
-      { heading: 'A', content: '<p>A</p>', expandedByDefault: true },
-      { heading: 'B', content: '<p>B</p>', expandedByDefault: true },
-      { heading: 'C', content: '<p>C</p>' }
-    ]);
-    fixture.componentRef.setInput('multiselectable', false);
-    fixture.detectChanges();
-
-    expect(component.isExpanded(0)).toBe(true);
-    expect(component.isExpanded(1)).toBe(false);
-  });
-
-  it('should open ALL expandedByDefault items in multiselectable mode', () => {
-    fixture.componentRef.setInput('items', [
-      { heading: 'A', content: '<p>A</p>', expandedByDefault: true },
-      { heading: 'B', content: '<p>B</p>', expandedByDefault: true },
-      { heading: 'C', content: '<p>C</p>' }
-    ]);
-    fixture.componentRef.setInput('multiselectable', true);
-    fixture.detectChanges();
-
-    expect(component.isExpanded(0)).toBe(true);
-    expect(component.isExpanded(1)).toBe(true);
-    expect(component.isExpanded(2)).toBe(false);
-  });
-
-  it('should open a closed panel and close others in single-select mode', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.detectChanges();
-
-    component.togglePanel(1);
-    expect(component.isExpanded(0)).toBe(false);
-    expect(component.isExpanded(1)).toBe(true);
-  });
-
-  it('should close the currently open panel when clicked again in single-select', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.detectChanges();
-
-    component.togglePanel(0);
-    expect(component.isExpanded(0)).toBe(false);
-  });
-
-  it('should leave all panels closed after closing the only open one', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.detectChanges();
-
-    component.togglePanel(0);
-    expect(component.expandedIndices().size).toBe(0);
-  });
-
-  it('should toggle panels independently in multiselectable mode', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.componentRef.setInput('multiselectable', true);
-    fixture.detectChanges();
-
-    component.togglePanel(2);
-    expect(component.isExpanded(0)).toBe(true);
-    expect(component.isExpanded(2)).toBe(true);
-  });
-
-  it('should close only the clicked panel in multiselectable mode', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.componentRef.setInput('multiselectable', true);
-    fixture.detectChanges();
-
-    component.togglePanel(2);
-    component.togglePanel(0);
-
-    expect(component.isExpanded(0)).toBe(false);
-    expect(component.isExpanded(2)).toBe(true);
-  });
-
-  it('should allow all panels to be open at once in multiselectable mode', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.componentRef.setInput('multiselectable', true);
-    fixture.detectChanges();
-
-    component.togglePanel(1);
-    component.togglePanel(2);
-
-    expect(component.isExpanded(0)).toBe(true);
-    expect(component.isExpanded(1)).toBe(true);
-    expect(component.isExpanded(2)).toBe(true);
-  });
-
-  it('should apply only usa-accordion class for borderless variant', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.componentRef.setInput('variant', 'borderless');
-    fixture.detectChanges();
-
-    expect(component.containerClasses()).toEqual(['usa-accordion']);
-  });
-
-  it('should add usa-accordion--bordered for bordered variant', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.componentRef.setInput('variant', 'bordered');
-    fixture.detectChanges();
-
-    expect(component.containerClasses()).toContain('usa-accordion--bordered');
-  });
-
-  it('should add usa-accordion--multiselectable when multiselectable is true', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.componentRef.setInput('multiselectable', true);
-    fixture.detectChanges();
-
-    expect(component.containerClasses()).toContain('usa-accordion--multiselectable');
-  });
-
-  it('should combine bordered and multiselectable classes', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.componentRef.setInput('variant', 'bordered');
-    fixture.componentRef.setInput('multiselectable', true);
-    fixture.detectChanges();
-
-    const classes = component.containerClasses();
-    expect(classes).toContain('usa-accordion');
-    expect(classes).toContain('usa-accordion--bordered');
-    expect(classes).toContain('usa-accordion--multiselectable');
-  });
-
-  it('should NOT render data-allow-multiple when multiselectable is false', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.componentRef.setInput('multiselectable', false);
-    fixture.detectChanges();
-
-    const container = getContainer();
-    expect(container.hasAttribute('data-allow-multiple')).toBe(false);
-  });
-
-  it('should render data-allow-multiple when multiselectable is true', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.componentRef.setInput('multiselectable', true);
-    fixture.detectChanges();
-
-    const container = getContainer();
-    expect(container.hasAttribute('data-allow-multiple')).toBe(true);
-  });
-
-  it('should use the provided idPrefix for content IDs', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.componentRef.setInput('idPrefix', 'my-accordion');
-    fixture.detectChanges();
-
-    expect(component.contentId(0)).toBe('my-accordion-1');
-    expect(component.contentId(1)).toBe('my-accordion-2');
-    expect(component.contentId(2)).toBe('my-accordion-3');
-  });
-
-  it('should use the provided idPrefix for button IDs', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.componentRef.setInput('idPrefix', 'my-accordion');
-    fixture.detectChanges();
-
-    expect(component.buttonId(0)).toBe('my-accordion-btn-1');
-    expect(component.buttonId(1)).toBe('my-accordion-btn-2');
-  });
-
-  it('should auto-generate a unique prefix when idPrefix is not provided', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.detectChanges();
-
-    expect(component.resolvedIdPrefix()).toMatch(/^accordion-\d+$/);
-  });
-
-  it('should generate unique prefixes for two separate instances', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.detectChanges();
-    const prefix1 = component.resolvedIdPrefix();
-
-    const fixture2 = TestBed.createComponent(AccordionComponent);
-    fixture2.componentRef.setInput('items', threeItems());
-    fixture2.detectChanges();
-    const prefix2 = fixture2.componentInstance.resolvedIdPrefix();
-
-    expect(prefix1).not.toBe(prefix2);
-  });
-
-  it('should render the correct number of buttons and panels', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.detectChanges();
-
-    const buttons = fixture.nativeElement.querySelectorAll('button.usa-accordion__button');
-    const panels  = fixture.nativeElement.querySelectorAll('.usa-accordion__content');
-
-    expect(buttons.length).toBe(3);
-    expect(panels.length).toBe(3);
-  });
-
-  it('should render each button with the correct heading text', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.detectChanges();
-
-    expect(getButton(0).textContent!.trim()).toBe('First');
-    expect(getButton(1).textContent!.trim()).toBe('Second');
-    expect(getButton(2).textContent!.trim()).toBe('Third');
-  });
-
-  it('should render panel content via innerHTML', () => {
-    fixture.componentRef.setInput('items', [
-      { heading: 'Rich', content: '<p>Hello</p><ul><li>Item</li></ul>' }
-    ]);
-    fixture.detectChanges();
-
-    const panel = getPanel(0);
-    expect(panel.querySelector('p')!.textContent).toBe('Hello');
-    expect(panel.querySelector('li')!.textContent).toBe('Item');
-  });
-
-  it('should set aria-expanded="true" on the open button', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.componentRef.setInput('idPrefix', 'test');
-    fixture.detectChanges();
-
-    expect(getButton(0).getAttribute('aria-expanded')).toBe('true');
-    expect(getButton(1).getAttribute('aria-expanded')).toBe('false');
-    expect(getButton(2).getAttribute('aria-expanded')).toBe('false');
-  });
-
-  it('should update aria-expanded when a panel is toggled', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.componentRef.setInput('idPrefix', 'test');
-    fixture.detectChanges();
-
-    component.togglePanel(1);
-    fixture.detectChanges();
-
-    expect(getButton(0).getAttribute('aria-expanded')).toBe('false');
-    expect(getButton(1).getAttribute('aria-expanded')).toBe('true');
-  });
-
-  it('should set aria-controls on each button pointing to matching panel id', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.componentRef.setInput('idPrefix', 'acc');
-    fixture.detectChanges();
-
-    expect(getButton(0).getAttribute('aria-controls')).toBe('acc-1');
-    expect(getButton(1).getAttribute('aria-controls')).toBe('acc-2');
-    expect(getButton(2).getAttribute('aria-controls')).toBe('acc-3');
-  });
-
-  it('should set matching id on each content panel', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.componentRef.setInput('idPrefix', 'acc');
-    fixture.detectChanges();
-
-    expect(getPanel(0).getAttribute('id')).toBe('acc-1');
-    expect(getPanel(1).getAttribute('id')).toBe('acc-2');
-    expect(getPanel(2).getAttribute('id')).toBe('acc-3');
-  });
-
-  it('should set role="region" on each content panel', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.detectChanges();
-
-    expect(getPanel(0).getAttribute('role')).toBe('region');
-    expect(getPanel(1).getAttribute('role')).toBe('region');
-  });
-
-  it('should set aria-labelledby on each panel pointing to the matching button id', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.componentRef.setInput('idPrefix', 'acc');
-    fixture.detectChanges();
-
-    expect(getPanel(0).getAttribute('aria-labelledby')).toBe('acc-btn-1');
-    expect(getPanel(1).getAttribute('aria-labelledby')).toBe('acc-btn-2');
-  });
-
-  it('should set id on each button matching buttonId()', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.componentRef.setInput('idPrefix', 'acc');
-    fixture.detectChanges();
-
-    expect(getButton(0).getAttribute('id')).toBe('acc-btn-1');
-    expect(getButton(1).getAttribute('id')).toBe('acc-btn-2');
-  });
-
-  it('should hide closed panels via the hidden attribute', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.detectChanges();
-
-    expect(getPanel(0).hasAttribute('hidden')).toBe(false);
-    expect(getPanel(1).hasAttribute('hidden')).toBe(true);
-    expect(getPanel(2).hasAttribute('hidden')).toBe(true);
-  });
-
-  it('should remove hidden from a panel when it is opened', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.detectChanges();
-
-    component.togglePanel(2);
-    fixture.detectChanges();
-
-    expect(getPanel(2).hasAttribute('hidden')).toBe(false);
-  });
-
-  it('should set all buttons to type="button"', () => {
-    fixture.componentRef.setInput('items', threeItems());
-    fixture.detectChanges();
-
-    const buttons = fixture.nativeElement.querySelectorAll('button');
-    buttons.forEach((btn: HTMLButtonElement) => {
-      expect(btn.getAttribute('type')).toBe('button');
+  describe('Default values', () => {
+    it('should default variant to borderless', () => {
+      fixture.componentRef.setInput('items', threeItems());
+      fixture.detectChanges();
+      expect(component.variant()).toBe('borderless');
+    });
+
+    it('should default multiselectable to false', () => {
+      fixture.componentRef.setInput('items', threeItems());
+      fixture.detectChanges();
+      expect(component.multiselectable()).toBe(false);
+    });
+
+    it('should default items to an empty array', () => {
+      fixture.detectChanges();
+      expect(component.items()).toEqual([]);
     });
   });
 
-  it('should render nothing when items array is empty', () => {
-    fixture.componentRef.setInput('items', []);
-    fixture.detectChanges();
+  describe('Initial state', () => {
+    it('should open the item marked expandedByDefault on init', () => {
+      fixture.componentRef.setInput('items', threeItems());
+      fixture.detectChanges();
 
-    const buttons = fixture.nativeElement.querySelectorAll('button.usa-accordion__button');
-    expect(buttons.length).toBe(0);
+      expect(component.isExpanded(0)).toBe(true);
+      expect(component.isExpanded(1)).toBe(false);
+      expect(component.isExpanded(2)).toBe(false);
+    });
+
+    it('should open no items when none are marked expandedByDefault', () => {
+      fixture.componentRef.setInput('items', [
+        { heading: 'A', content: '<p>A</p>' },
+        { heading: 'B', content: '<p>B</p>' },
+      ]);
+      fixture.detectChanges();
+
+      expect(component.isExpanded(0)).toBe(false);
+      expect(component.isExpanded(1)).toBe(false);
+    });
+
+    it('should open only the first expandedByDefault item in single-select mode', () => {
+      fixture.componentRef.setInput('items', [
+        { heading: 'A', content: '<p>A</p>', expandedByDefault: true },
+        { heading: 'B', content: '<p>B</p>', expandedByDefault: true },
+        { heading: 'C', content: '<p>C</p>' },
+      ]);
+      fixture.componentRef.setInput('multiselectable', false);
+      fixture.detectChanges();
+
+      expect(component.isExpanded(0)).toBe(true);
+      expect(component.isExpanded(1)).toBe(false);
+    });
+
+    it('should open ALL expandedByDefault items in multiselectable mode', () => {
+      fixture.componentRef.setInput('items', [
+        { heading: 'A', content: '<p>A</p>', expandedByDefault: true },
+        { heading: 'B', content: '<p>B</p>', expandedByDefault: true },
+        { heading: 'C', content: '<p>C</p>' },
+      ]);
+      fixture.componentRef.setInput('multiselectable', true);
+      fixture.detectChanges();
+
+      expect(component.isExpanded(0)).toBe(true);
+      expect(component.isExpanded(1)).toBe(true);
+      expect(component.isExpanded(2)).toBe(false);
+    });
   });
 
-  it('should handle a single item gracefully', () => {
-    fixture.componentRef.setInput('items', [
-      { heading: 'Solo', content: '<p>Alone</p>', expandedByDefault: true }
-    ]);
-    fixture.detectChanges();
+  describe('Single-select behavior', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('items', threeItems());
+      fixture.detectChanges();
+    });
 
-    expect(component.isExpanded(0)).toBe(true);
-    component.togglePanel(0);
-    expect(component.isExpanded(0)).toBe(false);
+    it('should open a closed panel and close others', () => {
+      component.togglePanel(1);
+      expect(component.isExpanded(0)).toBe(false);
+      expect(component.isExpanded(1)).toBe(true);
+    });
+
+    it('should close the currently open panel when clicked again', () => {
+      component.togglePanel(0);
+      expect(component.isExpanded(0)).toBe(false);
+      expect(component.expandedIndices().size).toBe(0);
+    });
+  });
+
+  describe('Multiselectable behavior', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('items', threeItems());
+      fixture.componentRef.setInput('multiselectable', true);
+      fixture.detectChanges();
+    });
+
+    it('should toggle panels independently', () => {
+      component.togglePanel(2);
+      expect(component.isExpanded(0)).toBe(true);
+      expect(component.isExpanded(2)).toBe(true);
+    });
+
+    it('should close only the clicked panel when toggled', () => {
+      component.togglePanel(2);
+      component.togglePanel(0);
+
+      expect(component.isExpanded(0)).toBe(false);
+      expect(component.isExpanded(2)).toBe(true);
+    });
+
+    it('should allow all panels to be open at once', () => {
+      component.togglePanel(1);
+      component.togglePanel(2);
+
+      expect(component.isExpanded(0)).toBe(true);
+      expect(component.isExpanded(1)).toBe(true);
+      expect(component.isExpanded(2)).toBe(true);
+    });
+  });
+
+  describe('CSS classes and styling', () => {
+    it('should apply correct classes based on variant and multiselectable', () => {
+      fixture.componentRef.setInput('items', threeItems());
+
+      // Borderless variant
+      fixture.componentRef.setInput('variant', 'borderless');
+      fixture.detectChanges();
+      expect(component.containerClasses()).toEqual(['usa-accordion']);
+
+      // Bordered variant
+      fixture.componentRef.setInput('variant', 'bordered');
+      fixture.detectChanges();
+      expect(component.containerClasses()).toContain('usa-accordion--bordered');
+
+      // Multiselectable
+      fixture.componentRef.setInput('multiselectable', true);
+      fixture.detectChanges();
+      const classes = component.containerClasses();
+      expect(classes).toContain('usa-accordion');
+      expect(classes).toContain('usa-accordion--bordered');
+      expect(classes).toContain('usa-accordion--multiselectable');
+    });
+
+    it('should set data-allow-multiple attribute when multiselectable', () => {
+      fixture.componentRef.setInput('items', threeItems());
+      fixture.componentRef.setInput('multiselectable', false);
+      fixture.detectChanges();
+      expect(getContainer().hasAttribute('data-allow-multiple')).toBe(false);
+
+      fixture.componentRef.setInput('multiselectable', true);
+      fixture.detectChanges();
+      expect(getContainer().hasAttribute('data-allow-multiple')).toBe(true);
+    });
+  });
+
+  describe('ID generation', () => {
+    it('should use provided idPrefix for all IDs', () => {
+      fixture.componentRef.setInput('items', threeItems());
+      fixture.componentRef.setInput('idPrefix', 'my-accordion');
+      fixture.detectChanges();
+
+      expect(component.contentId(0)).toBe('my-accordion-1');
+      expect(component.contentId(1)).toBe('my-accordion-2');
+      expect(component.buttonId(0)).toBe('my-accordion-btn-1');
+      expect(component.buttonId(1)).toBe('my-accordion-btn-2');
+    });
+
+    it('should generate unique IDs when idPrefix is not provided', () => {
+      fixture.componentRef.setInput('items', threeItems());
+      fixture.detectChanges();
+      const prefix1 = component.resolvedIdPrefix();
+
+      const fixture2 = TestBed.createComponent(AccordionComponent);
+      fixture2.componentRef.setInput('items', threeItems());
+      fixture2.detectChanges();
+      const prefix2 = fixture2.componentInstance.resolvedIdPrefix();
+
+      expect(prefix1).toMatch(/^accordion-\d+$/);
+      expect(prefix2).toMatch(/^accordion-\d+$/);
+      expect(prefix1).not.toBe(prefix2);
+    });
+  });
+
+  describe('DOM rendering', () => {
+    it('should render correct number of buttons and panels with heading text', () => {
+      fixture.componentRef.setInput('items', threeItems());
+      fixture.detectChanges();
+
+      const buttons = fixture.nativeElement.querySelectorAll('button.usa-accordion__button');
+      const panels = fixture.nativeElement.querySelectorAll('.usa-accordion__content');
+
+      expect(buttons.length).toBe(3);
+      expect(panels.length).toBe(3);
+      expect(getButton(0).textContent!.trim()).toBe('First');
+      expect(getButton(1).textContent!.trim()).toBe('Second');
+      expect(getButton(2).textContent!.trim()).toBe('Third');
+    });
+
+    it('should render panel content via innerHTML', () => {
+      fixture.componentRef.setInput('items', [
+        { heading: 'Rich', content: '<p>Hello</p><ul><li>Item</li></ul>' },
+      ]);
+      fixture.detectChanges();
+
+      const panel = getPanel(0);
+      expect(panel.querySelector('p')!.textContent).toBe('Hello');
+      expect(panel.querySelector('li')!.textContent).toBe('Item');
+    });
+
+    it('should hide closed panels via the hidden attribute', () => {
+      fixture.componentRef.setInput('items', threeItems());
+      fixture.detectChanges();
+
+      expect(getPanel(0).hasAttribute('hidden')).toBe(false);
+      expect(getPanel(1).hasAttribute('hidden')).toBe(true);
+      expect(getPanel(2).hasAttribute('hidden')).toBe(true);
+
+      component.togglePanel(2);
+      fixture.detectChanges();
+      expect(getPanel(2).hasAttribute('hidden')).toBe(false);
+    });
+
+    it('should set all buttons to type="button"', () => {
+      fixture.componentRef.setInput('items', threeItems());
+      fixture.detectChanges();
+
+      const buttons = fixture.nativeElement.querySelectorAll('button');
+      buttons.forEach((btn: HTMLButtonElement) => {
+        expect(btn.getAttribute('type')).toBe('button');
+      });
+    });
+
+    it('should render nothing when items array is empty', () => {
+      fixture.componentRef.setInput('items', []);
+      fixture.detectChanges();
+
+      const buttons = fixture.nativeElement.querySelectorAll('button.usa-accordion__button');
+      expect(buttons.length).toBe(0);
+    });
+  });
+
+  describe('Accessibility', () => {
+    it('should have correct ARIA attributes linking buttons and panels', () => {
+      fixture.componentRef.setInput('items', threeItems());
+      fixture.componentRef.setInput('idPrefix', 'acc');
+      fixture.detectChanges();
+
+      // Button attributes
+      expect(getButton(0).getAttribute('id')).toBe('acc-btn-1');
+      expect(getButton(0).getAttribute('aria-controls')).toBe('acc-1');
+      expect(getButton(0).getAttribute('aria-expanded')).toBe('true');
+      expect(getButton(1).getAttribute('aria-expanded')).toBe('false');
+
+      // Panel attributes
+      expect(getPanel(0).getAttribute('id')).toBe('acc-1');
+      expect(getPanel(0).getAttribute('role')).toBe('region');
+      expect(getPanel(0).getAttribute('aria-labelledby')).toBe('acc-btn-1');
+      expect(getPanel(1).getAttribute('aria-labelledby')).toBe('acc-btn-2');
+    });
+
+    it('should update aria-expanded when a panel is toggled', () => {
+      fixture.componentRef.setInput('items', threeItems());
+      fixture.detectChanges();
+
+      component.togglePanel(1);
+      fixture.detectChanges();
+
+      expect(getButton(0).getAttribute('aria-expanded')).toBe('false');
+      expect(getButton(1).getAttribute('aria-expanded')).toBe('true');
+    });
+  });
+
+  describe('Edge cases', () => {
+    it('should handle a single item gracefully', () => {
+      fixture.componentRef.setInput('items', [
+        { heading: 'Solo', content: '<p>Alone</p>', expandedByDefault: true },
+      ]);
+      fixture.detectChanges();
+
+      expect(component.isExpanded(0)).toBe(true);
+      component.togglePanel(0);
+      expect(component.isExpanded(0)).toBe(false);
+    });
   });
 });

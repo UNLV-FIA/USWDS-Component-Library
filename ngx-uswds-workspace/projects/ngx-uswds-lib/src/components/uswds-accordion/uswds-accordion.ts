@@ -7,7 +7,7 @@ import { AccordionItem, AccordionVariant } from './accordion-types';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './uswds-accordion.html',
-  styleUrls: []
+  styleUrls: [],
 })
 export class AccordionComponent implements OnInit {
   items = input<AccordionItem[]>([]);

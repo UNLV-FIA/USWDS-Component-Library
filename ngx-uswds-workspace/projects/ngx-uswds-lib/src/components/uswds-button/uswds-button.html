@@ -1,9 +1,10 @@
 <button
-  type="{{ type() }}"
+  [attr.type]="type()"
   class="usa-button"
   [disabled]="disabled()"
   [aria-disabled]="disabled()"
   [ngClass]="[bigButton() ? 'usa-button--big' : '', buttonStyleCSS(), buttonStateCSS()]"
+  (click)="onClick()"
 >
   {{ text() }}
 </button>

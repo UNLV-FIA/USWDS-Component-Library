@@ -68,12 +68,14 @@ export class UswdsButton implements OnInit {
 
   ngOnInit(): void {
     if (!this.text() || this.text().trim() == '')
-      throw new Error("prop 'text' must be defined and cannot be empty string");
+      throw new Error("Prop 'text' must be defined and cannot be empty string");
     button.on();
   }
 
   // Button style selection function
   buttonStyleCSS(): string {
+    if (this.buttonStyle() == 'Default') return '';
+
     switch (this.buttonStyle()) {
       case 'Secondary':
         return 'usa-button--secondary';
@@ -90,7 +92,9 @@ export class UswdsButton implements OnInit {
       case 'Unstyled':
         return 'usa-button--unstyled';
       default:
-        return '';
+        throw new Error(
+          'Provided style does not exist, valid types are: [Secondary, AccentCool, Base, Outline, OutlineInverse, Unstyled]',
+        );
     }
   }
 

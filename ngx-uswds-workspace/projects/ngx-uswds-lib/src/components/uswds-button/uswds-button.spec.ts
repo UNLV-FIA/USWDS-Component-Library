@@ -16,6 +16,7 @@ describe('UswdsButton', () => {
     // Provide Required props
     fixture.componentRef.setInput('text', 'Press Me Test');
     fixture.componentRef.setInput('type', 'submit');
+    fixture.componentRef.setInput('buttonStyle', 'Default');
     fixture.detectChanges();
 
     await fixture.whenStable();
@@ -45,6 +46,7 @@ describe('UswdsButton', () => {
 
   it('should change to style accent-cool', () => {
     fixture.componentRef.setInput('buttonStyle', 'AccentCool');
+    fixture.detectChanges();
     const el = fixture.nativeElement.querySelector('.usa-button');
     expect(el.classList.contains('usa-button--accent-cool'));
   });
@@ -104,5 +106,71 @@ describe('UswdsButton', () => {
     button.dispatchEvent(new Event('mousedown'));
     fixture.detectChanges();
     expect(button.classList.contains('usa-button--active'));
+  });
+
+  // Tests to do
+  // 1. Manual State Styles
+  // 2. Button large or small style
+  it('should change to a big button', () => {
+    fixture.componentRef.setInput('bigButton', 'true');
+    fixture.detectChanges();
+    const el: HTMLElement = fixture.nativeElement.querySelector('.usa-button');
+    expect(el.classList.contains('usa-button--big'));
+  });
+
+  it('should change to focus', () => {
+    fixture.componentRef.setInput('buttonState', 'Focus');
+    fixture.detectChanges();
+    const el: HTMLElement = fixture.nativeElement.querySelector('button');
+    expect(el.classList.contains('usa-focus'));
+  });
+  it('should change to active', () => {
+    fixture.componentRef.setInput('buttonState', 'Active');
+    fixture.detectChanges();
+    const el: HTMLElement = fixture.nativeElement.querySelector('.usa-button');
+    expect(el.classList.contains('usa-button--active'));
+  });
+  it('should change to hover', () => {
+    fixture.componentRef.setInput('buttonState', 'Hover');
+    fixture.detectChanges();
+    const el: HTMLElement = fixture.nativeElement.querySelector('.usa-button');
+    expect(el.classList.contains('usa-button--hover'));
+  });
+});
+
+describe('ChkReqProps', () => {
+  let fixture: ComponentFixture<UswdsButton>;
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [UswdsButton],
+    }).compileComponents();
+  });
+
+  it('should throw an error if a requiredProp of type and text is missing', () => {
+    fixture = TestBed.createComponent(UswdsButton);
+    expect(() => {
+      fixture.detectChanges();
+    }).toThrowError(/NG0950/);
+  });
+
+  it('should throw an error if the prop text is an empty string', () => {
+    fixture = TestBed.createComponent(UswdsButton);
+    fixture.componentRef.setInput('type', 'button');
+    fixture.componentRef.setInput('text', '');
+    expect(() => {
+      fixture.detectChanges();
+    }).toThrowError("Prop 'text' must be defined and cannot be empty string");
+  });
+
+  it('should throw an error if an invalid prop of style is provided', () => {
+    fixture = TestBed.createComponent(UswdsButton);
+    fixture.componentRef.setInput('buttonStyle', 'BADSTYLE');
+    fixture.componentRef.setInput('type', 'button');
+    fixture.componentRef.setInput('text', 'Press Me!');
+    expect(() => {
+      fixture.detectChanges();
+    }).toThrowError(
+      'Provided style does not exist, valid types are: [Secondary, AccentCool, Base, Outline, OutlineInverse, Unstyled]',
+    );
   });
 });

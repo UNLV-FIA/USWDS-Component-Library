@@ -311,6 +311,48 @@ describe('AccordionComponent', () => {
     });
   });
 
+  describe('DOM click interaction', () => {
+    it('should toggle panel when button is clicked in the DOM', () => {
+      fixture.componentRef.setInput('items', threeItems());
+      fixture.detectChanges();
+
+      expect(component.isExpanded(1)).toBe(false);
+
+      getButton(1).click();
+      fixture.detectChanges();
+
+      expect(component.isExpanded(1)).toBe(true);
+      expect(getButton(1).getAttribute('aria-expanded')).toBe('true');
+    });
+
+    it('should close an open panel when its button is clicked again', () => {
+      fixture.componentRef.setInput('items', threeItems());
+      fixture.detectChanges();
+
+      expect(component.isExpanded(0)).toBe(true);
+
+      getButton(0).click();
+      fixture.detectChanges();
+
+      expect(component.isExpanded(0)).toBe(false);
+      expect(getButton(0).getAttribute('aria-expanded')).toBe('false');
+    });
+  });
+
+  describe('CSS classes and styling', () => {
+    it('should apply only multiselectable class when borderless and multiselectable', () => {
+      fixture.componentRef.setInput('items', threeItems());
+      fixture.componentRef.setInput('variant', 'borderless');
+      fixture.componentRef.setInput('multiselectable', true);
+      fixture.detectChanges();
+
+      const classes = component.containerClasses();
+      expect(classes).toContain('usa-accordion');
+      expect(classes).toContain('usa-accordion--multiselectable');
+      expect(classes).not.toContain('usa-accordion--bordered');
+    });
+  });
+
   describe('Edge cases', () => {
     it('should handle a single item gracefully', () => {
       fixture.componentRef.setInput('items', [

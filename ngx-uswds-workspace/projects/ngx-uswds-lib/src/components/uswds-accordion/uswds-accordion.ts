@@ -2,6 +2,39 @@ import { Component, input, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccordionItem, AccordionVariant } from './accordion-types';
 
+/**
+ * @class AccordionComponent
+ * @description
+ * An Angular standalone component that renders a U.S. Web Design System (USWDS) accordion.
+ * Accordions allow users to show and hide sections of related content on a page.
+ * They support both single-select and multiselectable modes, as well as bordered
+ * and borderless visual options/variants.
+ *
+ * @selector uswds-accordion
+ *
+ * @example
+ * // Bordered, multiselectable accordion
+ * <uswds-accordion
+ *   variant="bordered"
+ *   [multiselectable]="true"
+ *   [items]="[
+ *     { heading: 'Section 1', content: '<p>Content 1</p>', expandedByDefault: true },
+ *     { heading: 'Section 2', content: '<p>Content 2</p>' }
+ *   ]">
+ * </uswds-accordion>
+ *
+ * @input {AccordionItem[]} [items=[]] - Array of accordion items to render. Each item
+ *   includes a heading, HTML content, and an optional expandedByDefault flag.
+ *
+ * @input {AccordionVariant} [variant='borderless'] - The visual option of the accordion.
+ *   Accepts 'borderless' for the default style or 'bordered' for a bordered style.
+ *
+ * @input {boolean} [multiselectable=false] - Whether multiple panels can be open at once.
+ *   When false, opening a panel closes any other open panel.
+ *
+ * @input {string} [idPrefix] - Custom prefix for generated element IDs. If not provided,
+ *   a unique prefix is auto-generated to avoid ID collisions between multiple accordions.
+ */
 @Component({
   selector: 'uswds-accordion',
   standalone: true,

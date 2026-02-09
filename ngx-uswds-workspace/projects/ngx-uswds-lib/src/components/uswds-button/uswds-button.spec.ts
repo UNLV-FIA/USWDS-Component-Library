@@ -174,3 +174,38 @@ describe('ChkReqProps', () => {
     );
   });
 });
+
+describe('ChkFunctionCallsOfAButton', () => {
+  let component: UswdsButton;
+  let fixture: ComponentFixture<UswdsButton>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [UswdsButton],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(UswdsButton);
+    // Provide Required props
+    fixture.componentRef.setInput('text', 'Press Me Test');
+    fixture.componentRef.setInput('type', 'submit');
+    fixture.componentRef.setInput('buttonStyle', 'Default');
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    await fixture.whenStable();
+  });
+
+  it('should log "hello" when button is clicked', () => {
+    const consoleSpy = vi.spyOn(console, 'log');
+    const fn = vi.fn(() => console.log('Hello'));
+
+    component.clicked.subscribe(fn);
+
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
+
+    button.click();
+    expect(fn).toHaveBeenCalled();
+    expect(consoleSpy).toHaveBeenCalledWith('Hello');
+    consoleSpy.mockRestore();
+  });
+});

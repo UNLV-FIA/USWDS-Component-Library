@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AccordionComponent } from './uswds-accordion';
+import { UswdsAccordion } from './uswds-accordion';
 import { AccordionItem } from './accordion-types';
 
-describe('AccordionComponent', () => {
-  let component: AccordionComponent;
-  let fixture: ComponentFixture<AccordionComponent>;
+describe('UswdsAccordion', () => {
+  let component: UswdsAccordion;
+  let fixture: ComponentFixture<UswdsAccordion>;
 
   function threeItems(): AccordionItem[] {
     return [
@@ -28,10 +28,10 @@ describe('AccordionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AccordionComponent],
+      imports: [UswdsAccordion],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AccordionComponent);
+    fixture = TestBed.createComponent(UswdsAccordion);
     component = fixture.componentInstance;
   });
 
@@ -211,7 +211,7 @@ describe('AccordionComponent', () => {
       fixture.detectChanges();
       const prefix1 = component.resolvedIdPrefix();
 
-      const fixture2 = TestBed.createComponent(AccordionComponent);
+      const fixture2 = TestBed.createComponent(UswdsAccordion);
       fixture2.componentRef.setInput('items', threeItems());
       fixture2.detectChanges();
       const prefix2 = fixture2.componentInstance.resolvedIdPrefix();

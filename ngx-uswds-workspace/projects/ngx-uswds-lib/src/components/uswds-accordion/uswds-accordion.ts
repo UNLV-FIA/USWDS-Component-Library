@@ -10,7 +10,7 @@ import { AccordionItem, AccordionVariant } from './accordion-types';
  * They support both single-select and multiselectable modes, as well as bordered
  * and borderless visual options/variants.
  *
- * @selector uswds-accordion
+ * @selector ngx-uswds-accordion
  *
  * @example
  * // Bordered, multiselectable accordion
@@ -36,13 +36,13 @@ import { AccordionItem, AccordionVariant } from './accordion-types';
  *   a unique prefix is auto-generated to avoid ID collisions between multiple accordions.
  */
 @Component({
-  selector: 'uswds-accordion',
+  selector: 'ngx-uswds-accordion',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './uswds-accordion.html',
   styleUrls: [],
 })
-export class AccordionComponent implements OnInit {
+export class UswdsAccordion implements OnInit {
   items = input<AccordionItem[]>([]);
   variant = input<AccordionVariant>('borderless');
   multiselectable = input<boolean>(false);
@@ -92,8 +92,8 @@ export class AccordionComponent implements OnInit {
   });
 
   private generateUniquePrefix(): string {
-    AccordionComponent.instanceCounter++;
-    return `accordion-${AccordionComponent.instanceCounter}`;
+    UswdsAccordion.instanceCounter++;
+    return `accordion-${UswdsAccordion.instanceCounter}`;
   }
 
   private applyDefaults(): void {

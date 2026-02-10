@@ -9,6 +9,13 @@ import { CommonModule } from '@angular/common';
   templateUrl: './uswds-button.html',
   styleUrl: './uswds-button.css',
 })
+
+/***
+ * @class
+ * @description
+ * An angular component that renders a customizable button ensuring consistent styling with uswds components.
+ * @selector ngx-uswds-button
+ */
 export class UswdsButton implements OnInit {
   /**
    * Sets the text of the button
@@ -28,11 +35,11 @@ export class UswdsButton implements OnInit {
    */
   disabled = input<boolean>(false);
 
-  /**
-   * Sets the aria-disabled
-   * @default false
-   */
-  ariaDisabled = input<boolean>(false);
+  // /**
+  //  * Sets the aria-disabled
+  //  * @default false
+  //  */
+  // ariaDisabled = input<boolean>(false);
 
   /**
    * Allows function passthrough,

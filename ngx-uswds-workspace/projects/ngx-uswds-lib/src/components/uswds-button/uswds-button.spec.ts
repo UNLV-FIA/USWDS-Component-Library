@@ -85,6 +85,7 @@ describe('UswdsButton', () => {
     fixture.detectChanges();
     const el: HTMLButtonElement = fixture.nativeElement.querySelector('button');
     expect(el.disabled).toBeTruthy();
+    expect(el.getAttribute('aria-disabled')).toBeTruthy();
   });
 
   it('should change to focus when focused on', () => {

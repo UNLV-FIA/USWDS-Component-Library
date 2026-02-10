@@ -118,6 +118,19 @@ export class UswdsButton implements OnInit {
     }
   }
 
+  buttonTypeSelection(): string {
+    switch (this.type()) {
+      case 'submit':
+        return 'submit';
+      case 'button':
+        return 'button';
+      case 'reset':
+        return 'reset';
+      default:
+        throw new Error('Invalid type selected, valid options are [submit, button, reset]');
+    }
+  }
+
   onClick() {
     this.clicked.emit();
   }

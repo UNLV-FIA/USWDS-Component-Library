@@ -31,6 +31,20 @@ describe('UswdsButton', () => {
     expect(el.getAttribute('type')).toBe('submit');
   });
 
+  it('should have a type of button', () => {
+    fixture.componentRef.setInput('type', 'button');
+    fixture.detectChanges();
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
+    expect(button.getAttribute('type')).toBe('button');
+  });
+
+  it('should have a type of reset', () => {
+    fixture.componentRef.setInput('type', 'reset');
+    fixture.detectChanges();
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
+    expect(button.getAttribute('type')).toBe('reset');
+  });
+
   it('should have text of Press Me Test', () => {
     const el: HTMLButtonElement = fixture.nativeElement.querySelector('button');
     expect(el.textContent?.trim()).toBe('Press Me Test');
@@ -161,6 +175,15 @@ describe('ChkReqProps', () => {
     expect(() => {
       fixture.detectChanges();
     }).toThrowError("Prop 'text' must be defined and cannot be empty string");
+  });
+
+  it('should throw an error if an invalid type is provided', () => {
+    fixture = TestBed.createComponent(UswdsButton);
+    fixture.componentRef.setInput('type', 'BADTYPE');
+    fixture.componentRef.setInput('text', 'Press Me!');
+    expect(() => {
+      fixture.detectChanges();
+    }).toThrowError('Invalid type selected, valid options are [submit, button, reset]');
   });
 
   it('should throw an error if an invalid prop of style is provided', () => {

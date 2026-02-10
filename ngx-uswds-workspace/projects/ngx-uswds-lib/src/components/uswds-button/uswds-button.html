@@ -1,8 +1,8 @@
 <button
-  [attr.type]="type()"
+  [attr.type]="buttonTypeSelection()"
   class="usa-button"
   [disabled]="disabled()"
-  [aria-disabled]="disabled()"
+  [attr.aria-disabled]="disabled()"
   [ngClass]="[bigButton() ? 'usa-button--big' : '', buttonStyleCSS(), buttonStateCSS()]"
   (click)="onClick()"
 >

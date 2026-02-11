@@ -3,7 +3,7 @@
   class="usa-button"
   [disabled]="disabled()"
   [attr.aria-disabled]="disabled()"
-  [ngClass]="[bigButton() ? 'usa-button--big' : '', buttonStyleCSS(), buttonStateCSS()]"
+  [ngClass]="[bigButton() ? 'usa-button--big' : '', buttonStyleCSS()]"
   (click)="onClick()"
 >
   {{ text() }}

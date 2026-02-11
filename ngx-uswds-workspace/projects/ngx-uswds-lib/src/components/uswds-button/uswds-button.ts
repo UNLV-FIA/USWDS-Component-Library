@@ -1,6 +1,6 @@
 import { Component, OnInit, input, output } from '@angular/core';
 import { button } from '@uswds/uswds/js';
-import { ButtonType, ButtonStyle, ButtonState } from './uswds-button.types';
+import { ButtonType, ButtonStyle } from './uswds-button.types';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -35,12 +35,6 @@ export class UswdsButton implements OnInit {
    */
   disabled = input<boolean>(false);
 
-  // /**
-  //  * Sets the aria-disabled
-  //  * @default false
-  //  */
-  // ariaDisabled = input<boolean>(false);
-
   /**
    * Allows function passthrough,
    * will run a function provided on the click event.
@@ -63,15 +57,6 @@ export class UswdsButton implements OnInit {
    * 7. Outline Inverse
    */
   buttonStyle = input<ButtonStyle>('Default');
-
-  /**
-   * Define the button state manually
-   * 1. Default
-   * 2. Hover
-   * 3. Active
-   * 4. Focus
-   */
-  buttonState = input<ButtonState>('Default');
 
   ngOnInit(): void {
     if (!this.text() || this.text().trim() == '')
@@ -102,19 +87,6 @@ export class UswdsButton implements OnInit {
         throw new Error(
           'Provided style does not exist, valid types are: [Secondary, AccentCool, Base, Outline, OutlineInverse, Unstyled]',
         );
-    }
-  }
-
-  buttonStateCSS(): string {
-    switch (this.buttonState()) {
-      case 'Focus':
-        return 'usa-focus';
-      case 'Active':
-        return 'usa-button--active';
-      case 'Hover':
-        return 'usa-button--hover';
-      default:
-        return '';
     }
   }
 

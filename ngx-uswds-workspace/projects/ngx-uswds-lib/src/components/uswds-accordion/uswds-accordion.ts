@@ -40,7 +40,7 @@ import { AccordionItem, AccordionVariant } from './accordion-types';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './uswds-accordion.html',
-  styleUrls: [],
+  styleUrls: ['./uswds-accordion.scss'],
 })
 export class UswdsAccordion implements OnInit {
   items = input<AccordionItem[]>([]);

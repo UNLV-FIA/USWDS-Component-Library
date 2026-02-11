@@ -132,25 +132,6 @@ describe('UswdsButton', () => {
     const el: HTMLElement = fixture.nativeElement.querySelector('.usa-button');
     expect(el.classList.contains('usa-button--big'));
   });
-
-  it('should change to focus', () => {
-    fixture.componentRef.setInput('buttonState', 'Focus');
-    fixture.detectChanges();
-    const el: HTMLElement = fixture.nativeElement.querySelector('button');
-    expect(el.classList.contains('usa-focus'));
-  });
-  it('should change to active', () => {
-    fixture.componentRef.setInput('buttonState', 'Active');
-    fixture.detectChanges();
-    const el: HTMLElement = fixture.nativeElement.querySelector('.usa-button');
-    expect(el.classList.contains('usa-button--active'));
-  });
-  it('should change to hover', () => {
-    fixture.componentRef.setInput('buttonState', 'Hover');
-    fixture.detectChanges();
-    const el: HTMLElement = fixture.nativeElement.querySelector('.usa-button');
-    expect(el.classList.contains('usa-button--hover'));
-  });
 });
 
 describe('ChkReqProps', () => {

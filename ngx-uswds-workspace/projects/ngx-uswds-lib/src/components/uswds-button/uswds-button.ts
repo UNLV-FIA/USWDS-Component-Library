@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   selector: 'ngx-uswds-button',
   imports: [CommonModule],
   templateUrl: './uswds-button.html',
-  styleUrl: './uswds-button.css',
+  styleUrl: './uswds-button.scss',
 })
 
 /***

@@ -1,4 +1,4 @@
-import { Component, input, computed, signal } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BANNER_CONTENT, DomainType, LanguageType } from './banner-content';
 
@@ -9,7 +9,7 @@ import { BANNER_CONTENT, DomainType, LanguageType } from './banner-content';
  * Banners identify official websites of government organizations in the United States.
  * They also help visitors understand whether a website is official and secure.
  *
- * @selector uswds-banner
+ * @selector ngx-uswds-banner
 
  * @example
  * // Spanish language with .mil domain
@@ -35,7 +35,7 @@ import { BANNER_CONTENT, DomainType, LanguageType } from './banner-content';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './uswds-banner.html',
-  styleUrl: './uswds-banner.scss'
+  styleUrl: './uswds-banner.scss',
 })
 export class UswdsBanner {
   ariaLabel = input<string>();
@@ -47,38 +47,70 @@ export class UswdsBanner {
   isExpanded = signal(false);
 
   toggleAccordion(): void {
-    this.isExpanded.update(v => !v);
+    this.isExpanded.update((v) => !v);
   }
 
-  computedAriaLabel = computed(() => {
+  computedAriaLabel(): string {
     const label = this.ariaLabel();
     if (label) return label;
     return BANNER_CONTENT[this.lang()][this.tld()].header;
-  });
+  }
 
-  computedAccordionId = computed(() => {
+  computedAccordionId(): string {
     const id = this.accordionId();
     if (id) return id;
     const langSuffix = this.lang() === 'es' ? '-lang-es' : '';
     const tldSuffix = this.tld() === 'mil' ? '-dot-mil' : '';
     return `gov-banner${tldSuffix}${langSuffix}`;
-  });
+  }
 
-  lockIconId = computed(() => {
+  lockIconId(): string {
     const langSuffix = this.lang() === 'es' ? '-spanish' : '';
     const tldSuffix = this.tld() === 'mil' ? '-dot-mil' : '-default';
     return `banner-lock${tldSuffix}${langSuffix}`;
-  });
+  }
 
-  headerText = computed(() => BANNER_CONTENT[this.lang()][this.tld()].header);
-  buttonText = computed(() => BANNER_CONTENT[this.lang()][this.tld()].button);
-  domainLabel = computed(() => BANNER_CONTENT[this.lang()][this.tld()].domainLabel);
-  domainDescription = computed(() => BANNER_CONTENT[this.lang()][this.tld()].domainDescription);
-  secureLabel = computed(() => BANNER_CONTENT[this.lang()][this.tld()].secureLabel);
-  secureDescription = computed(() => BANNER_CONTENT[this.lang()][this.tld()].secureDescription);
-  domainStrong = computed(() => `.${this.tld()}`);
-  lockWord = computed(() => this.lang() === 'es' ? 'candado' : 'lock');
-  flagImagePath = computed(() => `${this.assetsPath()}/us_flag_small.png`);
-  dotGovIconPath = computed(() => `${this.assetsPath()}/icon-dot-gov.svg`);
-  httpsIconPath = computed(() => `${this.assetsPath()}/icon-https.svg`);
+  headerText(): string {
+    return BANNER_CONTENT[this.lang()][this.tld()].header;
+  }
+
+  buttonText(): string {
+    return BANNER_CONTENT[this.lang()][this.tld()].button;
+  }
+
+  domainLabel(): string {
+    return BANNER_CONTENT[this.lang()][this.tld()].domainLabel;
+  }
+
+  domainDescription(): string {
+    return BANNER_CONTENT[this.lang()][this.tld()].domainDescription;
+  }
+
+  secureLabel(): string {
+    return BANNER_CONTENT[this.lang()][this.tld()].secureLabel;
+  }
+
+  secureDescription(): string {
+    return BANNER_CONTENT[this.lang()][this.tld()].secureDescription;
+  }
+
+  domainStrong(): string {
+    return `.${this.tld()}`;
+  }
+
+  lockWord(): string {
+    return this.lang() === 'es' ? 'candado' : 'lock';
+  }
+
+  flagImagePath(): string {
+    return `${this.assetsPath()}/us_flag_small.png`;
+  }
+
+  dotGovIconPath(): string {
+    return `${this.assetsPath()}/icon-dot-gov.svg`;
+  }
+
+  httpsIconPath(): string {
+    return `${this.assetsPath()}/icon-https.svg`;
+  }
 }

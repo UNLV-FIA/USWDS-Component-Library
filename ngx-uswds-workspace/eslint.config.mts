@@ -13,12 +13,12 @@ export default defineConfig([
     ignores: ['dist/**', 'node_modules/**', 'coverage/**', '.angular/**'],
   },
   {
-    files: ['**/*.{css,scss}'],
+    files: ['**/*.css'],
     plugins: {css},
     extends: ['css/recommended'],
     languageOptions: { globals: globals.browser},
     language: "css/css",
-    ignores: ['dist/**', 'node_modules/**', 'coverage/**', '.angular/**'],
+    ignores: ['**/*.scss', '**/*.sass', 'dist/**', 'node_modules/**', 'coverage/**', '.angular/**'],
   },
   tseslint.configs.recommended,
 ]);

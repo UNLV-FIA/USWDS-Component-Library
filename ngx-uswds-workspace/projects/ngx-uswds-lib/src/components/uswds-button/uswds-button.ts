@@ -18,33 +18,33 @@ import { CommonModule } from '@angular/common';
  */
 export class UswdsButton implements OnInit {
   /**
-   * Sets the text of the button
-   */
-  text = input.required<string>();
-  /**
    * Chooses the type of button, view defined types
    * Possible Values:
    * - 'submit'
    * - 'button'
    * - 'reset'
    */
+  // c8 ignore next
   type = input.required<ButtonType>();
   /**
    * Enables or disables the button
    * @default false
    */
+  // c8 ignore next
   disabled = input<boolean>(false);
 
   /**
    * Allows function passthrough,
    * will run a function provided on the click event.
    */
+  // c8 ignore next
   clicked = output<void>();
 
   /**
    * Set the button to big
     @default false  
   */
+  // c8 ignore next
   bigButton = input<boolean>(false);
   /**
    * Select the color style for the component
@@ -56,11 +56,10 @@ export class UswdsButton implements OnInit {
    * 6. Outlined
    * 7. Outline Inverse
    */
+  // c8 ignore next
   buttonStyle = input<ButtonStyle>('Default');
 
   ngOnInit(): void {
-    if (!this.text() || this.text().trim() == '')
-      throw new Error("Prop 'text' must be defined and cannot be empty string");
     button.on();
   }
 

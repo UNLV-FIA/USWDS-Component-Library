@@ -14,7 +14,6 @@ describe('UswdsButton', () => {
     component = fixture.componentInstance;
 
     // Provide Required props
-    fixture.componentRef.setInput('text', 'Press Me Test');
     fixture.componentRef.setInput('type', 'submit');
     fixture.componentRef.setInput('buttonStyle', 'Default');
     fixture.detectChanges();
@@ -43,11 +42,6 @@ describe('UswdsButton', () => {
     fixture.detectChanges();
     const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
     expect(button.getAttribute('type')).toBe('reset');
-  });
-
-  it('should have text of Press Me Test', () => {
-    const el: HTMLButtonElement = fixture.nativeElement.querySelector('button');
-    expect(el.textContent?.trim()).toBe('Press Me Test');
   });
 
   // Now lets test the styles-css
@@ -149,19 +143,9 @@ describe('ChkReqProps', () => {
     }).toThrowError(/NG0950/);
   });
 
-  it('should throw an error if the prop text is an empty string', () => {
-    fixture = TestBed.createComponent(UswdsButton);
-    fixture.componentRef.setInput('type', 'button');
-    fixture.componentRef.setInput('text', '');
-    expect(() => {
-      fixture.detectChanges();
-    }).toThrowError("Prop 'text' must be defined and cannot be empty string");
-  });
-
   it('should throw an error if an invalid type is provided', () => {
     fixture = TestBed.createComponent(UswdsButton);
     fixture.componentRef.setInput('type', 'BADTYPE');
-    fixture.componentRef.setInput('text', 'Press Me!');
     expect(() => {
       fixture.detectChanges();
     }).toThrowError('Invalid type selected, valid options are [submit, button, reset]');
@@ -171,7 +155,6 @@ describe('ChkReqProps', () => {
     fixture = TestBed.createComponent(UswdsButton);
     fixture.componentRef.setInput('buttonStyle', 'BADSTYLE');
     fixture.componentRef.setInput('type', 'button');
-    fixture.componentRef.setInput('text', 'Press Me!');
     expect(() => {
       fixture.detectChanges();
     }).toThrowError(
@@ -191,7 +174,6 @@ describe('ChkFunctionCallsOfAButton', () => {
 
     fixture = TestBed.createComponent(UswdsButton);
     // Provide Required props
-    fixture.componentRef.setInput('text', 'Press Me Test');
     fixture.componentRef.setInput('type', 'submit');
     fixture.componentRef.setInput('buttonStyle', 'Default');
     component = fixture.componentInstance;

@@ -6,5 +6,5 @@
   [ngClass]="[bigButton() ? 'usa-button--big' : '', buttonStyleCSS()]"
   (click)="onClick()"
 >
-  {{ text() }}
+  <ng-content></ng-content>
 </button>

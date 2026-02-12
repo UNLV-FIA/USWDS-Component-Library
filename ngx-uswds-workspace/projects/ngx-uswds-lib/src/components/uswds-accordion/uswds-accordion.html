@@ -1,31 +1,29 @@
 <div
-  [ngClass]="containerClasses()"
+  [class]="containerClasses().join(' ')"
   [attr.data-allow-multiple]="multiselectable() ? '' : null"
 >
-  <ng-container *ngFor="let item of items(); let i = index">
-
+  @for (item of items(); track $index) {
     <h4 class="usa-accordion__heading">
       <button
         type="button"
         class="usa-accordion__button"
-        [id]="buttonId(i)"
-        [attr.aria-expanded]="isExpanded(i) ? 'true' : 'false'"
-        [attr.aria-controls]="contentId(i)"
-        (click)="togglePanel(i)"
+        [id]="buttonId($index)"
+        [attr.aria-expanded]="isExpanded($index) ? 'true' : 'false'"
+        [attr.aria-controls]="contentId($index)"
+        (click)="togglePanel($index)"
       >
         {{ item.heading }}
       </button>
     </h4>
 
     <div
-      [id]="contentId(i)"
+      [id]="contentId($index)"
       class="usa-accordion__content usa-prose"
       role="region"
-      [attr.aria-labelledby]="buttonId(i)"
-      [hidden]="!isExpanded(i)"
+      [attr.aria-labelledby]="buttonId($index)"
+      [hidden]="!isExpanded($index)"
     >
       <div [innerHTML]="item.content"></div>
     </div>
-
-  </ng-container>
+  }
 </div>

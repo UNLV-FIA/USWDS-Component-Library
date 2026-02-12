@@ -1,5 +1,4 @@
 import { Component, input, signal, computed, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { AccordionItem, AccordionVariant } from './accordion-types';
 
 /**
@@ -38,7 +37,6 @@ import { AccordionItem, AccordionVariant } from './accordion-types';
 @Component({
   selector: 'ngx-uswds-accordion',
   standalone: true,
-  imports: [CommonModule],
   templateUrl: './uswds-accordion.html',
   styleUrls: ['./uswds-accordion.scss'],
 })

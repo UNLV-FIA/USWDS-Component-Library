@@ -1,3 +1,10 @@
-<button class="usa-button" type="button">
-    {{ text }}
+<button
+  [attr.type]="buttonTypeSelection()"
+  class="usa-button"
+  [disabled]="disabled()"
+  [attr.aria-disabled]="disabled()"
+  [ngClass]="[bigButton() ? 'usa-button--big' : '', buttonStyleCSS()]"
+  (click)="onClick()"
+>
+  <ng-content></ng-content>
 </button>

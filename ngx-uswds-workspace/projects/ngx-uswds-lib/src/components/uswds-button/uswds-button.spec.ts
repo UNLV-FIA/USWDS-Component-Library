@@ -1,5 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UswdsButton } from './uswds-button';
+import { vi } from 'vitest';
+vi.hoisted(() => {
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: vi.fn().mockImplementation((query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(), // compatibility for older code
+      removeListener: vi.fn(), // compatibility for older code
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    })),
+  });
+});
 
 describe('UswdsButton', () => {
   let component: UswdsButton;
@@ -49,7 +65,7 @@ describe('UswdsButton', () => {
     fixture.componentRef.setInput('buttonStyle', 'Secondary');
     fixture.detectChanges();
     const el: HTMLElement = fixture.nativeElement.querySelector('.usa-button');
-    expect(el.classList.contains('usa-button--secondary'));
+    expect(el.classList.contains('usa-button--secondary')).toBe(true);
   });
 
   it('should change to style accent-cool', () => {

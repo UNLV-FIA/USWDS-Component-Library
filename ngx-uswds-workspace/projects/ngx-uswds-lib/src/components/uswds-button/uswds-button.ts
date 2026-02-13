@@ -1,4 +1,4 @@
-import { Component, OnInit, input, output } from '@angular/core';
+import { Component, AfterViewInit, input, output } from '@angular/core';
 import { button } from '@uswds/uswds/js';
 import { ButtonType, ButtonStyle } from './uswds-button.types';
 import { CommonModule } from '@angular/common';
@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
  * An angular component that renders a customizable button ensuring consistent styling with uswds components.
  * @selector ngx-uswds-button
  */
-export class UswdsButton implements OnInit {
+export class UswdsButton implements AfterViewInit {
   /**
    * Chooses the type of button, view defined types
    * Possible Values:
@@ -59,8 +59,8 @@ export class UswdsButton implements OnInit {
   // c8 ignore next
   buttonStyle = input<ButtonStyle>('Default');
 
-  ngOnInit(): void {
-    button.on();
+  ngAfterViewInit(): void {
+    if (button) button.on();
   }
 
   // Button style selection function

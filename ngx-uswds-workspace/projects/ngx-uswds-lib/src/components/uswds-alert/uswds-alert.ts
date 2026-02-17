@@ -54,11 +54,13 @@ export class UswdsAlert implements OnInit {
   }
 
   // Computed Variables to help with css later
-  alertType = computed(() => {
+  // c8 ignore next
+  alertType = computed(() => this.alertTypeFn());
+  alertTypeFn = () => {
     const val = this.type();
     if (!val) throw new Error('Alert type is required');
     return val;
-  });
+  };
 
   alertClassReturn(): string {
     switch (this.alertType()) {

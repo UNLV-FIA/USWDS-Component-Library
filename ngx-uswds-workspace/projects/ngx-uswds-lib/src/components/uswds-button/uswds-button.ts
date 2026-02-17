@@ -60,7 +60,7 @@ export class UswdsButton implements AfterViewInit {
   buttonStyle = input<ButtonStyle>('Default');
 
   ngAfterViewInit(): void {
-    if (button) button.on();
+    button?.on();
   }
 
   // Button style selection function

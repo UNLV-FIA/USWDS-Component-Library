@@ -2,28 +2,5 @@
   [class]="containerClasses().join(' ')"
   [attr.data-allow-multiple]="multiselectable() ? '' : null"
 >
-  @for (item of items(); track $index) {
-    <h4 class="usa-accordion__heading">
-      <button
-        type="button"
-        class="usa-accordion__button"
-        [id]="buttonId($index)"
-        [attr.aria-expanded]="isExpanded($index) ? 'true' : 'false'"
-        [attr.aria-controls]="contentId($index)"
-        (click)="togglePanel($index)"
-      >
-        {{ item.heading }}
-      </button>
-    </h4>
-
-    <div
-      [id]="contentId($index)"
-      class="usa-accordion__content usa-prose"
-      role="region"
-      [attr.aria-labelledby]="buttonId($index)"
-      [hidden]="!isExpanded($index)"
-    >
-      <div [innerHTML]="item.content"></div>
-    </div>
-  }
+  <ng-content></ng-content>
 </div>

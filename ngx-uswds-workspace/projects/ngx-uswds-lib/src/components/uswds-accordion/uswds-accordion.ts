@@ -1,38 +1,51 @@
-import { Component, input, signal, computed, OnInit } from '@angular/core';
-import { AccordionItem, AccordionVariant } from './accordion-types';
+import {
+  Component,
+  input,
+  signal,
+  computed,
+  contentChildren,
+  AfterContentInit,
+} from '@angular/core';
+import { UswdsAccordionItem } from './uswds-accordion-item';
+import { AccordionVariant } from './accordion-types';
 
 /**
- * @class AccordionComponent
+ * @class UswdsAccordion
  * @description
  * An Angular standalone component that renders a U.S. Web Design System (USWDS) accordion.
  * Accordions allow users to show and hide sections of related content on a page.
  * They support both single-select and multiselectable modes, as well as bordered
- * and borderless visual options/variants.
+ * and borderless visual variants.
+ *
+ * Uses a compound component pattern: place one or more `<ngx-uswds-accordion-item>`
+ * elements as direct children. Each item projects its content via `<ng-content>`,
+ * so panel content can be written as ordinary HTML with full editor support.
+ *
+ * **Note:** Expanded state is initialized once in `ngAfterContentInit`. Items added
+ * or removed dynamically after that point will have their `expandedByDefault` flag
+ * ignored — only the programmatic `togglePanel` API applies at that stage.
  *
  * @selector ngx-uswds-accordion
  *
  * @example
- * // Bordered, multiselectable accordion
- * <uswds-accordion
- *   variant="bordered"
- *   [multiselectable]="true"
- *   [items]="[
- *     { heading: 'Section 1', content: '<p>Content 1</p>', expandedByDefault: true },
- *     { heading: 'Section 2', content: '<p>Content 2</p>' }
- *   ]">
- * </uswds-accordion>
+ * <ngx-uswds-accordion variant="bordered" [multiselectable]="true">
+ *   <ngx-uswds-accordion-item heading="Section 1" [expandedByDefault]="true">
+ *     <p>Content 1</p>
+ *   </ngx-uswds-accordion-item>
+ *   <ngx-uswds-accordion-item heading="Section 2">
+ *     <p>Content 2</p>
+ *   </ngx-uswds-accordion-item>
+ * </ngx-uswds-accordion>
  *
- * @input {AccordionItem[]} [items=[]] - Array of accordion items to render. Each item
- *   includes a heading, HTML content, and an optional expandedByDefault flag.
- *
- * @input {AccordionVariant} [variant='borderless'] - The visual option of the accordion.
+ * @input {AccordionVariant} [variant='borderless'] - The visual style of the accordion.
  *   Accepts 'borderless' for the default style or 'bordered' for a bordered style.
  *
  * @input {boolean} [multiselectable=false] - Whether multiple panels can be open at once.
  *   When false, opening a panel closes any other open panel.
  *
  * @input {string} [idPrefix] - Custom prefix for generated element IDs. If not provided,
- *   a unique prefix is auto-generated to avoid ID collisions between multiple accordions.
+ *   a unique prefix is auto-generated to avoid ID collisions between multiple accordions
+ *   on the same page.
  */
 @Component({
   selector: 'ngx-uswds-accordion',
@@ -40,8 +53,7 @@ import { AccordionItem, AccordionVariant } from './accordion-types';
   templateUrl: './uswds-accordion.html',
   styleUrls: ['./uswds-accordion.scss'],
 })
-export class UswdsAccordion implements OnInit {
-  items = input<AccordionItem[]>([]);
+export class UswdsAccordion implements AfterContentInit {
   variant = input<AccordionVariant>('borderless');
   multiselectable = input<boolean>(false);
   idPrefix = input<string>();
@@ -49,19 +61,14 @@ export class UswdsAccordion implements OnInit {
   expandedIndices = signal<Set<number>>(new Set());
   resolvedIdPrefix = signal<string>('');
 
+  items = contentChildren(UswdsAccordionItem);
+
   private static instanceCounter = 0;
 
-  ngOnInit(): void {
+  ngAfterContentInit(): void {
     this.resolvedIdPrefix.set(this.idPrefix() ?? this.generateUniquePrefix());
+    this.assignIndices();
     this.applyDefaults();
-  }
-
-  contentId(index: number): string {
-    return `${this.resolvedIdPrefix()}-${index + 1}`;
-  }
-
-  buttonId(index: number): string {
-    return `${this.resolvedIdPrefix()}-btn-${index + 1}`;
   }
 
   isExpanded(index: number): boolean {
@@ -86,6 +93,7 @@ export class UswdsAccordion implements OnInit {
     if (this.multiselectable()) {
       classes.push('usa-accordion--multiselectable');
     }
+
     return classes;
   });
 
@@ -94,12 +102,21 @@ export class UswdsAccordion implements OnInit {
     return `accordion-${UswdsAccordion.instanceCounter}`;
   }
 
+  /**
+   * Pushes each child's position down to it via its internal `_index` signal.
+   * This keeps data flow unidirectional: the parent is the single source of truth
+   * for ordering, and children derive their IDs and expanded state from it.
+   */
+  private assignIndices(): void {
+    this.items().forEach((item, i) => item._index.set(i));
+  }
+
   private applyDefaults(): void {
     const newSet = new Set<number>();
-    const currentItems = this.items();
+    const children = this.items();
 
-    for (let i = 0; i < currentItems.length; i++) {
-      if (currentItems[i].expandedByDefault) {
+    for (let i = 0; i < children.length; i++) {
+      if (children[i].expandedByDefault()) {
         newSet.add(i);
 
         if (!this.multiselectable()) {
@@ -107,6 +124,7 @@ export class UswdsAccordion implements OnInit {
         }
       }
     }
+
     this.expandedIndices.set(newSet);
   }
 

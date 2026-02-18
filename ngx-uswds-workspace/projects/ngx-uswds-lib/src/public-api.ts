@@ -13,4 +13,5 @@ export * from './components/uswds-banner/uswds-banner';
 
 // Accordion Component
 export * from './components/uswds-accordion/uswds-accordion';
-export type { AccordionItem, AccordionVariant } from './components/uswds-accordion/accordion-types';
+export * from './components/uswds-accordion/uswds-accordion-item';
+export type { AccordionVariant } from './components/uswds-accordion/accordion-types';

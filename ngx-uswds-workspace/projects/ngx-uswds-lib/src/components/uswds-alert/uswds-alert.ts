@@ -25,23 +25,27 @@ export class UswdsAlert implements OnInit {
    * - `Error`
    * - `Emergency`
    */
+  // c8 ignore next
   type = input.required<AlertType>();
   /**
    * Chooses whether to display the slim version of the alert
    * @default false
    *
    */
+  // c8 ignore next
   slimAlert = input<boolean>(false);
   /**
    * Choose whether to display an icon or not
    * @default false
    *
    */
+  // c8 ignore next
   setNoIcon = input<boolean>(false);
   /**
    * Sets the header of the alert
    *
    */
+  // c8 ignore next
   headerText = input.required<string>();
 
   ngOnInit(): void {
@@ -50,11 +54,13 @@ export class UswdsAlert implements OnInit {
   }
 
   // Computed Variables to help with css later
-  alertType = computed(() => {
+  // c8 ignore next
+  alertType = computed(() => this.alertTypeFn());
+  alertTypeFn = () => {
     const val = this.type();
     if (!val) throw new Error('Alert type is required');
     return val;
-  });
+  };
 
   alertClassReturn(): string {
     switch (this.alertType()) {

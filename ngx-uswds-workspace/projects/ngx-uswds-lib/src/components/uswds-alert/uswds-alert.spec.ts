@@ -87,6 +87,15 @@ describe('ChkReqProps', () => {
     }).toThrowError(/NG0950/);
   });
 
+  it('alertType should error if no value is set', () => {
+    fixture = TestBed.createComponent(UswdsAlert);
+    fixture.componentRef.setInput('type', null);
+    fixture.componentRef.setInput('headerText', 'Hello There');
+    expect(() => {
+      fixture.detectChanges();
+    }).toThrowError('Alert type is required');
+  });
+
   it('should throw an error if an invalid prop of Type is provided', () => {
     fixture = TestBed.createComponent(UswdsAlert);
     fixture.componentRef.setInput('type', 'badINput');

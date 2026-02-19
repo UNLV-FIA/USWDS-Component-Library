@@ -7,7 +7,7 @@ import {
   AfterContentInit,
 } from '@angular/core';
 import { UswdsAccordionItem } from './uswds-accordion-item';
-import { AccordionVariant } from './accordion-types';
+import { AccordionVariant, HeadingLevel } from './accordion-types';
 
 /**
  * @class UswdsAccordion
@@ -37,11 +37,25 @@ import { AccordionVariant } from './accordion-types';
  *   </ngx-uswds-accordion-item>
  * </ngx-uswds-accordion>
  *
+ * @example
+ * <!-- All items use h3; one item overrides to h2 -->
+ * <ngx-uswds-accordion [headingLevel]="3">
+ *   <ngx-uswds-accordion-item heading="Section A">
+ *     <p>Content A</p>
+ *   </ngx-uswds-accordion-item>
+ *   <ngx-uswds-accordion-item heading="Special" [headingLevel]="2">
+ *     <p>Content B</p>
+ *   </ngx-uswds-accordion-item>
+ * </ngx-uswds-accordion>
+ *
  * @input {AccordionVariant} [variant='borderless'] - The visual style of the accordion.
  *   Accepts 'borderless' for the default style or 'bordered' for a bordered style.
  *
  * @input {boolean} [multiselectable=false] - Whether multiple panels can be open at once.
  *   When false, opening a panel closes any other open panel.
+ *
+ * @input {HeadingLevel} [headingLevel=4] - Default heading level for all child accordion items.
+ *   Accepts 2–6. Individual items can override this via their own `headingLevel` input.
  *
  * @input {string} [idPrefix] - Custom prefix for generated element IDs. If not provided,
  *   a unique prefix is auto-generated to avoid ID collisions between multiple accordions
@@ -56,6 +70,7 @@ import { AccordionVariant } from './accordion-types';
 export class UswdsAccordion implements AfterContentInit {
   variant = input<AccordionVariant>('borderless');
   multiselectable = input<boolean>(false);
+  headingLevel = input<HeadingLevel>(4);
   idPrefix = input<string>();
 
   expandedIndices = signal<Set<number>>(new Set());

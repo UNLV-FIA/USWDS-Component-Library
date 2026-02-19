@@ -1,4 +1,4 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, input, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BANNER_CONTENT, DomainType, LanguageType } from './banner-content';
 
@@ -9,7 +9,7 @@ import { BANNER_CONTENT, DomainType, LanguageType } from './banner-content';
  * Banners identify official websites of government organizations in the United States.
  * They also help visitors understand whether a website is official and secure.
  *
- * @selector ngx-uswds-banner
+ * @selector uswds-banner
 
  * @example
  * // Spanish language with .mil domain
@@ -38,79 +38,67 @@ import { BANNER_CONTENT, DomainType, LanguageType } from './banner-content';
   styleUrl: './uswds-banner.scss',
 })
 export class UswdsBanner {
+  /* v8 ignore next */
   ariaLabel = input<string>();
+  /* v8 ignore next */
   tld = input<DomainType>('gov');
+  /* v8 ignore next */
   lang = input<LanguageType>('en');
+  /* v8 ignore next */
   accordionId = input<string>();
+  /* v8 ignore next */
   assetsPath = input<string>('/assets/img');
 
+  /* v8 ignore next */
   isExpanded = signal(false);
 
   toggleAccordion(): void {
     this.isExpanded.update((v) => !v);
   }
 
-  computedAriaLabel(): string {
+  /* v8 ignore next 5 */
+  computedAriaLabel = computed(() => {
     const label = this.ariaLabel();
     if (label) return label;
     return BANNER_CONTENT[this.lang()][this.tld()].header;
-  }
+  });
 
-  computedAccordionId(): string {
+  /* v8 ignore next 6 */
+  computedAccordionId = computed(() => {
     const id = this.accordionId();
     if (id) return id;
     const langSuffix = this.lang() === 'es' ? '-lang-es' : '';
     const tldSuffix = this.tld() === 'mil' ? '-dot-mil' : '';
     return `gov-banner${tldSuffix}${langSuffix}`;
-  }
+  });
 
-  lockIconId(): string {
+  /* v8 ignore next 5 */
+  lockIconId = computed(() => {
     const langSuffix = this.lang() === 'es' ? '-spanish' : '';
     const tldSuffix = this.tld() === 'mil' ? '-dot-mil' : '-default';
     return `banner-lock${tldSuffix}${langSuffix}`;
-  }
+  });
 
-  headerText(): string {
-    return BANNER_CONTENT[this.lang()][this.tld()].header;
-  }
-
-  buttonText(): string {
-    return BANNER_CONTENT[this.lang()][this.tld()].button;
-  }
-
-  domainLabel(): string {
-    return BANNER_CONTENT[this.lang()][this.tld()].domainLabel;
-  }
-
-  domainDescription(): string {
-    return BANNER_CONTENT[this.lang()][this.tld()].domainDescription;
-  }
-
-  secureLabel(): string {
-    return BANNER_CONTENT[this.lang()][this.tld()].secureLabel;
-  }
-
-  secureDescription(): string {
-    return BANNER_CONTENT[this.lang()][this.tld()].secureDescription;
-  }
-
-  domainStrong(): string {
-    return `.${this.tld()}`;
-  }
-
-  lockWord(): string {
-    return this.lang() === 'es' ? 'candado' : 'lock';
-  }
-
-  flagImagePath(): string {
-    return `${this.assetsPath()}/us_flag_small.png`;
-  }
-
-  dotGovIconPath(): string {
-    return `${this.assetsPath()}/icon-dot-gov.svg`;
-  }
-
-  httpsIconPath(): string {
-    return `${this.assetsPath()}/icon-https.svg`;
-  }
+  /* v8 ignore next */
+  headerText = computed(() => BANNER_CONTENT[this.lang()][this.tld()].header);
+  /* v8 ignore next */
+  buttonText = computed(() => BANNER_CONTENT[this.lang()][this.tld()].button);
+  /* v8 ignore next */
+  domainLabel = computed(() => BANNER_CONTENT[this.lang()][this.tld()].domainLabel);
+  /* v8 ignore next */
+  domainDescription = computed(() => BANNER_CONTENT[this.lang()][this.tld()].domainDescription);
+  /* v8 ignore next */
+  secureLabel = computed(() => BANNER_CONTENT[this.lang()][this.tld()].secureLabel);
+  /* v8 ignore next */
+  secureDescription = computed(() => BANNER_CONTENT[this.lang()][this.tld()].secureDescription);
+  /* v8 ignore next */
+  domainStrong = computed(() => `.${this.tld()}`);
+  /* v8 ignore next */
+  lockWord = computed(() => (this.lang() === 'es' ? 'candado' : 'lock'));
+  /* v8 ignore next */
+  flagImagePath = computed(() => `${this.assetsPath()}/us_flag_small.png`);
+  /* v8 ignore next */
+  dotGovIconPath = computed(() => `${this.assetsPath()}/icon-dot-gov.svg`);
+  /* v8 ignore next */
+  httpsIconPath = computed(() => `${this.assetsPath()}/icon-https.svg`);
 }

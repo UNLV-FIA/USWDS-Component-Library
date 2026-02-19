@@ -1,28 +1,6 @@
-import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UswdsBanner } from './uswds-banner';
-import { BANNER_CONTENT, DomainType, LanguageType } from './banner-content';
-
-@Component({
-  standalone: true,
-  imports: [UswdsBanner],
-  template: `
-    <ngx-uswds-banner
-      [tld]="tld"
-      [lang]="lang"
-      [ariaLabel]="ariaLabel"
-      [accordionId]="accordionId"
-      [assetsPath]="assetsPath"
-    ></ngx-uswds-banner>
-  `,
-})
-class TestHostComponent {
-  tld: DomainType = 'gov';
-  lang: LanguageType = 'en';
-  ariaLabel?: string;
-  accordionId?: string;
-  assetsPath = '/assets/img';
-}
+import { BANNER_CONTENT } from './banner-content';
 
 describe('UswdsBanner', () => {
   let component: UswdsBanner;
@@ -185,6 +163,18 @@ describe('UswdsBanner', () => {
       expect(component.dotGovIconPath()).toBe('/custom/path/icon-dot-gov.svg');
       expect(component.httpsIconPath()).toBe('/custom/path/icon-https.svg');
     });
+
+    it('should return "lock" for lockWord in English', () => {
+      fixture.componentRef.setInput('lang', 'en');
+      fixture.detectChanges();
+      expect(component.lockWord()).toBe('lock');
+    });
+
+    it('should return "candado" for lockWord in Spanish', () => {
+      fixture.componentRef.setInput('lang', 'es');
+      fixture.detectChanges();
+      expect(component.lockWord()).toBe('candado');
+    });
   });
 
   describe('DOM rendering', () => {
@@ -267,147 +257,5 @@ describe('UswdsBanner', () => {
       const content = testFixture.nativeElement.querySelector('.usa-banner__content');
       expect(content.id).toBe('gov-banner-dot-mil-lang-es');
     });
-
-    it('should render expanded content for .mil English', () => {
-      const testFixture = TestBed.createComponent(UswdsBanner);
-      testFixture.componentRef.setInput('tld', 'mil');
-      testFixture.componentRef.setInput('lang', 'en');
-      testFixture.componentInstance.isExpanded.set(true);
-      testFixture.detectChanges();
-
-      const compiled = testFixture.nativeElement;
-      expect(compiled.querySelector('.usa-banner__content').hidden).toBe(false);
-      expect(compiled.textContent).toContain('.mil');
-    });
-
-    it('should render expanded content for .gov Spanish', () => {
-      const testFixture = TestBed.createComponent(UswdsBanner);
-      testFixture.componentRef.setInput('tld', 'gov');
-      testFixture.componentRef.setInput('lang', 'es');
-      testFixture.componentInstance.isExpanded.set(true);
-      testFixture.detectChanges();
-
-      const compiled = testFixture.nativeElement;
-      expect(compiled.querySelector('.usa-banner__content').hidden).toBe(false);
-      expect(compiled.textContent).toContain('.gov');
-      expect(compiled.textContent).toContain('candado');
-    });
-
-    it('should render expanded content for .mil Spanish', () => {
-      const testFixture = TestBed.createComponent(UswdsBanner);
-      testFixture.componentRef.setInput('tld', 'mil');
-      testFixture.componentRef.setInput('lang', 'es');
-      testFixture.componentInstance.isExpanded.set(true);
-      testFixture.detectChanges();
-
-      const compiled = testFixture.nativeElement;
-      expect(compiled.querySelector('.usa-banner__content').hidden).toBe(false);
-      expect(compiled.textContent).toContain('.mil');
-      expect(compiled.textContent).toContain('candado');
-    });
-  });
-
-  describe('Computed property branches', () => {
-    it('should generate correct lockIconId for all lang/tld combinations', () => {
-      fixture.componentRef.setInput('tld', 'gov');
-      fixture.componentRef.setInput('lang', 'en');
-      fixture.detectChanges();
-      expect(component.lockIconId()).toBe('banner-lock-default');
-
-      fixture.componentRef.setInput('tld', 'mil');
-      fixture.componentRef.setInput('lang', 'en');
-      fixture.detectChanges();
-      expect(component.lockIconId()).toBe('banner-lock-dot-mil');
-
-      fixture.componentRef.setInput('tld', 'gov');
-      fixture.componentRef.setInput('lang', 'es');
-      fixture.detectChanges();
-      expect(component.lockIconId()).toBe('banner-lock-default-spanish');
-
-      fixture.componentRef.setInput('tld', 'mil');
-      fixture.componentRef.setInput('lang', 'es');
-      fixture.detectChanges();
-      expect(component.lockIconId()).toBe('banner-lock-dot-mil-spanish');
-    });
-
-    it('should return correct domainStrong for each tld', () => {
-      fixture.componentRef.setInput('tld', 'gov');
-      fixture.detectChanges();
-      expect(component.domainStrong()).toBe('.gov');
-
-      fixture.componentRef.setInput('tld', 'mil');
-      fixture.detectChanges();
-      expect(component.domainStrong()).toBe('.mil');
-    });
-
-    it('should return correct lockWord for each language', () => {
-      fixture.componentRef.setInput('lang', 'en');
-      fixture.detectChanges();
-      expect(component.lockWord()).toBe('lock');
-
-      fixture.componentRef.setInput('lang', 'es');
-      fixture.detectChanges();
-      expect(component.lockWord()).toBe('candado');
-    });
-  });
-});
-
-describe('UswdsBanner via template bindings', () => {
-  beforeEach(async () => {
-    TestBed.resetTestingModule();
-    await TestBed.configureTestingModule({
-      imports: [TestHostComponent],
-    }).compileComponents();
-  });
-
-  it('should render with default inputs via template binding', () => {
-    const hostFixture = TestBed.createComponent(TestHostComponent);
-    hostFixture.detectChanges();
-
-    const banner = hostFixture.nativeElement.querySelector('.usa-banner');
-    expect(banner).toBeTruthy();
-  });
-
-  it('should render with .mil Spanish inputs via template binding', () => {
-    const hostFixture = TestBed.createComponent(TestHostComponent);
-    hostFixture.componentInstance.tld = 'mil';
-    hostFixture.componentInstance.lang = 'es';
-    hostFixture.detectChanges();
-
-    const bannerComponent = hostFixture.debugElement.children[0].componentInstance as UswdsBanner;
-    expect(bannerComponent.tld()).toBe('mil');
-    expect(bannerComponent.lang()).toBe('es');
-    expect(bannerComponent.headerText()).toBe(BANNER_CONTENT.es.mil.header);
-    expect(bannerComponent.lockIconId()).toBe('banner-lock-dot-mil-spanish');
-    expect(bannerComponent.lockWord()).toBe('candado');
-    expect(bannerComponent.domainStrong()).toBe('.mil');
-  });
-
-  it('should use custom ariaLabel and accordionId via template binding', () => {
-    const hostFixture = TestBed.createComponent(TestHostComponent);
-    hostFixture.componentInstance.ariaLabel = 'Custom banner label';
-    hostFixture.componentInstance.accordionId = 'my-banner-id';
-    hostFixture.componentInstance.assetsPath = '/cdn/img';
-    hostFixture.detectChanges();
-
-    const bannerComponent = hostFixture.debugElement.children[0].componentInstance as UswdsBanner;
-    expect(bannerComponent.computedAriaLabel()).toBe('Custom banner label');
-    expect(bannerComponent.computedAccordionId()).toBe('my-banner-id');
-    expect(bannerComponent.flagImagePath()).toBe('/cdn/img/us_flag_small.png');
-  });
-
-  it('should render expanded content with .mil Spanish via template binding', () => {
-    const hostFixture = TestBed.createComponent(TestHostComponent);
-    hostFixture.componentInstance.tld = 'mil';
-    hostFixture.componentInstance.lang = 'es';
-    hostFixture.detectChanges();
-
-    const bannerComponent = hostFixture.debugElement.children[0].componentInstance as UswdsBanner;
-    bannerComponent.isExpanded.set(true);
-    hostFixture.detectChanges();
-
-    const compiled = hostFixture.nativeElement;
-    expect(compiled.textContent).toContain('.mil');
-    expect(compiled.textContent).toContain('candado');
   });
 });

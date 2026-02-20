@@ -1,0 +1,27 @@
+// Ensure accordion takes full width of its container
+:host {
+  display: block;
+  width: 100%;
+}
+
+.usa-accordion {
+  width: 100%;
+  display: block;
+}
+
+.usa-accordion__heading {
+  width: 100%;
+  margin: 0;
+}
+
+.usa-accordion__button {
+  width: 100%;
+  display: block;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.usa-accordion__content {
+  width: 100%;
+  box-sizing: border-box;
+}

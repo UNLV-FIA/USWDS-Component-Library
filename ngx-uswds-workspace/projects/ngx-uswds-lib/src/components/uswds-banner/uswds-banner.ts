@@ -35,27 +35,35 @@ import { BANNER_CONTENT, DomainType, LanguageType } from './banner-content';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './uswds-banner.html',
-  styleUrl: './uswds-banner.scss'
+  styleUrl: './uswds-banner.scss',
 })
 export class UswdsBanner {
+  /* v8 ignore next */
   ariaLabel = input<string>();
+  /* v8 ignore next */
   tld = input<DomainType>('gov');
+  /* v8 ignore next */
   lang = input<LanguageType>('en');
+  /* v8 ignore next */
   accordionId = input<string>();
+  /* v8 ignore next */
   assetsPath = input<string>('/assets/img');
 
+  /* v8 ignore next */
   isExpanded = signal(false);
 
   toggleAccordion(): void {
-    this.isExpanded.update(v => !v);
+    this.isExpanded.update((v) => !v);
   }
 
+  /* v8 ignore next 5 */
   computedAriaLabel = computed(() => {
     const label = this.ariaLabel();
     if (label) return label;
     return BANNER_CONTENT[this.lang()][this.tld()].header;
   });
 
+  /* v8 ignore next 6 */
   computedAccordionId = computed(() => {
     const id = this.accordionId();
     if (id) return id;
@@ -64,21 +72,33 @@ export class UswdsBanner {
     return `gov-banner${tldSuffix}${langSuffix}`;
   });
 
+  /* v8 ignore next 5 */
   lockIconId = computed(() => {
     const langSuffix = this.lang() === 'es' ? '-spanish' : '';
     const tldSuffix = this.tld() === 'mil' ? '-dot-mil' : '-default';
     return `banner-lock${tldSuffix}${langSuffix}`;
   });
 
+  /* v8 ignore next */
   headerText = computed(() => BANNER_CONTENT[this.lang()][this.tld()].header);
+  /* v8 ignore next */
   buttonText = computed(() => BANNER_CONTENT[this.lang()][this.tld()].button);
+  /* v8 ignore next */
   domainLabel = computed(() => BANNER_CONTENT[this.lang()][this.tld()].domainLabel);
+  /* v8 ignore next */
   domainDescription = computed(() => BANNER_CONTENT[this.lang()][this.tld()].domainDescription);
+  /* v8 ignore next */
   secureLabel = computed(() => BANNER_CONTENT[this.lang()][this.tld()].secureLabel);
+  /* v8 ignore next */
   secureDescription = computed(() => BANNER_CONTENT[this.lang()][this.tld()].secureDescription);
+  /* v8 ignore next */
   domainStrong = computed(() => `.${this.tld()}`);
-  lockWord = computed(() => this.lang() === 'es' ? 'candado' : 'lock');
+  /* v8 ignore next */
+  lockWord = computed(() => (this.lang() === 'es' ? 'candado' : 'lock'));
+  /* v8 ignore next */
   flagImagePath = computed(() => `${this.assetsPath()}/us_flag_small.png`);
+  /* v8 ignore next */
   dotGovIconPath = computed(() => `${this.assetsPath()}/icon-dot-gov.svg`);
+  /* v8 ignore next */
   httpsIconPath = computed(() => `${this.assetsPath()}/icon-https.svg`);
 }

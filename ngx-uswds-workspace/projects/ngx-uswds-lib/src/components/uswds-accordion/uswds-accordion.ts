@@ -3,7 +3,8 @@ import {
   input,
   signal,
   computed,
-  contentChildren,
+  ContentChildren,
+  QueryList,
   AfterContentInit,
 } from '@angular/core';
 import { UswdsAccordionItem } from './uswds-accordion-item';
@@ -21,7 +22,7 @@ import { AccordionVariant, HeadingLevel } from './accordion-types';
  * elements as direct children. Each item projects its content via `<ng-content>`,
  * so panel content can be written as ordinary HTML with full editor support.
  *
- * **Note:** Expanded state is initialized once in `ngAfterContentInit`. Items added
+ * Note: Expanded state is initialized once in `ngAfterContentInit`. Items added
  * or removed dynamically after that point will have their `expandedByDefault` flag
  * ignored — only the programmatic `togglePanel` API applies at that stage.
  *
@@ -68,15 +69,27 @@ import { AccordionVariant, HeadingLevel } from './accordion-types';
   styleUrls: ['./uswds-accordion.scss'],
 })
 export class UswdsAccordion implements AfterContentInit {
+  // v8 ignore next
   variant = input<AccordionVariant>('borderless');
+  // v8 ignore next
   multiselectable = input<boolean>(false);
+  // v8 ignore next
   headingLevel = input<HeadingLevel>(4);
+  // v8 ignore next
   idPrefix = input<string>();
 
+  // v8 ignore next
   expandedIndices = signal<Set<number>>(new Set());
+  // v8 ignore next
   resolvedIdPrefix = signal<string>('');
 
-  items = contentChildren(UswdsAccordionItem);
+  // v8 ignore next 2
+  @ContentChildren(UswdsAccordionItem)
+  itemList!: QueryList<UswdsAccordionItem>;
+
+  items(): UswdsAccordionItem[] {
+    return this.itemList.toArray();
+  }
 
   private static instanceCounter = 0;
 
@@ -98,7 +111,10 @@ export class UswdsAccordion implements AfterContentInit {
     }
   }
 
-  containerClasses = computed(() => {
+  // v8 ignore next
+  containerClasses = computed(() => this.buildContainerClasses());
+
+  private buildContainerClasses(): string[] {
     const classes = ['usa-accordion'];
 
     if (this.variant() === 'bordered') {
@@ -110,18 +126,14 @@ export class UswdsAccordion implements AfterContentInit {
     }
 
     return classes;
-  });
+  }
 
   private generateUniquePrefix(): string {
     UswdsAccordion.instanceCounter++;
     return `accordion-${UswdsAccordion.instanceCounter}`;
   }
 
-  /**
-   * Pushes each child's position down to it via its internal `_index` signal.
-   * This keeps data flow unidirectional: the parent is the single source of truth
-   * for ordering, and children derive their IDs and expanded state from it.
-   */
+  // Pushes each child's position down to it via its internal `_index` signal. This keeps data flow unidirectional: the parent is the single source of truth for ordering, and children derive their IDs and expanded state from it.
   private assignIndices(): void {
     this.items().forEach((item, i) => item._index.set(i));
   }

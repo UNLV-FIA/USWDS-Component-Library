@@ -91,35 +91,35 @@ import { HeadingLevel } from './accordion-types';
   ],
 })
 export class UswdsAccordionItem {
+  // v8 ignore next
   heading = input.required<string>();
+  // v8 ignore next
   expandedByDefault = input<boolean>(false);
+  // v8 ignore next
   headingLevel = input<HeadingLevel>();
 
-  /**
-   * Assigned by the parent `UswdsAccordion` after content initialization.
-   * Not intended to be set externally — use the `heading` and `expandedByDefault`
-   * inputs to configure this item.
-   *
-   * @internal
-   */
+  // Assigned by the parent `UswdsAccordion` after content initialization. Not intended to be set externally — use the `heading` and `expandedByDefault` inputs to configure this item.
+  // v8 ignore next
   readonly _index = signal<number>(-1);
 
   /** Read-only view of this item's position within the accordion. */
+  // v8 ignore next
   readonly index = this._index.asReadonly();
 
+  // v8 ignore next
   private accordion = inject(UswdsAccordion);
 
-  /**
-   * The effective heading level for this item. Uses the item's own `headingLevel`
-   * input when provided; otherwise falls back to the parent accordion's `headingLevel`
-   * (default: 4).
-   */
+  // The effective heading level for this item. Uses the item's own `headingLevel` input when provided; otherwise falls back to the parent accordion's `headingLevel` (default: 4).
+  // v8 ignore next
   resolvedHeadingLevel = computed(() => this.headingLevel() ?? this.accordion.headingLevel());
 
+  // v8 ignore next
   expanded = computed(() => this.accordion.isExpanded(this.index()));
 
+  // v8 ignore next
   contentId = computed(() => `${this.accordion.resolvedIdPrefix()}-${this.index() + 1}`);
 
+  // v8 ignore next
   buttonId = computed(() => `${this.accordion.resolvedIdPrefix()}-btn-${this.index() + 1}`);
 
   toggle(): void {

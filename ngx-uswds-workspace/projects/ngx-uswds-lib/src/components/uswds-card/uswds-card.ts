@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { CardType, MediaCardFormat } from './card.types';
 
 @Component({
   selector: 'ngx-uswds-card',
@@ -6,4 +7,10 @@ import { Component } from '@angular/core';
   templateUrl: './uswds-card.html',
   styleUrl: './uswds-card.scss',
 })
-export class UswdsCard {}
+export class UswdsCard {
+  cardType = input<CardType>('NonMedia');
+  mediaCardType = input<MediaCardFormat>('None');
+  headerText = input<string>('');
+  mediaItem = input<string>('');
+  mediaText = input<string>('');
+}

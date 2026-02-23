@@ -1,1 +1,25 @@
-<p>uswds-card works!</p>
+<ng-container>
+  <div class="usa-card__container">
+    @switch (mediaCardType()) {
+      @case ('MediaWHeader') {
+        <ng-container>
+          <div class="usa-card__header">
+            <h4 class="usa-card__heading">{{ headerText() }}</h4>
+          </div>
+          <div>
+            <img [src]="mediaItem()" alt="{{ mediaText() }}" />
+          </div>
+        </ng-container>
+      }
+      @case ('Inset') {
+        <ng-container> </ng-container>
+      }
+      @case ('Flag') {
+        <ng-container> </ng-container>
+      }
+      @default {
+        <ng-container> </ng-container>
+      }
+    }
+  </div>
+</ng-container>

@@ -1,0 +1,6 @@
+<div
+  [class]="containerClasses().join(' ')"
+  [attr.data-allow-multiple]="multiselectable() ? '' : null"
+>
+  <ng-content></ng-content>
+</div>

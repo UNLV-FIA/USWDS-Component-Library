@@ -1,7 +1,7 @@
 import { Component, input, signal, computed, inject } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
-import { UswdsAccordion } from './uswds-accordion';
-import { HeadingLevel } from './accordion-types';
+import { UswdsAccordion } from '../uswds-accordion/uswds-accordion';
+import { HeadingLevel } from '../uswds-accordion/accordion-types';
 
 /**
  * @class UswdsAccordionItem
@@ -40,71 +40,8 @@ import { HeadingLevel } from './accordion-types';
   selector: 'ngx-uswds-accordion-item',
   standalone: true,
   imports: [NgTemplateOutlet],
-  template: `
-    <ng-template #btn>
-      <button
-        type="button"
-        class="usa-accordion__button"
-        [id]="buttonId()"
-        [attr.aria-expanded]="expanded() ? 'true' : 'false'"
-        [attr.aria-controls]="contentId()"
-        (click)="toggle()"
-      >
-        {{ heading() }}
-      </button>
-    </ng-template>
-
-    @switch (resolvedHeadingLevel()) {
-      @case (2) {
-        <h2 class="usa-accordion__heading"><ng-container *ngTemplateOutlet="btn" /></h2>
-      }
-      @case (3) {
-        <h3 class="usa-accordion__heading"><ng-container *ngTemplateOutlet="btn" /></h3>
-      }
-      @case (5) {
-        <h5 class="usa-accordion__heading"><ng-container *ngTemplateOutlet="btn" /></h5>
-      }
-      @case (6) {
-        <h6 class="usa-accordion__heading"><ng-container *ngTemplateOutlet="btn" /></h6>
-      }
-      @default {
-        <h4 class="usa-accordion__heading"><ng-container *ngTemplateOutlet="btn" /></h4>
-      }
-    }
-
-    <div
-      [id]="contentId()"
-      class="usa-accordion__content usa-prose"
-      role="region"
-      [attr.aria-labelledby]="buttonId()"
-      [hidden]="!expanded()"
-    >
-      <ng-content></ng-content>
-    </div>
-  `,
-  styles: [
-    `
-      :host {
-        display: contents;
-      }
-
-      h2.usa-accordion__heading {
-        font-size: 1.5rem;
-      }
-      h3.usa-accordion__heading {
-        font-size: 1.17rem;
-      }
-      h4.usa-accordion__heading {
-        font-size: 1rem;
-      }
-      h5.usa-accordion__heading {
-        font-size: 0.83rem;
-      }
-      h6.usa-accordion__heading {
-        font-size: 0.67rem;
-      }
-    `,
-  ],
+  templateUrl: './uswds-accordion-item.html',
+  styleUrl: './uswds-accordion-item.scss',
 })
 export class UswdsAccordionItem {
   // v8 ignore next

@@ -7,7 +7,7 @@ import {
   QueryList,
   AfterContentInit,
 } from '@angular/core';
-import { UswdsAccordionItem } from './uswds-accordion-item';
+import { UswdsAccordionItem } from '../uswds-accordion-item/uswds-accordion-item';
 import { AccordionVariant, HeadingLevel } from './accordion-types';
 
 /**

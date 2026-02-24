@@ -64,7 +64,8 @@ export class UswdsAccordionItem {
 
   // The effective heading level for this item. Uses the item's own `headingLevel` input when provided; otherwise falls back to the parent accordion's `headingLevel` (default: 4).
   // v8 ignore next
-  resolvedHeadingLevel = computed(() => this.headingLevel() ?? this.accordion.headingLevel());
+  resolvedHeadingLevel = computed(() => this.resolvedHeadingLevelFn());
+  resolvedHeadingLevelFn = () => this.headingLevel() ?? this.accordion.headingLevel();
 
   // v8 ignore next
   expanded = computed(() => this.accordion.isExpanded(this.index()));

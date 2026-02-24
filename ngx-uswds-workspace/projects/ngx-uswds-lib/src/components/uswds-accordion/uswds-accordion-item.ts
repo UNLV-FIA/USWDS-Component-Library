@@ -87,6 +87,22 @@ import { HeadingLevel } from './accordion-types';
       :host {
         display: contents;
       }
+
+      h2.usa-accordion__heading {
+        font-size: 1.5rem;
+      }
+      h3.usa-accordion__heading {
+        font-size: 1.17rem;
+      }
+      h4.usa-accordion__heading {
+        font-size: 1rem;
+      }
+      h5.usa-accordion__heading {
+        font-size: 0.83rem;
+      }
+      h6.usa-accordion__heading {
+        font-size: 0.67rem;
+      }
     `,
   ],
 })

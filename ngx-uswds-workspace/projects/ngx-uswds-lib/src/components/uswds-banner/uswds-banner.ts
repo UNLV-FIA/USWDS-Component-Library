@@ -56,28 +56,31 @@ export class UswdsBanner {
     this.isExpanded.update((v) => !v);
   }
 
-  /* v8 ignore next 5 */
-  computedAriaLabel = computed(() => {
+  /* v8 ignore next */
+  computedAriaLabel = computed(() => this.computedAriaLabelFn());
+  computedAriaLabelFn = () => {
     const label = this.ariaLabel();
     if (label) return label;
     return BANNER_CONTENT[this.lang()][this.tld()].header;
-  });
+  };
 
-  /* v8 ignore next 6 */
-  computedAccordionId = computed(() => {
+  /* v8 ignore next */
+  computedAccordionId = computed(() => this.computedAccordionIdFn());
+  computedAccordionIdFn = () => {
     const id = this.accordionId();
     if (id) return id;
     const langSuffix = this.lang() === 'es' ? '-lang-es' : '';
     const tldSuffix = this.tld() === 'mil' ? '-dot-mil' : '';
     return `gov-banner${tldSuffix}${langSuffix}`;
-  });
+  };
 
-  /* v8 ignore next 5 */
-  lockIconId = computed(() => {
+  /* v8 ignore next */
+  lockIconId = computed(() => this.lockIconIdFn());
+  lockIconIdFn = () => {
     const langSuffix = this.lang() === 'es' ? '-spanish' : '';
     const tldSuffix = this.tld() === 'mil' ? '-dot-mil' : '-default';
     return `banner-lock${tldSuffix}${langSuffix}`;
-  });
+  };
 
   /* v8 ignore next */
   headerText = computed(() => BANNER_CONTENT[this.lang()][this.tld()].header);
@@ -94,7 +97,8 @@ export class UswdsBanner {
   /* v8 ignore next */
   domainStrong = computed(() => `.${this.tld()}`);
   /* v8 ignore next */
-  lockWord = computed(() => (this.lang() === 'es' ? 'candado' : 'lock'));
+  lockWord = computed(() => this.lockWordFn());
+  lockWordFn = () => (this.lang() === 'es' ? 'candado' : 'lock');
   /* v8 ignore next */
   flagImagePath = computed(() => `${this.assetsPath()}/us_flag_small.png`);
   /* v8 ignore next */

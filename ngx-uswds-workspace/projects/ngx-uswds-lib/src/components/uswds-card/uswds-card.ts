@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { CardType, MediaCardFormat } from './card.types';
+import { MediaCardFormat } from './card.types';
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
 
 @Component({
@@ -9,6 +9,5 @@ import { CommonModule, NgTemplateOutlet } from '@angular/common';
   styleUrl: './uswds-card.scss',
 })
 export class UswdsCard {
-  cardType = input<CardType>('NonMedia');
   mediaCardType = input<MediaCardFormat>('None');
 }

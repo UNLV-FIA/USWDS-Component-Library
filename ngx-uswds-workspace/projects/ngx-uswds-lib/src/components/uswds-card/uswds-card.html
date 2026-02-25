@@ -1,13 +1,27 @@
 <ng-container>
-  <div class="usa-card__container">
+  <div class="usa-card">
     @switch (mediaCardType()) {
       @case ('MediaWHeader') {
         <ng-container>
-          <div class="usa-card__header">
-            <h4 class="usa-card__heading">{{ headerText() }}</h4>
-          </div>
-          <div>
-            <img [src]="mediaItem()" alt="{{ mediaText() }}" />
+          <div class="usa-card--header-first">
+            <div class="usa-card__container">
+              <div class="usa-card__header">
+                <h4 class="usa-card__heading">
+                  <ng-content select="[card-header]"></ng-content>
+                </h4>
+              </div>
+              <div class="usa-card__media usa-card__media--exdent">
+                <div class="usa-card__img">
+                  <ng-content select="[card-media]"></ng-content>
+                </div>
+              </div>
+              <div class="usa-card__body">
+                <ng-content select="[card-body]"></ng-content>
+              </div>
+              <div class="usa-card__footer">
+                <ng-content select="[card-button]"></ng-content>
+              </div>
+            </div>
           </div>
         </ng-container>
       }

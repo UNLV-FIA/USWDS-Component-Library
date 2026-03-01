@@ -1,0 +1,15 @@
+<nav [ngClass]="containerClasses" aria-label="Breadcrumbs">
+  <!-- Default / Wrap variant -->
+  <ng-container *ngIf="variant === 'default' || variant === 'wrap'">
+    <ol class="usa-breadcrumb__list">
+      <li *ngFor="let item of leadingItems" class="usa-breadcrumb__list-item">
+        <a [href]="item.href || ''" class="usa-breadcrumb__link">
+          <span>{{ item.label }}</span>
+        </a>
+      </li>
+      <li *ngIf="currentItem" class="usa-breadcrumb__list-item usa-current" aria-current="page">
+        <span>{{ currentItem.label }}</span>
+      </li>
+    </ol>
+  </ng-container>
+</nav>

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 export interface BreadcrumbItem {
   label: string;
@@ -11,7 +11,7 @@ export type BreadcrumbVariant = 'default' | 'wrap';
 @Component({
   selector: 'uswds-breadcrumb',
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgClass],
   templateUrl: './uswds-breadcrumb.html',
   styleUrls: ['./uswds-breadcrumb.scss'],
 })

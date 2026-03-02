@@ -18,6 +18,7 @@ export type BreadcrumbVariant = 'default' | 'wrap';
 export class NgxUswdsComponentBreadcrumbLib {
   @Input() items: BreadcrumbItem[] = [];
   @Input() variant: BreadcrumbVariant = 'default';
+  @Input() rdfa: boolean = false;
 
   get containerClasses(): string[] {
     const classes = ['usa-breadcrumb'];

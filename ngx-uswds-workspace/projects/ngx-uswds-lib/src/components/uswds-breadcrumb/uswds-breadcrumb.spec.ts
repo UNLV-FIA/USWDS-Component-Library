@@ -33,6 +33,10 @@ describe('NgxUswdsComponentBreadcrumbLib', () => {
       expect(component.variant).toBe('default');
     });
 
+    it('should have rdfa false by default', () => {
+      expect(component.rdfa).toBe(false);
+    });
+
     it('should have empty items by default', () => {
       expect(component.items).toEqual([]);
     });
@@ -151,6 +155,60 @@ describe('NgxUswdsComponentBreadcrumbLib', () => {
     it('should apply usa-breadcrumb--wrap class', () => {
       const nav = el.querySelector('nav');
       expect(nav?.classList.contains('usa-breadcrumb--wrap')).toBe(true);
+    });
+  });
+
+  // DOM: RDFa variant
+  describe('DOM rendering (rdfa)', () => {
+    beforeEach(() => {
+      component.items = SAMPLE_ITEMS;
+      component.rdfa = true;
+      fixture.detectChanges();
+    });
+
+    it('should render ol with vocab and typeof attributes', () => {
+      const ol = el.querySelector('ol');
+      expect(ol?.getAttribute('vocab')).toBe('http://schema.org/');
+      expect(ol?.getAttribute('typeof')).toBe('BreadcrumbList');
+    });
+
+    it('should render meta[property="position"] for each item', () => {
+      const metas = el.querySelectorAll('meta[property="position"]');
+      expect(metas.length).toBe(4);
+    });
+
+    it('should have correct position content values', () => {
+      const metas = el.querySelectorAll('meta[property="position"]');
+      metas.forEach((meta, i) => {
+        expect(meta.getAttribute('content')).toBe(String(i + 1));
+      });
+    });
+
+    it('leading items should have property="item" on anchor', () => {
+      const links = el.querySelectorAll('a[property="item"]');
+      expect(links.length).toBe(3);
+    });
+
+    it('current item should have property="name" on span', () => {
+      const current = el.querySelector('li.usa-current span[property="name"]');
+      expect(current).toBeTruthy();
+    });
+  });
+
+  // Edge cases
+  describe('edge cases', () => {
+    it('should render nothing when items is empty', () => {
+      component.items = [];
+      fixture.detectChanges();
+      const listItems = el.querySelectorAll('li');
+      expect(listItems.length).toBe(0);
+    });
+
+    it('should handle a single item (only current, no links)', () => {
+      component.items = [{ label: 'Home' }];
+      fixture.detectChanges();
+      expect(el.querySelectorAll('a').length).toBe(0);
+      expect(el.querySelector('li.usa-current')).toBeTruthy();
     });
   });
 });

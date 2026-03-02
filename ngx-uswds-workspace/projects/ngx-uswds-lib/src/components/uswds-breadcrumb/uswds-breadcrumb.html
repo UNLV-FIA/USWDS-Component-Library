@@ -1,6 +1,6 @@
 <nav [ngClass]="containerClasses" aria-label="Breadcrumbs">
   <!-- Default / Wrap variant -->
-  <ng-container *ngIf="variant === 'default' || variant === 'wrap'">
+  <ng-container *ngIf="!rdfa">
     <ol class="usa-breadcrumb__list">
       <li *ngFor="let item of leadingItems" class="usa-breadcrumb__list-item">
         <a [href]="item.href || ''" class="usa-breadcrumb__link">
@@ -9,6 +9,38 @@
       </li>
       <li *ngIf="currentItem" class="usa-breadcrumb__list-item usa-current" aria-current="page">
         <span>{{ currentItem.label }}</span>
+      </li>
+    </ol>
+  </ng-container>
+
+  <!-- RDFa variant -->
+  <ng-container *ngIf="rdfa">
+    <ol vocab="http://schema.org/" typeof="BreadcrumbList" class="usa-breadcrumb__list">
+      <li
+        *ngFor="let item of leadingItems; let i = index"
+        property="itemListElement"
+        typeof="ListItem"
+        class="usa-breadcrumb__list-item"
+      >
+        <a
+          property="item"
+          typeof="WebPage"
+          [href]="item.href || 'javascript:void(0);'"
+          class="usa-breadcrumb__link"
+        >
+          <span property="name">{{ item.label }}</span>
+        </a>
+        <meta property="position" [attr.content]="i + 1" />
+      </li>
+      <li
+        *ngIf="currentItem"
+        property="itemListElement"
+        typeof="ListItem"
+        class="usa-breadcrumb__list-item usa-current"
+        aria-current="page"
+      >
+        <span property="name">{{ currentItem.label }}</span>
+        <meta property="position" [attr.content]="items.length" />
       </li>
     </ol>
   </ng-container>

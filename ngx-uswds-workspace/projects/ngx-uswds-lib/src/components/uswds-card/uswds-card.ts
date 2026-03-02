@@ -10,4 +10,5 @@ import { CommonModule, NgTemplateOutlet } from '@angular/common';
 })
 export class UswdsCard {
   mediaCardType = input<MediaCardFormat>('None');
+  asAList = input<boolean>(false);
 }

@@ -1,0 +1,40 @@
+<ng-template #btn>
+  <button
+    type="button"
+    class="usa-accordion__button"
+    [id]="buttonId()"
+    [attr.aria-expanded]="expanded() ? 'true' : 'false'"
+    [attr.aria-controls]="contentId()"
+    (click)="toggle()"
+  >
+    {{ heading() }}
+  </button>
+</ng-template>
+
+@switch (resolvedHeadingLevel()) {
+  @case (2) {
+    <h2 class="usa-accordion__heading"><ng-container *ngTemplateOutlet="btn" /></h2>
+  }
+  @case (3) {
+    <h3 class="usa-accordion__heading"><ng-container *ngTemplateOutlet="btn" /></h3>
+  }
+  @case (5) {
+    <h5 class="usa-accordion__heading"><ng-container *ngTemplateOutlet="btn" /></h5>
+  }
+  @case (6) {
+    <h6 class="usa-accordion__heading"><ng-container *ngTemplateOutlet="btn" /></h6>
+  }
+  @default {
+    <h4 class="usa-accordion__heading"><ng-container *ngTemplateOutlet="btn" /></h4>
+  }
+}
+
+<div
+  [id]="contentId()"
+  class="usa-accordion__content usa-prose"
+  role="region"
+  [attr.aria-labelledby]="buttonId()"
+  [hidden]="!expanded()"
+>
+  <ng-content></ng-content>
+</div>

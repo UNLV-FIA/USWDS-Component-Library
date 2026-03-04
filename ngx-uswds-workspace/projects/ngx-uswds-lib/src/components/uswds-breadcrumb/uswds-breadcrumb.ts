@@ -15,7 +15,7 @@ export type BreadcrumbVariant = 'default' | 'wrap';
   templateUrl: './uswds-breadcrumb.html',
   styleUrls: ['./uswds-breadcrumb.scss'],
 })
-export class NgxUswdsComponentBreadcrumbLib {
+export class UswdsBreadcrumb {
   @Input() items: BreadcrumbItem[] = [];
   @Input() variant: BreadcrumbVariant = 'default';
   @Input() rdfa: boolean = false;

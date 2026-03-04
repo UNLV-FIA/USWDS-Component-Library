@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgxUswdsComponentBreadcrumbLib, BreadcrumbItem } from './uswds-breadcrumb';
+import { UswdsBreadcrumb, BreadcrumbItem } from './uswds-breadcrumb';
 
 const SAMPLE_ITEMS: BreadcrumbItem[] = [
   { label: 'Home', href: '/' },
@@ -8,17 +8,17 @@ const SAMPLE_ITEMS: BreadcrumbItem[] = [
   { label: 'Economically disadvantaged women-owned small business federal contracting program' },
 ];
 
-describe('NgxUswdsComponentBreadcrumbLib', () => {
-  let component: NgxUswdsComponentBreadcrumbLib;
-  let fixture: ComponentFixture<NgxUswdsComponentBreadcrumbLib>;
+describe('UswdsBreadcrumb', () => {
+  let component: UswdsBreadcrumb;
+  let fixture: ComponentFixture<UswdsBreadcrumb>;
   let el: HTMLElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxUswdsComponentBreadcrumbLib],
+      imports: [UswdsBreadcrumb],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(NgxUswdsComponentBreadcrumbLib);
+    fixture = TestBed.createComponent(UswdsBreadcrumb);
     component = fixture.componentInstance;
     el = fixture.nativeElement;
   });

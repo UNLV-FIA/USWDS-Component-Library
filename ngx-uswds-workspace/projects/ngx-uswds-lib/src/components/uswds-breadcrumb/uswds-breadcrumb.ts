@@ -9,6 +9,42 @@ export interface BreadcrumbItem {
 
 export type BreadcrumbVariant = 'default' | 'wrap';
 
+/**
+ * @class UswdsBreadcrumb
+ * @description
+ * An Angular standalone component that renders a U.S. Web Design System (USWDS) breadcrumb.
+ * Breadcrumbs provide secondary navigation that helps users understand where they are
+ * in a website's hierarchy and navigate back to parent pages.
+ *
+ * The last item in the `items` array is always treated as the current page and is
+ * rendered as non-linked text with `aria-current="page"`. All preceding items are
+ * rendered as links.
+ *
+ * Supports an optional RDFa variant that adds `schema.org/BreadcrumbList` structured
+ * data attributes for improved SEO and linked-data compatibility.
+ *
+ * @selector uswds-breadcrumb
+ *
+ * @example
+ * <uswds-breadcrumb
+ *   [items]="[{ label: 'Home', href: '/' }, { label: 'Section', href: '/section' }, { label: 'Current page' }]"
+ * ></uswds-breadcrumb>
+ *
+ * @example
+ * <!-- Wrapping variant with RDFa structured data -->
+ * <uswds-breadcrumb [items]="breadcrumbs" variant="wrap" [rdfa]="true"></uswds-breadcrumb>
+ *
+ * @input {BreadcrumbItem[]} [items=[]] - The ordered list of breadcrumb items to display.
+ *   Each item requires a `label` and accepts an optional `href`. The last item is
+ *   rendered as the current page (non-linked).
+ *
+ * @input {BreadcrumbVariant} [variant='default'] - The layout variant for the breadcrumb list.
+ *   Accepts 'default' for single-line display (may truncate on small screens) or
+ *   'wrap' to allow items to wrap onto multiple lines.
+ *
+ * @input {boolean} [rdfa=false] - When true, renders the breadcrumb with RDFa structured
+ *   data attributes (`schema.org/BreadcrumbList`).
+ */
 @Component({
   selector: 'uswds-breadcrumb',
   standalone: true,

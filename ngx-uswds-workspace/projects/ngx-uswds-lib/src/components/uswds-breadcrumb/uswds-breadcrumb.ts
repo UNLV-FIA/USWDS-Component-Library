@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { NgClass } from '@angular/common';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 export interface BreadcrumbItem {
   label: string;
@@ -16,9 +17,15 @@ export type BreadcrumbVariant = 'default' | 'wrap';
   styleUrls: ['./uswds-breadcrumb.scss'],
 })
 export class UswdsBreadcrumb {
+  private sanitizer = inject(DomSanitizer);
+
   @Input() items: BreadcrumbItem[] = [];
   @Input() variant: BreadcrumbVariant = 'default';
   @Input() rdfa: boolean = false;
+
+  safeHref(href: string | undefined): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(href ?? 'javascript:void(0);');
+  }
 
   get containerClasses(): string[] {
     const classes = ['usa-breadcrumb'];

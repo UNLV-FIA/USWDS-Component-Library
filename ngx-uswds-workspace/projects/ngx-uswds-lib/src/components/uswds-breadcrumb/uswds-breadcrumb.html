@@ -25,7 +25,7 @@
           <a
             property="item"
             typeof="WebPage"
-            [href]="item.href || 'javascript:void(0);'"
+            [href]="safeHref(item.href)"
             class="usa-breadcrumb__link"
           >
             <span property="name">{{ item.label }}</span>

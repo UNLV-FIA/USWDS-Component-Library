@@ -210,5 +210,29 @@ describe('UswdsBreadcrumb', () => {
       expect(el.querySelectorAll('a').length).toBe(0);
       expect(el.querySelector('li.usa-current')).toBeTruthy();
     });
+
+    // Branch resolutions
+    it('should use empty string href when item has no href in default variant', () => {
+      component.items = [{ label: 'No Href' }, { label: 'Current' }];
+      fixture.detectChanges();
+      const link = el.querySelector('a.usa-breadcrumb__link');
+      expect(link?.getAttribute('href')).toBe('');
+    });
+
+    it('should use javascript:void(0) href when item has no href in rdfa variant', () => {
+      component.items = [{ label: 'No Href' }, { label: 'Current' }];
+      component.rdfa = true;
+      fixture.detectChanges();
+      const link = el.querySelector('a[property="item"]');
+      expect(link?.getAttribute('href')).toBe('javascript:void(0);');
+    });
+
+    it('should render only leading items and no current item in rdfa when items is empty', () => {
+      component.items = [];
+      component.rdfa = true;
+      fixture.detectChanges();
+      expect(el.querySelector('li.usa-current')).toBeFalsy();
+      expect(el.querySelectorAll('meta[property="position"]').length).toBe(0);
+    });
   });
 });

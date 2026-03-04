@@ -13,3 +13,4 @@ export * from './components/uswds-banner/uswds-banner';
 
 export * from './components/uswds-card/uswds-card';
 
+export * from './components/uswds-card-group/uswds-card-group'

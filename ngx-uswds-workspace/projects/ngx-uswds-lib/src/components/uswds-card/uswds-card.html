@@ -1,10 +1,8 @@
 @if (!asAList()) {
-  <div class="usa-card">
-    <ng-content *ngTemplateOutlet="cardCreator"></ng-content>
-  </div>
+  <ng-container *ngTemplateOutlet="cardCreator"></ng-container>
 } @else {
-  <li class="usa-card tablet-lg:grid-col-6 widescreen:grid-col-4">
-    <ng-content *ngTemplateOutlet="cardCreator"></ng-content>
+  <li class="usa-card" [ngClass]="gridFormat()">
+    <ng-container *ngTemplateOutlet="cardCreator"></ng-container>
   </li>
 }
 

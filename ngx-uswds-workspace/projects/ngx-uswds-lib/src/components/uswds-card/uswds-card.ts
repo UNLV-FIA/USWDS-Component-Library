@@ -16,10 +16,10 @@ export class UswdsCard {
   constructor(@Optional() @Host() private cardGroup: UswdsCardGroup | null) {}
   mediaCardType = input<MediaCardFormat>('None');
   gridFormat = input<GridFormats>(['tablet-lg:grid-col-6', 'widescreen:grid-col-4']);
-  asAList = computed(() => {
-    return !!this.cardGroup;
-  });
-  hostClasses = computed(() => {
+
+  hostClasses = computed(() => this.buildHostClass());
+
+  buildHostClass = () => {
     const classes: string[] = ['usa-card'];
 
     switch (this.mediaCardType()) {
@@ -38,5 +38,5 @@ export class UswdsCard {
       classes.push(gridClass);
     }
     return classes.join(' ');
-  });
+  };
 }

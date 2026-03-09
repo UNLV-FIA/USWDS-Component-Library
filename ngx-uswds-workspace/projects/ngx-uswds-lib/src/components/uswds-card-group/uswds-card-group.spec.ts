@@ -19,4 +19,9 @@ describe('UswdsCardGroup', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should have a class of usa-card-group', () => {
+    const el: HTMLElement = fixture.nativeElement;
+    expect(el.classList.contains('usa-card-group'));
+  });
 });

@@ -1,4 +1,6 @@
-<ng-container *ngTemplateOutlet="cardCreator"></ng-container>
+<div>
+  <ng-container *ngTemplateOutlet="cardCreator"></ng-container>
+</div>
 
 <ng-template #headerTemplate>
   <div class="usa-card__header">
@@ -31,7 +33,9 @@
         <div class="usa-card__media usa-card__media--exdent">
           <ng-container *ngTemplateOutlet="mediaTemplate"></ng-container>
         </div>
-        <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
+        <div>
+          <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
+        </div>
         <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
       </div>
     }
@@ -41,7 +45,9 @@
         <div class="usa-card__media usa-card__media--inset">
           <ng-container *ngTemplateOutlet="mediaTemplate"></ng-container>
         </div>
-        <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
+        <div>
+          <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
+        </div>
         <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
       </div>
     }
@@ -51,7 +57,10 @@
         <div class="usa-card__media usa-card__media--exdent">
           <ng-container *ngTemplateOutlet="mediaTemplate"></ng-container>
         </div>
-        <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
+        <div>
+          <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
+        </div>
+
         <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
       </div>
     }
@@ -61,7 +70,10 @@
         <div class="usa-card__media">
           <ng-container *ngTemplateOutlet="mediaTemplate"></ng-container>
         </div>
-        <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
+        <div>
+          <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
+        </div>
+
         <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
       </div>
     }
@@ -71,7 +83,9 @@
         <div class="usa-card__media usa-card__media--inset">
           <ng-container *ngTemplateOutlet="mediaTemplate"></ng-container>
         </div>
-        <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
+        <div>
+          <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
+        </div>
         <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
       </div>
     }
@@ -81,7 +95,9 @@
         <div class="usa-card__media">
           <ng-container *ngTemplateOutlet="mediaTemplate"></ng-container>
         </div>
-        <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
+        <div>
+          <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
+        </div>
         <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
       </div>
     }

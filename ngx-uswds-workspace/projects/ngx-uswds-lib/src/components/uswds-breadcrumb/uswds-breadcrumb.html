@@ -11,7 +11,7 @@
       }
       @if (currentItem()) {
         <li class="usa-breadcrumb__list-item usa-current" aria-current="page">
-          <span>{{ currentItem()!.label }}</span>
+          <span class="ngx-breadcrumb-current-label" tabindex="0">{{ currentItem()!.label }}</span>
         </li>
       }
     </ol>
@@ -40,7 +40,9 @@
           class="usa-breadcrumb__list-item usa-current"
           aria-current="page"
         >
-          <span property="name">{{ currentItem()!.label }}</span>
+          <span property="name" class="ngx-breadcrumb-current-label" tabindex="0">{{
+            currentItem()!.label
+          }}</span>
           <meta property="position" [attr.content]="items().length" />
         </li>
       }

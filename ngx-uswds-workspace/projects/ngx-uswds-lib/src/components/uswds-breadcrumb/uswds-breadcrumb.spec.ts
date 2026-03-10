@@ -114,6 +114,11 @@ describe('UswdsBreadcrumb', () => {
       expect(current?.querySelector('a')).toBeFalsy();
     });
 
+    it('current item span should be focusable', () => {
+      const span = el.querySelector('li.usa-current .ngx-breadcrumb-current-label');
+      expect(span?.getAttribute('tabindex')).toBe('0');
+    });
+
     it('should not include meta[property="position"] in default mode', () => {
       expect(el.querySelectorAll('meta[property="position"]').length).toBe(0);
     });
@@ -192,6 +197,11 @@ describe('UswdsBreadcrumb', () => {
     it('current item should have property="name" on span', () => {
       const current = el.querySelector('li.usa-current span[property="name"]');
       expect(current).toBeTruthy();
+    });
+
+    it('current item span should be focusable in rdfa variant', () => {
+      const span = el.querySelector('li.usa-current .ngx-breadcrumb-current-label');
+      expect(span?.getAttribute('tabindex')).toBe('0');
     });
   });
 

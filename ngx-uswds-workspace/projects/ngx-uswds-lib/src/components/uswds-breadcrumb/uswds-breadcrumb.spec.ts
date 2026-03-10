@@ -30,63 +30,63 @@ describe('UswdsBreadcrumb', () => {
     });
 
     it('should have default variant of "default"', () => {
-      expect(component.variant).toBe('default');
+      expect(component.variant()).toBe('default');
     });
 
     it('should have rdfa false by default', () => {
-      expect(component.rdfa).toBe(false);
+      expect(component.rdfa()).toBe(false);
     });
 
     it('should have empty items by default', () => {
-      expect(component.items).toEqual([]);
+      expect(component.items()).toEqual([]);
     });
   });
 
   // containerClasses
   describe('containerClasses', () => {
     it('should include usa-breadcrumb for default variant', () => {
-      component.variant = 'default';
-      expect(component.containerClasses).toContain('usa-breadcrumb');
-      expect(component.containerClasses).not.toContain('usa-breadcrumb--wrap');
+      fixture.componentRef.setInput('variant', 'default');
+      expect(component.containerClasses()).toContain('usa-breadcrumb');
+      expect(component.containerClasses()).not.toContain('usa-breadcrumb--wrap');
     });
 
     it('should include usa-breadcrumb--wrap for wrap variant', () => {
-      component.variant = 'wrap';
-      expect(component.containerClasses).toContain('usa-breadcrumb');
-      expect(component.containerClasses).toContain('usa-breadcrumb--wrap');
+      fixture.componentRef.setInput('variant', 'wrap');
+      expect(component.containerClasses()).toContain('usa-breadcrumb');
+      expect(component.containerClasses()).toContain('usa-breadcrumb--wrap');
     });
   });
 
   // leadingItems/currentItem
   describe('leadingItems and currentItem', () => {
     it('should return all but last item as leadingItems', () => {
-      component.items = SAMPLE_ITEMS;
-      expect(component.leadingItems.length).toBe(3);
-      expect(component.leadingItems[0].label).toBe('Home');
+      fixture.componentRef.setInput('items', SAMPLE_ITEMS);
+      expect(component.leadingItems().length).toBe(3);
+      expect(component.leadingItems()[0].label).toBe('Home');
     });
 
     it('should return the last item as currentItem', () => {
-      component.items = SAMPLE_ITEMS;
-      expect(component.currentItem?.label).toBe(
+      fixture.componentRef.setInput('items', SAMPLE_ITEMS);
+      expect(component.currentItem()?.label).toBe(
         'Economically disadvantaged women-owned small business federal contracting program',
       );
     });
 
     it('should return null for currentItem when items is empty', () => {
-      component.items = [];
-      expect(component.currentItem).toBeNull();
+      fixture.componentRef.setInput('items', []);
+      expect(component.currentItem()).toBeNull();
     });
 
     it('should return empty array for leadingItems when items has one entry', () => {
-      component.items = [{ label: 'Home', href: '/' }];
-      expect(component.leadingItems.length).toBe(0);
+      fixture.componentRef.setInput('items', [{ label: 'Home', href: '/' }]);
+      expect(component.leadingItems().length).toBe(0);
     });
   });
 
   // DOM: Default variant
   describe('DOM rendering (default)', () => {
     beforeEach(() => {
-      component.items = SAMPLE_ITEMS;
+      fixture.componentRef.setInput('items', SAMPLE_ITEMS);
       fixture.detectChanges();
     });
 
@@ -122,7 +122,7 @@ describe('UswdsBreadcrumb', () => {
   // Accessibility: Default
   describe('accessibility (default)', () => {
     beforeEach(() => {
-      component.items = SAMPLE_ITEMS;
+      fixture.componentRef.setInput('items', SAMPLE_ITEMS);
       fixture.detectChanges();
     });
 
@@ -147,8 +147,8 @@ describe('UswdsBreadcrumb', () => {
   // DOM: Wrap variant
   describe('DOM rendering (wrap variant)', () => {
     beforeEach(() => {
-      component.items = SAMPLE_ITEMS;
-      component.variant = 'wrap';
+      fixture.componentRef.setInput('items', SAMPLE_ITEMS);
+      fixture.componentRef.setInput('variant', 'wrap');
       fixture.detectChanges();
     });
 
@@ -161,8 +161,8 @@ describe('UswdsBreadcrumb', () => {
   // DOM: RDFa variant
   describe('DOM rendering (rdfa)', () => {
     beforeEach(() => {
-      component.items = SAMPLE_ITEMS;
-      component.rdfa = true;
+      fixture.componentRef.setInput('items', SAMPLE_ITEMS);
+      fixture.componentRef.setInput('rdfa', true);
       fixture.detectChanges();
     });
 
@@ -198,14 +198,14 @@ describe('UswdsBreadcrumb', () => {
   // Edge cases
   describe('edge cases', () => {
     it('should render nothing when items is empty', () => {
-      component.items = [];
+      fixture.componentRef.setInput('items', []);
       fixture.detectChanges();
       const listItems = el.querySelectorAll('li');
       expect(listItems.length).toBe(0);
     });
 
     it('should handle a single item (only current, no links)', () => {
-      component.items = [{ label: 'Home' }];
+      fixture.componentRef.setInput('items', [{ label: 'Home' }]);
       fixture.detectChanges();
       expect(el.querySelectorAll('a').length).toBe(0);
       expect(el.querySelector('li.usa-current')).toBeTruthy();
@@ -213,23 +213,23 @@ describe('UswdsBreadcrumb', () => {
 
     // Branch resolutions
     it('should use empty string href when item has no href in default variant', () => {
-      component.items = [{ label: 'No Href' }, { label: 'Current' }];
+      fixture.componentRef.setInput('items', [{ label: 'No Href' }, { label: 'Current' }]);
       fixture.detectChanges();
       const link = el.querySelector('a.usa-breadcrumb__link');
       expect(link?.getAttribute('href')).toBe('');
     });
 
     it('should use javascript:void(0) href when item has no href in rdfa variant', () => {
-      component.items = [{ label: 'No Href' }, { label: 'Current' }];
-      component.rdfa = true;
+      fixture.componentRef.setInput('items', [{ label: 'No Href' }, { label: 'Current' }]);
+      fixture.componentRef.setInput('rdfa', true);
       fixture.detectChanges();
       const link = el.querySelector('a[property="item"]');
       expect(link?.getAttribute('href')).toBe('javascript:void(0);');
     });
 
     it('should render only leading items and no current item in rdfa when items is empty', () => {
-      component.items = [];
-      component.rdfa = true;
+      fixture.componentRef.setInput('items', []);
+      fixture.componentRef.setInput('rdfa', true);
       fixture.detectChanges();
       expect(el.querySelector('li.usa-current')).toBeFalsy();
       expect(el.querySelectorAll('meta[property="position"]').length).toBe(0);

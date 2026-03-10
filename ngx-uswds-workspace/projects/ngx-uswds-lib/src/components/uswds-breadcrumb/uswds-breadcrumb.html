@@ -1,26 +1,26 @@
-<nav [ngClass]="containerClasses" aria-label="Breadcrumbs">
+<nav [ngClass]="containerClasses()" aria-label="Breadcrumbs">
   <!-- Default / Wrap variant -->
-  @if (!rdfa) {
+  @if (!rdfa()) {
     <ol class="usa-breadcrumb__list">
-      @for (item of leadingItems; track item.label) {
+      @for (item of leadingItems(); track item.label) {
         <li class="usa-breadcrumb__list-item">
           <a [href]="item.href || ''" class="usa-breadcrumb__link">
             <span>{{ item.label }}</span>
           </a>
         </li>
       }
-      @if (currentItem) {
+      @if (currentItem()) {
         <li class="usa-breadcrumb__list-item usa-current" aria-current="page">
-          <span>{{ currentItem.label }}</span>
+          <span>{{ currentItem()!.label }}</span>
         </li>
       }
     </ol>
   }
 
   <!-- RDFa variant -->
-  @if (rdfa) {
+  @if (rdfa()) {
     <ol vocab="http://schema.org/" typeof="BreadcrumbList" class="usa-breadcrumb__list">
-      @for (item of leadingItems; track item.label) {
+      @for (item of leadingItems(); track item.label) {
         <li property="itemListElement" typeof="ListItem" class="usa-breadcrumb__list-item">
           <a
             property="item"
@@ -33,15 +33,15 @@
           <meta property="position" [attr.content]="$index + 1" />
         </li>
       }
-      @if (currentItem) {
+      @if (currentItem()) {
         <li
           property="itemListElement"
           typeof="ListItem"
           class="usa-breadcrumb__list-item usa-current"
           aria-current="page"
         >
-          <span property="name">{{ currentItem.label }}</span>
-          <meta property="position" [attr.content]="items.length" />
+          <span property="name">{{ currentItem()!.label }}</span>
+          <meta property="position" [attr.content]="items().length" />
         </li>
       }
     </ol>

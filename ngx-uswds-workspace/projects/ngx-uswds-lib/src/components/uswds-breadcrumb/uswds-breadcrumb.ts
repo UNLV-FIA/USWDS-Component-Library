@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
@@ -46,7 +46,7 @@ export type BreadcrumbVariant = 'default' | 'wrap';
  *   data attributes (`schema.org/BreadcrumbList`).
  */
 @Component({
-  selector: 'uswds-breadcrumb',
+  selector: 'ngx-uswds-breadcrumb',
   standalone: true,
   imports: [NgClass],
   templateUrl: './uswds-breadcrumb.html',
@@ -55,27 +55,28 @@ export type BreadcrumbVariant = 'default' | 'wrap';
 export class UswdsBreadcrumb {
   private sanitizer = inject(DomSanitizer);
 
-  @Input() items: BreadcrumbItem[] = [];
-  @Input() variant: BreadcrumbVariant = 'default';
-  @Input() rdfa: boolean = false;
+  // v8 ignore next
+  items = input<BreadcrumbItem[]>([]);
+  // v8 ignore next
+  variant = input<BreadcrumbVariant>('default');
+  // v8 ignore next
+  rdfa = input<boolean>(false);
 
   safeHref(href: string | undefined): SafeUrl {
     return this.sanitizer.bypassSecurityTrustUrl(href ?? 'javascript:void(0);');
   }
 
-  get containerClasses(): string[] {
+  containerClasses = computed(() => {
     const classes = ['usa-breadcrumb'];
-    if (this.variant === 'wrap') {
+    if (this.variant() === 'wrap') {
       classes.push('usa-breadcrumb--wrap');
     }
     return classes;
-  }
+  });
 
-  get leadingItems(): BreadcrumbItem[] {
-    return this.items.slice(0, -1);
-  }
+  leadingItems = computed(() => this.items().slice(0, -1));
 
-  get currentItem(): BreadcrumbItem | null {
-    return this.items.length > 0 ? this.items[this.items.length - 1] : null;
-  }
+  currentItem = computed(() =>
+    this.items().length > 0 ? this.items()[this.items().length - 1] : null,
+  );
 }

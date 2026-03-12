@@ -66,17 +66,21 @@ export class UswdsBreadcrumb {
     return this.sanitizer.bypassSecurityTrustUrl(href ?? 'javascript:void(0);');
   }
 
-  containerClasses = computed(() => {
+  // v8 ignore next
+  containerClasses = computed(() => this.containerClassesFn());
+  containerClassesFn = () => {
     const classes = ['usa-breadcrumb'];
     if (this.variant() === 'wrap') {
       classes.push('usa-breadcrumb--wrap');
     }
     return classes;
-  });
+  };
 
-  leadingItems = computed(() => this.items().slice(0, -1));
+  // v8 ignore next
+  leadingItems = computed(() => this.leadingItemsFn());
+  leadingItemsFn = () => this.items().slice(0, -1);
 
-  currentItem = computed(() =>
-    this.items().length > 0 ? this.items()[this.items().length - 1] : null,
-  );
+  // v8 ignore next
+  currentItem = computed(() => this.currentItemFn());
+  currentItemFn = () => (this.items().length > 0 ? this.items()[this.items().length - 1] : null);
 }

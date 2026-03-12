@@ -23,16 +23,16 @@ export type BreadcrumbVariant = 'default' | 'wrap';
  * Supports an optional RDFa variant that adds `schema.org/BreadcrumbList` structured
  * data attributes for improved SEO and linked-data compatibility.
  *
- * @selector uswds-breadcrumb
+ * @selector ngx-uswds-breadcrumb
  *
  * @example
- * <uswds-breadcrumb
+ * <ngx-uswds-breadcrumb
  *   [items]="[{ label: 'Home', href: '/' }, { label: 'Section', href: '/section' }, { label: 'Current page' }]"
- * ></uswds-breadcrumb>
+ * ></ngx-uswds-breadcrumb>
  *
  * @example
  * <!-- Wrapping variant with RDFa structured data -->
- * <uswds-breadcrumb [items]="breadcrumbs" variant="wrap" [rdfa]="true"></uswds-breadcrumb>
+ * <ngx-uswds-breadcrumb [items]="breadcrumbs" variant="wrap" [rdfa]="true"></ngx-uswds-breadcrumb>
  *
  * @input {BreadcrumbItem[]} [items=[]] - The ordered list of breadcrumb items to display.
  *   Each item requires a `label` and accepts an optional `href`. The last item is

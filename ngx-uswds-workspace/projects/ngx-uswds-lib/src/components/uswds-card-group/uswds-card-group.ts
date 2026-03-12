@@ -6,10 +6,8 @@ import { Component } from '@angular/core';
  * An angular component that renders a group of cards, ensuring consistent sizing. Use this when trying to create a group of cards
  * @selector  ngx-uswds-card-group
  * @example
- *  <div class="margin-left-2vw margin-top-2vh">
-
-    <ngx-uswds-card-group>
-      <li ngx-uswds-card mediaCardType="None" [gridFormat]="['tablet:grid-col-6']">
+  <ngx-uswds-card-group>
+      <li ngx-uswds-card mediaCardType="None" [gridFormat]="['tablet:grid-col-12', 'mobile-lg:grid-col-6']">
         <span card-header>Card</span>
         <span card-body>
           <p>
@@ -24,7 +22,7 @@ import { Component } from '@angular/core';
         </span>
       </li>
 
-      <li ngx-uswds-card mediaCardType="None" [gridFormat]="['tablet:grid-col-2']">
+      <li ngx-uswds-card mediaCardType="None" [gridFormat]="['tablet:grid-col-6', 'mobile-lg:grid-col-3']">
         <span card-header>Card With Media None</span>
         <span card-media>
           <img src="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg"

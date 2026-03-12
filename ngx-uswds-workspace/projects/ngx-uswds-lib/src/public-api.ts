@@ -18,3 +18,7 @@ export * from './components/uswds-card-group/uswds-card-group'
 export * from './components/uswds-accordion/uswds-accordion';
 export * from './components/uswds-accordion-item/uswds-accordion-item';
 export type { AccordionVariant } from './components/uswds-accordion/accordion-types';
+
+// Breadcrumb Component
+export * from './components/uswds-breadcrumb/uswds-breadcrumb';
+export type { BreadcrumbVariant } from './components/uswds-breadcrumb/uswds-breadcrumb';

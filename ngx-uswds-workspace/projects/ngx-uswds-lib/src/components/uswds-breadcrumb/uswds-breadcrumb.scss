@@ -1,0 +1,21 @@
+:host {
+  display: block;
+}
+
+// Expand truncated current-page text when the item receives focus or hover.
+.usa-breadcrumb:not(.usa-breadcrumb--wrap)
+  .usa-breadcrumb__list:has(.usa-current:is(:focus-within, :hover)) {
+  overflow: visible;
+  white-space: normal;
+}
+
+// Focusable current-page label
+.ngx-breadcrumb-current-label {
+  border-radius: 2px;
+  cursor: default;
+
+  &:focus-visible {
+    outline: 0.25rem solid #2491ff;
+    outline-offset: 2px;
+  }
+}

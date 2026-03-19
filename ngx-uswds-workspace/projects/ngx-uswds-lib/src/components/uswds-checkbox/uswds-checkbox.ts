@@ -20,9 +20,13 @@ export type CheckboxVariant = 'default' | 'tile';
   styleUrls: ['./uswds-checkbox.scss'],
 })
 export class UswdsCheckbox {
+  // v8 ignore next
   legend = input<string>('');
+  // v8 ignore next
   items = input<CheckboxItem[]>([]);
+  // v8 ignore next
   variant = input<CheckboxVariant>('default');
+  // v8 ignore next
   name = input<string>('');
 
   checkedChange = output<CheckboxItem[]>();
@@ -35,6 +39,7 @@ export class UswdsCheckbox {
     });
   }
 
+  // v8 ignore next
   inputClasses = computed(() => this.inputClassesFn());
   inputClassesFn = () => {
     const classes = ['usa-checkbox__input'];

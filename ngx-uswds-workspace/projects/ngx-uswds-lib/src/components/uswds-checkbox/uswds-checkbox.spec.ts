@@ -13,6 +13,17 @@ const SAMPLE_ITEMS: CheckboxItem[] = [
   },
 ];
 
+const TILE_ITEMS: CheckboxItem[] = [
+  {
+    id: 'tile-truth',
+    label: 'Sojourner Truth',
+    value: 'sojourner-truth',
+    checked: true,
+    description: 'This is optional text that can describe the label in more detail.',
+  },
+  { id: 'tile-douglass', label: 'Frederick Douglass', value: 'frederick-douglass' },
+];
+
 describe('UswdsCheckbox', () => {
   let component: UswdsCheckbox;
   let fixture: ComponentFixture<UswdsCheckbox>;
@@ -130,6 +141,36 @@ describe('UswdsCheckbox', () => {
     });
   });
 
+  // DOM rendering (tile variant)
+  describe('DOM rendering (tile)', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('items', TILE_ITEMS);
+      fixture.componentRef.setInput('variant', 'tile');
+      fixture.componentRef.setInput('legend', 'Select any historical figure');
+      fixture.componentRef.setInput('name', 'historical-figures-tile');
+      fixture.detectChanges();
+    });
+
+    it('should apply usa-checkbox__input--tile class to all inputs', () => {
+      const tileInputs = el.querySelectorAll('input.usa-checkbox__input--tile');
+      expect(tileInputs.length).toBe(2);
+    });
+
+    it('should render description span when item has a description', () => {
+      const description = el.querySelector('span.usa-checkbox__label-description');
+      expect(description).toBeTruthy();
+      expect(description?.textContent?.trim()).toBe(
+        'This is optional text that can describe the label in more detail.',
+      );
+    });
+
+    it('should not render description span when item has no description', () => {
+      const labels = el.querySelectorAll('label.usa-checkbox__label');
+      const secondLabel = labels[1];
+      expect(secondLabel.querySelector('span.usa-checkbox__label-description')).toBeFalsy();
+    });
+  });
+
   // Accessibility
   describe('accessibility', () => {
     beforeEach(() => {
@@ -205,6 +246,45 @@ describe('UswdsCheckbox', () => {
 
       const douglassItem = component.internalItems().find((i) => i.id === 'check-douglass');
       expect(douglassItem?.checked).toBe(true);
+    });
+  });
+
+  // Edge cases
+  describe('edge cases', () => {
+    it('should render no checkboxes when items is empty', () => {
+      fixture.componentRef.setInput('items', []);
+      fixture.detectChanges();
+      const inputs = el.querySelectorAll('input[type="checkbox"]');
+      expect(inputs.length).toBe(0);
+    });
+
+    it('should sync internalItems when the items input changes', () => {
+      fixture.componentRef.setInput('items', SAMPLE_ITEMS);
+      fixture.detectChanges();
+      expect(component.internalItems().length).toBe(4);
+
+      fixture.componentRef.setInput('items', TILE_ITEMS);
+      fixture.detectChanges();
+      expect(component.internalItems().length).toBe(2);
+    });
+
+    it('should render name attribute on all inputs', () => {
+      fixture.componentRef.setInput('items', SAMPLE_ITEMS);
+      fixture.componentRef.setInput('name', 'test-group');
+      fixture.detectChanges();
+
+      const inputs = el.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
+      inputs.forEach((input) => {
+        expect(input.name).toBe('test-group');
+      });
+    });
+
+    it('should render value attribute correctly on inputs', () => {
+      fixture.componentRef.setInput('items', SAMPLE_ITEMS);
+      fixture.detectChanges();
+
+      const firstInput = el.querySelector<HTMLInputElement>('#check-truth');
+      expect(firstInput?.value).toBe('sojourner-truth');
     });
   });
 });

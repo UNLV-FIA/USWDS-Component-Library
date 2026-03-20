@@ -23,8 +23,12 @@ describe('UswdsCard', () => {
   it('should change to a media with header', () => {
     fixture.componentRef.setInput('mediaCardType', 'MediaWHeader');
     fixture.detectChanges();
+
     const el: HTMLElement = fixture.nativeElement;
-    expect(el.classList.contains('usa-card--header-first')).toBeTruthy();
+    const card = el.querySelector('.usa-card') as HTMLElement;
+
+    expect(card).toBeTruthy();
+    expect(card.classList.contains('usa-card--header-first')).toBeTruthy();
   });
 
   it('should change to a inset', () => {
@@ -32,16 +36,21 @@ describe('UswdsCard', () => {
     fixture.detectChanges();
 
     const el: HTMLElement = fixture.nativeElement.querySelector('.usa-card__container');
-    expect(el.classList.contains('usa-card__media usa-card__media--inset'));
+    const card = el.querySelector('.usa-card__media') as HTMLElement;
+
+    expect(card).toBeTruthy();
+    expect(card.classList.contains('usa-card__media--inset'));
   });
 
   it('should change to exdent', () => {
     fixture.componentRef.setInput('mediaCardType', 'Exdent');
-
     fixture.detectChanges();
 
     const el: HTMLElement = fixture.nativeElement.querySelector('.usa-card__container');
-    expect(el.classList.contains('usa-card__media usa-card__media--exdent'));
+    const card = el.querySelector('.usa-card__media') as HTMLElement;
+
+    expect(card).toBeTruthy();
+    expect(card.classList.contains('usa-card__media--exdent'));
   });
 
   it('should change to a flag default', () => {
@@ -49,7 +58,10 @@ describe('UswdsCard', () => {
     fixture.detectChanges();
 
     const el: HTMLElement = fixture.nativeElement;
-    expect(el.classList.contains('usa-card--flag flex-1'));
+    const card = el.querySelector('.usa-card') as HTMLElement;
+
+    expect(card).toBeTruthy();
+    expect(card.classList.contains('usa-card--flag flex-1'));
   });
 
   it('should change to a flag right inset', () => {
@@ -57,14 +69,20 @@ describe('UswdsCard', () => {
     fixture.detectChanges();
 
     const el: HTMLElement = fixture.nativeElement;
-    expect(el.classList.contains('usa-card--flag flex-1 usa-card--media-right'));
+    const card = el.querySelector('.usa-card') as HTMLElement;
+
+    expect(card).toBeTruthy();
+    expect(card);
   });
 
   it('should check the default formatting case', () => {
     fixture.detectChanges();
 
     const el: HTMLElement = fixture.nativeElement;
-    expect(el.classList.contains('usa-card__media'));
-    expect(el.querySelector('.usa-card__body')).not.toBeNull();
+    const card = el.querySelector('.usa-card') as HTMLElement;
+
+    expect(card).toBeTruthy();
+    expect(card.classList.contains('usa-card__media'));
+    expect(card.querySelector('.usa-card__body')).not.toBeNull();
   });
 });

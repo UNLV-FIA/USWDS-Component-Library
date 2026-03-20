@@ -1,6 +1,6 @@
-import { Component, input, Optional, computed, Host } from '@angular/core';
+import { Component, input, Optional, computed, Host, viewChild, TemplateRef } from '@angular/core';
 import { GridFormats, MediaCardFormat } from './uswds-card.types';
-import { CommonModule, NgTemplateOutlet } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { UswdsCardGroup } from '../uswds-card-group/uswds-card-group';
 
 /**
@@ -37,17 +37,14 @@ import { UswdsCardGroup } from '../uswds-card-group/uswds-card-group';
  */
 
 @Component({
-  selector: 'ngx-uswds-card, li[ngx-uswds-card]',
-  imports: [CommonModule, NgTemplateOutlet],
+  selector: 'ngx-uswds-card',
+  imports: [CommonModule],
   standalone: true,
   templateUrl: './uswds-card.html',
-  host: {
-    '[class]': 'hostClasses()',
-  },
   styleUrl: './uswds-card.scss',
 })
 export class UswdsCard {
-  constructor(@Optional() @Host() private cardGroup: UswdsCardGroup | null) {}
+  constructor(@Optional() @Host() private readonly cardGroup: UswdsCardGroup | null) {}
 
   /**
    * Determines the type of card to generate.
@@ -66,6 +63,11 @@ export class UswdsCard {
 
   // v8 ignore next
   hostClasses = computed(() => this.buildHostClass());
+
+  cardContentTemplate = viewChild.required<TemplateRef<unknown>>('cardCreator');
+  isInAGroup(): boolean {
+    return !!this.cardGroup;
+  }
 
   buildHostClass = () => {
     const classes: string[] = ['usa-card'];

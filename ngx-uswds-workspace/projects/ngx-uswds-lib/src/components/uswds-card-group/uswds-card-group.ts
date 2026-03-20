@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-
+import { Component, contentChildren } from '@angular/core';
+import { UswdsCard } from '../uswds-card/uswds-card';
+import { CommonModule } from '@angular/common';
 /***
  * @class
  * @description
@@ -138,9 +139,11 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'ngx-uswds-card-group',
-  imports: [],
+  imports: [CommonModule],
   standalone: true,
   templateUrl: './uswds-card-group.html',
   styleUrl: './uswds-card-group.scss',
 })
-export class UswdsCardGroup {}
+export class UswdsCardGroup {
+  cards = contentChildren(UswdsCard);
+}

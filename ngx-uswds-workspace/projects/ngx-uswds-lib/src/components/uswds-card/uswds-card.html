@@ -1,6 +1,8 @@
-<div>
-  <ng-container *ngTemplateOutlet="cardCreator"></ng-container>
-</div>
+@if (!isInAGroup()) {
+  <div [class]="hostClasses()">
+    <ng-container *ngTemplateOutlet="cardCreator"></ng-container>
+  </div>
+}
 
 <ng-template #headerTemplate>
   <div class="usa-card__header">

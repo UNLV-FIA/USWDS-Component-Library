@@ -31,6 +31,7 @@ export class UswdsCheckbox {
 
   checkedChange = output<CheckboxItem[]>();
 
+  // v8 ignore next
   internalItems = signal<CheckboxItem[]>([]);
 
   constructor() {

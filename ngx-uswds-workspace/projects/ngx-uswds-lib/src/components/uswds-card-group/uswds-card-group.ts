@@ -1,4 +1,4 @@
-import { Component, contentChildren } from '@angular/core';
+import { Component, ContentChildren, QueryList } from '@angular/core';
 import { UswdsCard } from '../uswds-card/uswds-card';
 import { CommonModule } from '@angular/common';
 /***
@@ -105,5 +105,11 @@ import { CommonModule } from '@angular/common';
   styleUrl: './uswds-card-group.scss',
 })
 export class UswdsCardGroup {
-  cards = contentChildren(UswdsCard);
+  // v8 ignore next 2
+  @ContentChildren(UswdsCard)
+  itemList!: QueryList<UswdsCard>;
+
+  cards(): UswdsCard[] {
+    return this.itemList.toArray();
+  }
 }

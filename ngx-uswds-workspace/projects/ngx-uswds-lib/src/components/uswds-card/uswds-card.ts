@@ -1,5 +1,5 @@
 import { Component, input, Optional, computed, Host, viewChild, TemplateRef } from '@angular/core';
-import { GridFormats, MediaCardFormat } from './uswds-card.types';
+import { MediaCardFormat } from './uswds-card.types';
 import { CommonModule } from '@angular/common';
 import { UswdsCardGroup } from '../uswds-card-group/uswds-card-group';
 
@@ -13,23 +13,24 @@ import { UswdsCardGroup } from '../uswds-card-group/uswds-card-group';
  * Often cards are apart of a collection of similar cards. However, a single standalone card is allowed.
  * Users are able to project their own content to the 3 core parts of a card: card-header, card-media, card-body, card-footer. View usage in the example
  * @example
- * <ngx-uswds-card mediaCardType="MediaWHeader">
- *  <span card-header>Media with header first Standalone Card</span>
- *  <span card-media>
- *    <img src="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg"
- *      alt="A placeholder image" /></span>
- *  <span card-body>
- *    <p>
- *      Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
- *      possimus similique nemo odit doloremque laudantium?
- *    </p>
- *  </span>
- *  <span card-footer>
- *    <ngx-uswds-button type="button">
- *      <span>Visit Florida Keys</span>
- *    </ngx-uswds-button>
- *  </span>
- * </ngx-uswds-card>
+  <ngx-uswds-card mediaCardType="MediaWHeader" gridFormat="tablet:grid-col-12">
+      <span card-header>Media with Header</span>
+      <span card-media>
+        <img src="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg"
+          alt="A placeholder" /></span>
+      <span card-body>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore
+          possimus similique nemo odit doloremque laudantium?
+        </p>
+      </span>
+      <span card-footer>
+        <ngx-uswds-button type="button">
+          <span>Visit Florida Keys</span>
+        </ngx-uswds-button>
+      </span>
+    </ngx-uswds-card>
+
  * @selector ngx-uswds-card, li[ngx-uswds-card]
  * @input {MediaCardFormat} [mediaCardType = 'None'] - Determines the type of card to create
  * @input {GridFormats} [gridFormat = ['tablet-lg:grid-col-6', 'widescreen:grid-col-4']] - Determines the sizing of a card in a grid based on selectors.
@@ -59,7 +60,7 @@ export class UswdsCard {
   // v8 ignore next
   mediaCardType = input<MediaCardFormat>('None');
   // v8 ignore next
-  gridFormat = input<GridFormats>(['tablet-lg:grid-col-6', 'widescreen:grid-col-4']);
+  gridFormat = input<string>('tablet-lg:grid-col-6 widescreen:grid-col-4');
 
   // v8 ignore next
   hostClasses = computed(() => this.buildHostClass());
@@ -84,7 +85,7 @@ export class UswdsCard {
         break;
     }
 
-    for (const gridClass of this.gridFormat()) {
+    for (const gridClass of this.gridFormat().split(' ')) {
       classes.push(gridClass);
     }
     return classes.join(' ');

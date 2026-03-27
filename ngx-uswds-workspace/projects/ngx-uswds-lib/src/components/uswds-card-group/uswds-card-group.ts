@@ -7,8 +7,8 @@ import { CommonModule } from '@angular/common';
  * An angular component that renders a group of cards, ensuring consistent sizing. Use this when trying to create a group of cards
  * @selector  ngx-uswds-card-group
  * @example
-  <ngx-uswds-card-group>
-    <ngx-uswds-card mediaCardType="None" [gridFormat]="['tablet:grid-col-12']">
+ <ngx-uswds-card-group>
+    <ngx-uswds-card mediaCardType="None" gridFormat="tablet:grid-col-12">
       <span card-header>Standard Card</span>
       <span card-body>
         <p>
@@ -41,7 +41,7 @@ import { CommonModule } from '@angular/common';
       </span>
     </ngx-uswds-card>
 
-    <ngx-uswds-card mediaCardType="MediaWHeader" [gridFormat]="['tablet:grid-col-12']">
+    <ngx-uswds-card mediaCardType="MediaWHeader" gridFormat="tablet:grid-col-12">
       <span card-header>Media with Header</span>
       <span card-media>
         <img src="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg"
@@ -59,7 +59,7 @@ import { CommonModule } from '@angular/common';
       </span>
     </ngx-uswds-card>
 
-    <ngx-uswds-card mediaCardType="Inset" [gridFormat]="['tablet:grid-col-6']">
+    <ngx-uswds-card mediaCardType="Inset" gridFormat="tablet:grid-col-6">
       <span card-header>Inset Card</span>
       <span card-media>
         <img src="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg"

@@ -1,3 +1,29 @@
+// The settings from the uswds-core source code loccated in uswds/packages/uswds-core/src/styles/settings/_settings.scss
+//theme-utility-breakpoints-complete: map-collect(
+//   (
+//     // 160px:
+//     "card": false,
+//     // 240px:
+//     "card-lg": false,
+//     // 320px:
+//     "mobile": false,
+//     // 480px:
+//     "mobile-lg": true,
+//     // 640px:
+//     "tablet": true,
+//     // 880px:
+//     "tablet-lg": false,
+//     // 1024px:
+//     "desktop": true,
+//     // 1200px:
+//     "desktop-lg": false,
+//     // 1400px:
+//     "widescreen": false
+//   ),
+//   $theme-utility-breakpoints,
+//   $theme-utility-breakpoints-custom
+// ) !default;
+
 $ngx-uswds-grid-breakpoints: (
   'mobile': 320px,
   'mobile-lg': 480px,

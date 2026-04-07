@@ -28,68 +28,16 @@
 </ng-template>
 
 <ng-template #cardCreator>
-  @switch (mediaCardType()) {
-    @case ('MediaWHeader') {
-      <div class="usa-card__container">
-        <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
-        <div class="usa-card__media usa-card__media--exdent">
-          <ng-container *ngTemplateOutlet="mediaTemplate"></ng-container>
-        </div>
-        <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
-        <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
+  <div class="usa-card__container">
+    <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
+    @if (mediaCardType() != 'None') {
+      <div [class]="mediaClasses()">
+        <ng-container *ngTemplateOutlet="mediaTemplate"></ng-container>
       </div>
     }
-    @case ('Inset') {
-      <div class="usa-card__container">
-        <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
-        <div class="usa-card__media usa-card__media--inset">
-          <ng-container *ngTemplateOutlet="mediaTemplate"></ng-container>
-        </div>
-        <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
-        <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
-      </div>
-    }
-    @case ('Exdent') {
-      <div class="usa-card__container">
-        <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
-        <div class="usa-card__media usa-card__media--exdent">
-          <ng-container *ngTemplateOutlet="mediaTemplate"></ng-container>
-        </div>
-
-        <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
-
-        <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
-      </div>
-    }
-    @case ('FlagDefault') {
-      <div class="usa-card__container">
-        <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
-        <div class="usa-card__media">
-          <ng-container *ngTemplateOutlet="mediaTemplate"></ng-container>
-        </div>
-        <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
-        <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
-      </div>
-    }
-    @case ('FlagRightInset') {
-      <div class="usa-card__container">
-        <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
-        <div class="usa-card__media usa-card__media--inset">
-          <ng-container *ngTemplateOutlet="mediaTemplate"></ng-container>
-        </div>
-        <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
-        <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
-      </div>
-    }
-    @default {
-      <div class="usa-card__container">
-        <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
-        <div class="usa-card__media">
-          <ng-container *ngTemplateOutlet="mediaTemplate"></ng-container>
-        </div>
-        <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
-        <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
-      </div>
-    }
-  }
+    <div>
+      <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
+    </div>
+    <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
+  </div>
 </ng-template>

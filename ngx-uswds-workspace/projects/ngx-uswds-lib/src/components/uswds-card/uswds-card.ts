@@ -14,7 +14,7 @@ import { UswdsCardGroup } from '../uswds-card-group/uswds-card-group';
  * Users are able to project their own content to the 3 core parts of a card: card-header, card-media, card-body, card-footer. View usage in the example
  * @example
   <ngx-uswds-card mediaCardType="MediaWHeader" gridFormat="tablet:grid-col-12">
-      <span card-header>Media with Header</span>
+      <span card-header><h1>Media with Header<h1></span>
       <span card-media>
         <img src="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg"
           alt="A placeholder" /></span>
@@ -64,12 +64,30 @@ export class UswdsCard {
 
   // v8 ignore next
   hostClasses = computed(() => this.buildHostClass());
+  // v8 ignore next
+  mediaClasses = computed(() => this.buildMediaClasses());
 
   cardContentTemplate = viewChild.required<TemplateRef<unknown>>('cardCreator');
   isInAGroup(): boolean {
     return !!this.cardGroup;
   }
 
+  buildMediaClasses = (): string => {
+    const classes: string[] = ['usa-card__media'];
+    switch (this.mediaCardType()) {
+      case 'FlagDefault':
+      case 'Exdent':
+        classes.push('usa-card__media--exdent');
+        break;
+      case 'Inset':
+      case 'FlagRightInset':
+        classes.push('usa-card__media--inset');
+        break;
+      default:
+        break;
+    }
+    return classes.join(' ');
+  };
   buildHostClass = () => {
     const classes: string[] = ['usa-card'];
 

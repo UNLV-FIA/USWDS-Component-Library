@@ -1,0 +1,43 @@
+@if (!isInAGroup()) {
+  <div [class]="hostClasses()">
+    <ng-container *ngTemplateOutlet="cardCreator"></ng-container>
+  </div>
+}
+
+<ng-template #headerTemplate>
+  <div class="usa-card__header">
+    <div class="usa-card__heading">
+      <ng-content select="[card-header]"></ng-content>
+    </div>
+  </div>
+</ng-template>
+<ng-template #mediaTemplate>
+  <div class="usa-card__img">
+    <ng-content select="[card-media]"></ng-content>
+  </div>
+</ng-template>
+<ng-template #bodyTemplate>
+  <div class="usa-card__body">
+    <ng-content select="[card-body]"></ng-content>
+  </div>
+</ng-template>
+<ng-template #footerTemplate>
+  <div class="usa-card__footer">
+    <ng-content select="[card-footer]"></ng-content>
+  </div>
+</ng-template>
+
+<ng-template #cardCreator>
+  <div class="usa-card__container">
+    <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
+    @if (mediaCardType() != 'None') {
+      <div [class]="mediaClasses()">
+        <ng-container *ngTemplateOutlet="mediaTemplate"></ng-container>
+      </div>
+    }
+    <div>
+      <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
+    </div>
+    <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
+  </div>
+</ng-template>

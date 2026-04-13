@@ -22,4 +22,5 @@ export type { BreadcrumbVariant } from './components/uswds-breadcrumb/uswds-brea
 
 // Checkbox Component
 export * from './components/uswds-checkbox/uswds-checkbox';
-export type { CheckboxVariant } from './components/uswds-checkbox/uswds-checkbox';
+export * from './components/uswds-checkbox-item/uswds-checkbox-item';
+export type { CheckboxVariant } from './components/uswds-checkbox/checkbox-types';

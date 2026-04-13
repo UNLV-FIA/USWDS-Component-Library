@@ -1,23 +1,4 @@
 <fieldset class="usa-fieldset">
   <legend class="usa-legend">{{ legend() }}</legend>
-  @for (item of internalItems(); track item.id) {
-    <div class="usa-checkbox">
-      <input
-        [ngClass]="inputClasses()"
-        [id]="item.id"
-        type="checkbox"
-        [name]="name()"
-        [value]="item.value"
-        [checked]="item.checked ?? false"
-        [disabled]="item.disabled ?? false"
-        (change)="onCheckboxChange(item, $event)"
-      />
-      <label class="usa-checkbox__label" [for]="item.id">
-        {{ item.label }}
-        @if (item.description) {
-          <span class="usa-checkbox__label-description">{{ item.description }}</span>
-        }
-      </label>
-    </div>
-  }
+  <ng-content></ng-content>
 </fieldset>

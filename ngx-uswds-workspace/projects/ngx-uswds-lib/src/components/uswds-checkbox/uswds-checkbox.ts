@@ -1,92 +1,94 @@
-import { Component, computed, effect, input, output, signal } from '@angular/core';
-import { NgClass } from '@angular/common';
-
-export interface CheckboxItem {
-  id: string;
-  label: string;
-  value: string;
-  checked?: boolean;
-  disabled?: boolean;
-  description?: string;
-}
-
-export type CheckboxVariant = 'default' | 'tile';
+import {
+  Component,
+  input,
+  signal,
+  ContentChildren,
+  QueryList,
+  AfterContentInit,
+} from '@angular/core';
+import { UswdsCheckboxItem } from '../uswds-checkbox-item/uswds-checkbox-item';
+import { CheckboxVariant } from './checkbox-types';
 
 /**
  * @class UswdsCheckbox
  * @description
  * An Angular standalone component that renders a U.S. Web Design System (USWDS) checkbox group.
  * Checkboxes allow users to select one or more options from a list.
- * Each item in the `items` array renders a checkbox input and associated label. Items may be
- * pre-checked, disabled, or include an optional description for the tile variant.
+ *
+ * Uses a compound component pattern: place one or more `<ngx-uswds-checkbox-item>` elements as
+ * direct children. Each item renders its own `<input type="checkbox">` and label, with the
+ * `name` attribute and visual variant inherited from this component.
  *
  * @selector ngx-uswds-checkbox
  *
  * @example
- * <ngx-uswds-checkbox
- *   legend="Select any historical figure"
- *   name="historical-figures"
- *   [items]="checkboxItems"
- *   (checkedChange)="onSelectionChange($event)"
- * ></ngx-uswds-checkbox>
+ * <ngx-uswds-checkbox legend="Select any historical figure" name="historical-figures">
+ *   <ngx-uswds-checkbox-item label="Sojourner Truth" value="sojourner-truth" [checkedByDefault]="true">
+ *   </ngx-uswds-checkbox-item>
+ *   <ngx-uswds-checkbox-item label="Frederick Douglass" value="frederick-douglass">
+ *   </ngx-uswds-checkbox-item>
+ * </ngx-uswds-checkbox>
+ *
+ * @example
+ * <!-- Tile variant with descriptions -->
+ * <ngx-uswds-checkbox legend="Choose a frequency" name="freq" variant="tile">
+ *   <ngx-uswds-checkbox-item label="Daily" value="daily" description="Sent every day">
+ *   </ngx-uswds-checkbox-item>
+ *   <ngx-uswds-checkbox-item label="Weekly" value="weekly" description="Sent once a week">
+ *   </ngx-uswds-checkbox-item>
+ * </ngx-uswds-checkbox>
  *
  * @input {string} [legend=''] - The legend text for the checkbox fieldset group.
  *
- * @input {CheckboxItem[]} [items=[]] - The list of checkbox items to display. Each item requires
- *   `id`, `label`, and `value`. Optional properties: `checked`, `disabled`, `description`.
+ * @input {string} [name=''] - The `name` attribute shared across all checkboxes in the group.
  *
  * @input {CheckboxVariant} [variant='default'] - The display variant. Use 'tile' for larger
  *   tile-style checkboxes with optional description text.
  *
- * @input {string} [name=''] - The `name` attribute shared across all checkboxes in the group.
- *
- * @output {CheckboxItem[]} checkedChange - Emits the full updated items array whenever any
- *   checkbox is toggled, with the changed item's `checked` property updated.
+ * @input {string} [idPrefix] - Custom prefix for generated element IDs. If not provided,
+ *   a unique prefix is auto-generated to avoid ID collisions between multiple checkboxes
+ *   on the same page.
  */
-
 @Component({
   selector: 'ngx-uswds-checkbox',
   standalone: true,
-  imports: [NgClass],
   templateUrl: './uswds-checkbox.html',
-  styleUrls: ['./uswds-checkbox.scss'],
+  styleUrl: './uswds-checkbox.scss',
 })
-export class UswdsCheckbox {
+export class UswdsCheckbox implements AfterContentInit {
   // v8 ignore next
   legend = input<string>('');
   // v8 ignore next
-  items = input<CheckboxItem[]>([]);
+  name = input<string>('');
   // v8 ignore next
   variant = input<CheckboxVariant>('default');
   // v8 ignore next
-  name = input<string>('');
-
-  checkedChange = output<CheckboxItem[]>();
+  idPrefix = input<string>();
 
   // v8 ignore next
-  internalItems = signal<CheckboxItem[]>([]);
+  resolvedIdPrefix = signal<string>('');
 
-  constructor() {
-    effect(() => {
-      this.internalItems.set(this.items().map((item) => ({ ...item })));
-    });
+  // v8 ignore next 2
+  @ContentChildren(UswdsCheckboxItem)
+  itemList!: QueryList<UswdsCheckboxItem>;
+
+  items(): UswdsCheckboxItem[] {
+    return this.itemList.toArray();
   }
 
-  // v8 ignore next
-  inputClasses = computed(() => this.inputClassesFn());
-  inputClassesFn = () => {
-    const classes = ['usa-checkbox__input'];
-    if (this.variant() === 'tile') {
-      classes.push('usa-checkbox__input--tile');
-    }
-    return classes;
-  };
+  private static instanceCounter = 0;
 
-  onCheckboxChange(item: CheckboxItem, event: Event): void {
-    const checked = (event.target as HTMLInputElement).checked;
-    this.internalItems.update((items) =>
-      items.map((i) => (i.id === item.id ? { ...i, checked } : i)),
-    );
-    this.checkedChange.emit(this.internalItems());
+  ngAfterContentInit(): void {
+    this.resolvedIdPrefix.set(this.idPrefix() ?? this.generateUniquePrefix());
+    this.assignIndices();
+  }
+
+  private assignIndices(): void {
+    this.items().forEach((item, i) => item._index.set(i));
+  }
+
+  private generateUniquePrefix(): string {
+    UswdsCheckbox.instanceCounter++;
+    return `checkbox-${UswdsCheckbox.instanceCounter}`;
   }
 }

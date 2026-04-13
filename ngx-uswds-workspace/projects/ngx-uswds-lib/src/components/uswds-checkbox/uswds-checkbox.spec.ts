@@ -1,290 +1,250 @@
+import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UswdsCheckbox, CheckboxItem } from './uswds-checkbox';
+import { UswdsCheckbox } from './uswds-checkbox';
+import { UswdsCheckboxItem } from '../uswds-checkbox-item/uswds-checkbox-item';
 
-const SAMPLE_ITEMS: CheckboxItem[] = [
-  { id: 'check-truth', label: 'Sojourner Truth', value: 'sojourner-truth', checked: true },
-  { id: 'check-douglass', label: 'Frederick Douglass', value: 'frederick-douglass' },
-  { id: 'check-washington', label: 'Booker T. Washington', value: 'booker-t-washington' },
-  {
-    id: 'check-carver',
-    label: 'George Washington Carver',
-    value: 'george-washington-carver',
-    disabled: true,
-  },
-];
+// Test Host Components
 
-const TILE_ITEMS: CheckboxItem[] = [
-  {
-    id: 'tile-truth',
-    label: 'Sojourner Truth',
-    value: 'sojourner-truth',
-    checked: true,
-    description: 'This is optional text that can describe the label in more detail.',
-  },
-  { id: 'tile-douglass', label: 'Frederick Douglass', value: 'frederick-douglass' },
-];
+@Component({
+  standalone: true,
+  imports: [UswdsCheckbox, UswdsCheckboxItem],
+  template: `
+    <ngx-uswds-checkbox [legend]="legend" [name]="name" [idPrefix]="idPrefix">
+      <ngx-uswds-checkbox-item
+        label="Sojourner Truth"
+        value="sojourner-truth"
+        [checkedByDefault]="true"
+      >
+      </ngx-uswds-checkbox-item>
+      <ngx-uswds-checkbox-item label="Frederick Douglass" value="frederick-douglass">
+      </ngx-uswds-checkbox-item>
+      <ngx-uswds-checkbox-item label="Booker T. Washington" value="booker-t-washington">
+      </ngx-uswds-checkbox-item>
+    </ngx-uswds-checkbox>
+  `,
+})
+class ThreeItemHost {
+  legend = 'Select any historical figure';
+  name = 'historical-figures';
+  idPrefix?: string;
+  @ViewChild(UswdsCheckbox) checkbox!: UswdsCheckbox;
+}
+
+@Component({
+  standalone: true,
+  imports: [UswdsCheckbox, UswdsCheckboxItem],
+  template: `
+    <ngx-uswds-checkbox legend="Tile Group" name="tile-group" variant="tile" idPrefix="tile">
+      <ngx-uswds-checkbox-item
+        label="Daily"
+        value="daily"
+        [checkedByDefault]="true"
+        description="Sent every day"
+      >
+      </ngx-uswds-checkbox-item>
+      <ngx-uswds-checkbox-item label="Weekly" value="weekly" description="Sent once a week">
+      </ngx-uswds-checkbox-item>
+    </ngx-uswds-checkbox>
+  `,
+})
+class TileHost {
+  @ViewChild(UswdsCheckbox) checkbox!: UswdsCheckbox;
+}
+
+@Component({
+  standalone: true,
+  imports: [UswdsCheckbox],
+  template: `<ngx-uswds-checkbox legend="Empty" name="empty"></ngx-uswds-checkbox>`,
+})
+class EmptyHost {
+  @ViewChild(UswdsCheckbox) checkbox!: UswdsCheckbox;
+}
+
+// Helpers
+
+function getInputs(nativeEl: HTMLElement): NodeListOf<HTMLInputElement> {
+  return (nativeEl as HTMLElement).querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
+}
+
+// Test Suite
 
 describe('UswdsCheckbox', () => {
-  let component: UswdsCheckbox;
-  let fixture: ComponentFixture<UswdsCheckbox>;
-  let el: HTMLElement;
+  describe('with three items (default config)', () => {
+    let fixture: ComponentFixture<ThreeItemHost>;
+    let host: ThreeItemHost;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [UswdsCheckbox],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(UswdsCheckbox);
-    component = fixture.componentInstance;
-    el = fixture.nativeElement;
-  });
-
-  // Creation
-  describe('creation', () => {
-    it('should create', () => {
-      expect(component).toBeTruthy();
-    });
-
-    it('should have default variant of "default"', () => {
-      expect(component.variant()).toBe('default');
-    });
-
-    it('should have empty legend by default', () => {
-      expect(component.legend()).toBe('');
-    });
-
-    it('should have empty name by default', () => {
-      expect(component.name()).toBe('');
-    });
-
-    it('should have empty items by default', () => {
-      expect(component.items()).toEqual([]);
-    });
-  });
-
-  // inputClasses
-  describe('inputClasses', () => {
-    it('should include usa-checkbox__input for default variant', () => {
-      fixture.componentRef.setInput('variant', 'default');
-      expect(component.inputClasses()).toContain('usa-checkbox__input');
-    });
-
-    it('should not include usa-checkbox__input--tile for default variant', () => {
-      fixture.componentRef.setInput('variant', 'default');
-      expect(component.inputClasses()).not.toContain('usa-checkbox__input--tile');
-    });
-
-    it('should include usa-checkbox__input--tile for tile variant', () => {
-      fixture.componentRef.setInput('variant', 'tile');
-      expect(component.inputClasses()).toContain('usa-checkbox__input');
-      expect(component.inputClasses()).toContain('usa-checkbox__input--tile');
-    });
-  });
-
-  // DOM rendering (default variant)
-  describe('DOM rendering (default)', () => {
-    beforeEach(() => {
-      fixture.componentRef.setInput('items', SAMPLE_ITEMS);
-      fixture.componentRef.setInput('legend', 'Select any historical figure');
-      fixture.componentRef.setInput('name', 'historical-figures');
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        imports: [ThreeItemHost],
+      }).compileComponents();
+      fixture = TestBed.createComponent(ThreeItemHost);
+      host = fixture.componentInstance;
+      host.idPrefix = 'hist';
       fixture.detectChanges();
     });
 
-    it('should render a fieldset', () => {
-      expect(el.querySelector('fieldset.usa-fieldset')).toBeTruthy();
+    it('should create', () => {
+      expect(host.checkbox).toBeTruthy();
     });
 
-    it('should render the legend text', () => {
-      const legend = el.querySelector('legend.usa-legend');
-      expect(legend?.textContent?.trim()).toBe('Select any historical figure');
+    describe('Default values', () => {
+      it('should default variant to "default"', () => {
+        expect(host.checkbox.variant()).toBe('default');
+      });
+
+      it('should discover three content children', () => {
+        expect(host.checkbox.items().length).toBe(3);
+      });
     });
 
-    it('should render the correct number of checkboxes', () => {
-      const checkboxes = el.querySelectorAll('input[type="checkbox"]');
-      expect(checkboxes.length).toBe(4);
+    describe('DOM rendering', () => {
+      it('should render a fieldset with usa-fieldset class', () => {
+        expect(fixture.nativeElement.querySelector('fieldset.usa-fieldset')).toBeTruthy();
+      });
+
+      it('should render the legend text', () => {
+        const legend = fixture.nativeElement.querySelector('legend.usa-legend');
+        expect(legend?.textContent?.trim()).toBe('Select any historical figure');
+      });
+
+      it('should render the correct number of checkboxes', () => {
+        expect(getInputs(fixture.nativeElement).length).toBe(3);
+      });
+
+      it('should render usa-checkbox wrappers for each item', () => {
+        const wrappers = fixture.nativeElement.querySelectorAll('div.usa-checkbox');
+        expect(wrappers.length).toBe(3);
+      });
+
+      it('should propagate the name to all inputs', () => {
+        getInputs(fixture.nativeElement).forEach((input: HTMLInputElement) => {
+          expect(input.name).toBe('historical-figures');
+        });
+      });
     });
 
-    it('should render checkbox wrappers with usa-checkbox class', () => {
-      const wrappers = el.querySelectorAll('div.usa-checkbox');
-      expect(wrappers.length).toBe(4);
+    describe('Index assignment', () => {
+      it('should assign sequential indices to all items after content init', () => {
+        const items = host.checkbox.items();
+        expect(items[0].index()).toBe(0);
+        expect(items[1].index()).toBe(1);
+        expect(items[2].index()).toBe(2);
+      });
     });
 
-    it('should render labels with correct text', () => {
-      const labels = el.querySelectorAll('label.usa-checkbox__label');
-      expect(labels[0]?.textContent?.trim()).toBe('Sojourner Truth');
-      expect(labels[1]?.textContent?.trim()).toBe('Frederick Douglass');
+    describe('ID generation', () => {
+      it('should use provided idPrefix for all input IDs', () => {
+        expect(getInputs(fixture.nativeElement)[0].id).toBe('hist-1');
+        expect(getInputs(fixture.nativeElement)[1].id).toBe('hist-2');
+        expect(getInputs(fixture.nativeElement)[2].id).toBe('hist-3');
+      });
+
+      it('should auto-generate unique idPrefixes when not provided', async () => {
+        await TestBed.configureTestingModule({
+          imports: [ThreeItemHost],
+        }).compileComponents();
+
+        const f1 = TestBed.createComponent(ThreeItemHost);
+        f1.detectChanges();
+        const prefix1 = f1.componentInstance.checkbox.resolvedIdPrefix();
+
+        const f2 = TestBed.createComponent(ThreeItemHost);
+        f2.detectChanges();
+        const prefix2 = f2.componentInstance.checkbox.resolvedIdPrefix();
+
+        expect(prefix1).toMatch(/^checkbox-\d+$/);
+        expect(prefix2).toMatch(/^checkbox-\d+$/);
+        expect(prefix1).not.toBe(prefix2);
+      });
     });
 
-    it('should render the initially checked item as checked', () => {
-      const firstInput = el.querySelector<HTMLInputElement>('#check-truth');
-      expect(firstInput?.checked).toBe(true);
-    });
+    describe('Accessibility', () => {
+      it('should use a fieldset to group the checkboxes', () => {
+        expect(fixture.nativeElement.querySelector('fieldset')).toBeTruthy();
+      });
 
-    it('should render the unchecked items as unchecked', () => {
-      const secondInput = el.querySelector<HTMLInputElement>('#check-douglass');
-      expect(secondInput?.checked).toBe(false);
-    });
+      it('should use a legend inside the fieldset', () => {
+        expect(fixture.nativeElement.querySelector('fieldset legend')).toBeTruthy();
+      });
 
-    it('should render the disabled item as disabled', () => {
-      const disabledInput = el.querySelector<HTMLInputElement>('#check-carver');
-      expect(disabledInput?.disabled).toBe(true);
-    });
-
-    it('should apply usa-checkbox__input class to inputs', () => {
-      const inputs = el.querySelectorAll('input.usa-checkbox__input');
-      expect(inputs.length).toBe(4);
-    });
-
-    it('should not apply usa-checkbox__input--tile class in default variant', () => {
-      const tileInputs = el.querySelectorAll('input.usa-checkbox__input--tile');
-      expect(tileInputs.length).toBe(0);
+      it('should link each input id to its label for attribute', () => {
+        const el = fixture.nativeElement as HTMLElement;
+        const inputs = el.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
+        inputs.forEach((input: HTMLInputElement) => {
+          const label = el.querySelector(`label[for="${input.id}"]`);
+          expect(label).toBeTruthy();
+        });
+      });
     });
   });
 
-  // DOM rendering (tile variant)
-  describe('DOM rendering (tile)', () => {
-    beforeEach(() => {
-      fixture.componentRef.setInput('items', TILE_ITEMS);
-      fixture.componentRef.setInput('variant', 'tile');
-      fixture.componentRef.setInput('legend', 'Select any historical figure');
-      fixture.componentRef.setInput('name', 'historical-figures-tile');
+  describe('Tile variant', () => {
+    let fixture: ComponentFixture<TileHost>;
+    let host: TileHost;
+
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        imports: [TileHost],
+      }).compileComponents();
+      fixture = TestBed.createComponent(TileHost);
+      host = fixture.componentInstance;
       fixture.detectChanges();
     });
 
     it('should apply usa-checkbox__input--tile class to all inputs', () => {
-      const tileInputs = el.querySelectorAll('input.usa-checkbox__input--tile');
+      const tileInputs = fixture.nativeElement.querySelectorAll('input.usa-checkbox__input--tile');
       expect(tileInputs.length).toBe(2);
     });
 
-    it('should render description span when item has a description', () => {
-      const description = el.querySelector('span.usa-checkbox__label-description');
-      expect(description).toBeTruthy();
-      expect(description?.textContent?.trim()).toBe(
-        'This is optional text that can describe the label in more detail.',
-      );
+    it('should render description spans when items have descriptions', () => {
+      const descs = fixture.nativeElement.querySelectorAll('span.usa-checkbox__label-description');
+      expect(descs.length).toBe(2);
     });
 
-    it('should not render description span when item has no description', () => {
-      const labels = el.querySelectorAll('label.usa-checkbox__label');
-      const secondLabel = labels[1];
-      expect(secondLabel.querySelector('span.usa-checkbox__label-description')).toBeFalsy();
-    });
-  });
-
-  // Accessibility
-  describe('accessibility', () => {
-    beforeEach(() => {
-      fixture.componentRef.setInput('items', SAMPLE_ITEMS);
-      fixture.detectChanges();
+    it('should render the first item as checked', () => {
+      expect(getInputs(fixture.nativeElement)[0].checked).toBe(true);
     });
 
-    it('each input id should match its label for attribute', () => {
-      const inputs = el.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
-      inputs.forEach((input) => {
-        const label = el.querySelector(`label[for="${input.id}"]`);
-        expect(label).toBeTruthy();
-      });
-    });
-
-    it('should use a fieldset to group the checkboxes', () => {
-      expect(el.querySelector('fieldset')).toBeTruthy();
-    });
-
-    it('should use a legend inside the fieldset', () => {
-      expect(el.querySelector('fieldset legend')).toBeTruthy();
+    it('should expose variant as "tile"', () => {
+      expect(host.checkbox.variant()).toBe('tile');
     });
   });
 
-  // Events
-  describe('events', () => {
-    beforeEach(() => {
-      fixture.componentRef.setInput('items', SAMPLE_ITEMS);
-      fixture.detectChanges();
-    });
-
-    it('should emit checkedChange when a checkbox is toggled', () => {
-      let emittedItems: CheckboxItem[] | undefined;
-      component.checkedChange.subscribe((items) => (emittedItems = items));
-
-      const input = el.querySelector<HTMLInputElement>('#check-douglass')!;
-      input.checked = true;
-      input.dispatchEvent(new Event('change'));
+  describe('Empty checkbox', () => {
+    it('should render fieldset with no checkboxes when no items are projected', async () => {
+      await TestBed.configureTestingModule({
+        imports: [EmptyHost],
+      }).compileComponents();
+      const fixture = TestBed.createComponent(EmptyHost);
       fixture.detectChanges();
 
-      expect(emittedItems).toBeTruthy();
-      expect(emittedItems?.length).toBe(4);
+      expect(fixture.nativeElement.querySelector('fieldset')).toBeTruthy();
+      expect(getInputs(fixture.nativeElement).length).toBe(0);
     });
 
-    it('should emit the updated checked state for the toggled item', () => {
-      let emittedItems: CheckboxItem[] | undefined;
-      component.checkedChange.subscribe((items) => (emittedItems = items));
-
-      const input = el.querySelector<HTMLInputElement>('#check-douglass')!;
-      input.checked = true;
-      input.dispatchEvent(new Event('change'));
-
-      const douglassItem = emittedItems?.find((i) => i.id === 'check-douglass');
-      expect(douglassItem?.checked).toBe(true);
-    });
-
-    it('should preserve other items checked states when one item changes', () => {
-      let emittedItems: CheckboxItem[] | undefined;
-      component.checkedChange.subscribe((items) => (emittedItems = items));
-
-      const input = el.querySelector<HTMLInputElement>('#check-douglass')!;
-      input.checked = true;
-      input.dispatchEvent(new Event('change'));
-
-      const truthItem = emittedItems?.find((i) => i.id === 'check-truth');
-      expect(truthItem?.checked).toBe(true);
-    });
-
-    it('should update internalItems when a checkbox is toggled', () => {
-      const input = el.querySelector<HTMLInputElement>('#check-douglass')!;
-      input.checked = true;
-      input.dispatchEvent(new Event('change'));
-
-      const douglassItem = component.internalItems().find((i) => i.id === 'check-douglass');
-      expect(douglassItem?.checked).toBe(true);
+    it('should have zero items', async () => {
+      await TestBed.configureTestingModule({
+        imports: [EmptyHost],
+      }).compileComponents();
+      const fixture = TestBed.createComponent(EmptyHost);
+      fixture.detectChanges();
+      expect(fixture.componentInstance.checkbox.items().length).toBe(0);
     });
   });
 
-  // Edge cases
-  describe('edge cases', () => {
-    it('should render no checkboxes when items is empty', () => {
-      fixture.componentRef.setInput('items', []);
-      fixture.detectChanges();
-      const inputs = el.querySelectorAll('input[type="checkbox"]');
-      expect(inputs.length).toBe(0);
-    });
-
-    it('should sync internalItems when the items input changes', () => {
-      fixture.componentRef.setInput('items', SAMPLE_ITEMS);
-      fixture.detectChanges();
-      expect(component.internalItems().length).toBe(4);
-
-      fixture.componentRef.setInput('items', TILE_ITEMS);
-      fixture.detectChanges();
-      expect(component.internalItems().length).toBe(2);
-    });
-
-    it('should render name attribute on all inputs', () => {
-      fixture.componentRef.setInput('items', SAMPLE_ITEMS);
-      fixture.componentRef.setInput('name', 'test-group');
+  describe('Legend update', () => {
+    it('should update the rendered legend when the legend input changes', async () => {
+      await TestBed.configureTestingModule({
+        imports: [ThreeItemHost],
+      }).compileComponents();
+      const fixture = TestBed.createComponent(ThreeItemHost);
       fixture.detectChanges();
 
-      const inputs = el.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
-      inputs.forEach((input) => {
-        expect(input.name).toBe('test-group');
-      });
-    });
-
-    it('should render value attribute correctly on inputs', () => {
-      fixture.componentRef.setInput('items', SAMPLE_ITEMS);
+      fixture.componentInstance.legend = 'Updated Legend';
       fixture.detectChanges();
 
-      const firstInput = el.querySelector<HTMLInputElement>('#check-truth');
-      expect(firstInput?.value).toBe('sojourner-truth');
+      const legend = fixture.nativeElement.querySelector('legend.usa-legend');
+      expect(legend?.textContent?.trim()).toBe('Updated Legend');
     });
   });
 });

@@ -139,11 +139,7 @@ describe('UswdsCheckbox', () => {
         expect(getInputs(fixture.nativeElement)[2].id).toBe('hist-3');
       });
 
-      it('should auto-generate unique idPrefixes when not provided', async () => {
-        await TestBed.configureTestingModule({
-          imports: [ThreeItemHost],
-        }).compileComponents();
-
+      it('should auto-generate unique idPrefixes when not provided', () => {
         const f1 = TestBed.createComponent(ThreeItemHost);
         f1.detectChanges();
         const prefix1 = f1.componentInstance.checkbox.resolvedIdPrefix();
@@ -174,6 +170,16 @@ describe('UswdsCheckbox', () => {
           const label = el.querySelector(`label[for="${input.id}"]`);
           expect(label).toBeTruthy();
         });
+      });
+    });
+
+    describe('Legend update', () => {
+      it('should update the rendered legend when the legend input changes', () => {
+        host.legend = 'Updated Legend';
+        fixture.detectChanges();
+
+        const legend = fixture.nativeElement.querySelector('legend.usa-legend');
+        expect(legend?.textContent?.trim()).toBe('Updated Legend');
       });
     });
   });
@@ -232,19 +238,37 @@ describe('UswdsCheckbox', () => {
     });
   });
 
-  describe('Legend update', () => {
-    it('should update the rendered legend when the legend input changes', async () => {
+  describe('getCheckedItems / getUncheckedItems', () => {
+    let fixture: ComponentFixture<ThreeItemHost>;
+    let host: ThreeItemHost;
+
+    beforeEach(async () => {
       await TestBed.configureTestingModule({
         imports: [ThreeItemHost],
       }).compileComponents();
-      const fixture = TestBed.createComponent(ThreeItemHost);
+      fixture = TestBed.createComponent(ThreeItemHost);
+      host = fixture.componentInstance;
+      host.idPrefix = 'chk';
       fixture.detectChanges();
+    });
 
-      fixture.componentInstance.legend = 'Updated Legend';
-      fixture.detectChanges();
+    it('should return only the pre-checked item in getCheckedItems', () => {
+      const checked = host.checkbox.getCheckedItems();
+      expect(checked.length).toBe(1);
+      expect(checked[0].value()).toBe('sojourner-truth');
+    });
 
-      const legend = fixture.nativeElement.querySelector('legend.usa-legend');
-      expect(legend?.textContent?.trim()).toBe('Updated Legend');
+    it('should return the remaining items in getUncheckedItems', () => {
+      const unchecked = host.checkbox.getUncheckedItems();
+      expect(unchecked.length).toBe(2);
+    });
+
+    it('should reflect a programmatic checked change', () => {
+      const items = host.checkbox.items();
+      items[1].checked = true;
+
+      expect(host.checkbox.getCheckedItems().length).toBe(2);
+      expect(host.checkbox.getUncheckedItems().length).toBe(1);
     });
   });
 });

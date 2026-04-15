@@ -76,6 +76,16 @@ export class UswdsCheckbox implements AfterContentInit {
     return this.itemList.toArray();
   }
 
+  /** Returns all items that are currently checked. */
+  getCheckedItems(): UswdsCheckboxItem[] {
+    return this.items().filter((item) => item.checked);
+  }
+
+  /** Returns all items that are currently unchecked. */
+  getUncheckedItems(): UswdsCheckboxItem[] {
+    return this.items().filter((item) => !item.checked);
+  }
+
   private static instanceCounter = 0;
 
   ngAfterContentInit(): void {

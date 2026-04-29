@@ -19,3 +19,8 @@ export type { AccordionVariant } from './components/uswds-accordion/accordion-ty
 // Breadcrumb Component
 export * from './components/uswds-breadcrumb/uswds-breadcrumb';
 export type { BreadcrumbVariant } from './components/uswds-breadcrumb/uswds-breadcrumb';
+
+// Radio Button Component
+export * from './components/uswds-radio-button/uswds-radio-button';
+export * from './components/uswds-radio-button-item/uswds-radio-button-item';
+export type { RadioButtonVariant } from './components/uswds-radio-button/radio-button-types';

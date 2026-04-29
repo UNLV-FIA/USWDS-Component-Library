@@ -43,7 +43,7 @@ import { UswdsRadioButton } from '../uswds-radio-button/uswds-radio-button';
  * @input {boolean} [checkedByDefault=false] - When true, this radio button is pre-selected on render.
  *   Only one item in a group should have this set to true.
  *
- * @input {string} [id] - Custom id for the input/label pair. When not provided, an id is
+ * @input {string} [inputId] - Custom id for the input/label pair. When not provided, an id is
  *   auto-generated from the parent radio button's id prefix and this item's index.
  *
  * @output {boolean} selectedChange - Emits the new selected state whenever the radio button changes.
@@ -67,7 +67,7 @@ export class UswdsRadioButtonItem {
   // v8 ignore next
   checkedByDefault = input<boolean>(false);
   // v8 ignore next
-  id = input<string>();
+  inputId = input<string>();
 
   selectedChange = output<boolean>();
 
@@ -89,7 +89,7 @@ export class UswdsRadioButtonItem {
 
   // v8 ignore next
   resolvedId = computed(
-    () => this.id() ?? `${this.radioButton.resolvedIdPrefix()}-${this.index() + 1}`,
+    () => this.inputId() ?? `${this.radioButton.resolvedIdPrefix()}-${this.index() + 1}`,
   );
 
   // v8 ignore next

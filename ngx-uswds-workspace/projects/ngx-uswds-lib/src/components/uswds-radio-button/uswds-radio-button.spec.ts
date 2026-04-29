@@ -236,6 +236,15 @@ describe('UswdsRadioButton', () => {
       fixture.detectChanges();
       expect(fixture.componentInstance.radio.items().length).toBe(0);
     });
+
+    it('should return null from getSelectedItem when no item is selected', async () => {
+      await TestBed.configureTestingModule({
+        imports: [EmptyHost],
+      }).compileComponents();
+      const emptyFixture = TestBed.createComponent(EmptyHost);
+      emptyFixture.detectChanges();
+      expect(emptyFixture.componentInstance.radio.getSelectedItem()).toBeNull();
+    });
   });
 
   describe('getSelectedItem / getUnselectedItems', () => {
@@ -261,15 +270,6 @@ describe('UswdsRadioButton', () => {
     it('should return the remaining items in getUnselectedItems', () => {
       const unselected = host.radio.getUnselectedItems();
       expect(unselected.length).toBe(2);
-    });
-
-    it('should return null from getSelectedItem when no item is selected', async () => {
-      await TestBed.configureTestingModule({
-        imports: [EmptyHost],
-      }).compileComponents();
-      const emptyFixture = TestBed.createComponent(EmptyHost);
-      emptyFixture.detectChanges();
-      expect(emptyFixture.componentInstance.radio.getSelectedItem()).toBeNull();
     });
 
     it('should reflect a programmatic checked change', () => {

@@ -53,7 +53,7 @@ class DisabledHost {}
   imports: [UswdsRadioButton, UswdsRadioButtonItem],
   template: `
     <ngx-uswds-radio-button name="custom-id-group">
-      <ngx-uswds-radio-button-item label="Custom" value="custom" id="my-custom-id">
+      <ngx-uswds-radio-button-item label="Custom" value="custom" inputId="my-custom-id">
       </ngx-uswds-radio-button-item>
     </ngx-uswds-radio-button>
   `,

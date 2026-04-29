@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UswdsCheckbox } from './uswds-checkbox';
 import { UswdsCheckboxItem } from '../uswds-checkbox-item/uswds-checkbox-item';
@@ -9,7 +9,7 @@ import { UswdsCheckboxItem } from '../uswds-checkbox-item/uswds-checkbox-item';
   standalone: true,
   imports: [UswdsCheckbox, UswdsCheckboxItem],
   template: `
-    <ngx-uswds-checkbox [legend]="legend" [name]="name" [idPrefix]="idPrefix">
+    <ngx-uswds-checkbox [legend]="legend()" [name]="name" [idPrefix]="idPrefix">
       <ngx-uswds-checkbox-item
         label="Sojourner Truth"
         value="sojourner-truth"
@@ -24,7 +24,7 @@ import { UswdsCheckboxItem } from '../uswds-checkbox-item/uswds-checkbox-item';
   `,
 })
 class ThreeItemHost {
-  legend = 'Select any historical figure';
+  legend = signal('Select any historical figure');
   name = 'historical-figures';
   idPrefix?: string;
   @ViewChild(UswdsCheckbox) checkbox!: UswdsCheckbox;
@@ -175,7 +175,7 @@ describe('UswdsCheckbox', () => {
 
     describe('Legend update', () => {
       it('should update the rendered legend when the legend input changes', () => {
-        host.legend = 'Updated Legend';
+        host.legend.set('Updated Legend');
         fixture.detectChanges();
 
         const legend = fixture.nativeElement.querySelector('legend.usa-legend');

@@ -105,14 +105,12 @@ export class UswdsCheckboxItem {
 
   /** Returns the current checked state of the native input element. */
   get checked(): boolean {
-    return this.inputRef?.nativeElement?.checked ?? this.checkedByDefault();
+    return this.inputRef.nativeElement.checked;
   }
 
   /** Sets the checked state of the native input element. */
   set checked(val: boolean) {
-    if (this.inputRef?.nativeElement) {
-      this.inputRef.nativeElement.checked = val;
-    }
+    this.inputRef.nativeElement.checked = val;
   }
 
   /** Returns the native `<input type="checkbox">` element. */

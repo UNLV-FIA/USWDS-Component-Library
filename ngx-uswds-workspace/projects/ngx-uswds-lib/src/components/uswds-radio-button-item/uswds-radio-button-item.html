@@ -1,0 +1,19 @@
+<div class="usa-radio">
+  <input
+    #inputEl
+    [ngClass]="inputClasses()"
+    [id]="resolvedId()"
+    type="radio"
+    [name]="groupName()"
+    [value]="value()"
+    [checked]="checkedByDefault()"
+    [disabled]="disabled()"
+    (change)="onChange($event)"
+  />
+  <label class="usa-radio__label" [for]="resolvedId()">
+    {{ label() }}
+    @if (description()) {
+      <span class="usa-checkbox__label-description">{{ description() }}</span>
+    }
+  </label>
+</div>

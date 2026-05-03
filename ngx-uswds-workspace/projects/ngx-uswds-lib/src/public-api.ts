@@ -24,3 +24,8 @@ export type { BreadcrumbVariant } from './components/uswds-breadcrumb/uswds-brea
 export * from './components/uswds-radio-button/uswds-radio-button';
 export * from './components/uswds-radio-button-item/uswds-radio-button-item';
 export type { RadioButtonVariant } from './components/uswds-radio-button/radio-button-types';
+
+// Checkbox Component
+export * from './components/uswds-checkbox/uswds-checkbox';
+export * from './components/uswds-checkbox-item/uswds-checkbox-item';
+export type { CheckboxVariant } from './components/uswds-checkbox/checkbox-types';

@@ -71,8 +71,6 @@ export class UswdsRadioButtonItem {
 
   selectedChange = output<boolean>();
 
-  // Assigned by the parent UswdsRadioButton after content initialization. Not intended to
-  // be set externally — use the `checkedByDefault` and `id` inputs to configure this item.
   // v8 ignore next
   readonly _index = signal<number>(-1);
 

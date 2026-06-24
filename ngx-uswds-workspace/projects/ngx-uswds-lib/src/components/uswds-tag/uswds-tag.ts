@@ -30,6 +30,7 @@ import { TagVariant } from './tag-types';
   styleUrl: './uswds-tag.scss',
 })
 export class UswdsTag {
+  // v8 ignore next
   variant = input<TagVariant>('default');
 
   // Tag variant selection function

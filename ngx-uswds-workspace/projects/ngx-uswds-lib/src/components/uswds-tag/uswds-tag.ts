@@ -44,9 +44,3 @@ export class UswdsTag {
     }
   }
 }
-
-/*
-TO DO:
-- keep cross checking from uswds-banner
-- check if error comes up
-*/

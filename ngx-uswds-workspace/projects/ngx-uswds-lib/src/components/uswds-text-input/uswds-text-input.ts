@@ -18,6 +18,7 @@ import { NgClass } from '@angular/common';
  *   type="text"
  * ></ngx-uswds-text-input>
  *
+ * @example
  * <!-- Using a multi-line text input -->
  * <ngx-uswds-text-input
  *   label="Text area label"
@@ -42,18 +43,23 @@ import { NgClass } from '@angular/common';
   styleUrl: './uswds-text-input.scss',
 })
 export class UswdsTextInput {
+  // v8 ignore next
   label = input.required<string>();
+  // v8 ignore next
   type = input.required<textInputType>();
+  // v8 ignore next
   width = input<textInputWidth>();
+  // v8 ignore next
   state = input<textInputState>();
 
   ngOnInit(): void {
     if (this.label() === '') {
-      throw new Error("Propery 'label' is required and cannot be an empty string");
+      throw new Error('Propery "label" is required and cannot be an empty string');
     }
   }
 
   // Type of text input selection function
+  // v8 ignore next
   textInputTypeID = computed(() => this.textInputTypeIDFn());
   textInputTypeIDFn = () => {
     const ty = this.type();
@@ -68,6 +74,7 @@ export class UswdsTextInput {
   };
 
   // Adds the classes for width and state of text input
+  // v8 ignore next
   inputClasses = computed(() => this.inputClassesFn());
   inputClassesFn = () => {
     const classes = [''];

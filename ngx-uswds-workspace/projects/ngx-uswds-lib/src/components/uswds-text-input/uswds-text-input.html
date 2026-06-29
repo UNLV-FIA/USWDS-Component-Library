@@ -1,1 +1,20 @@
-<p>uswds-text-input works!</p>
+<label class="usa-label" [attr.for]="textInputTypeID()">{{ label() }}</label>
+<!-- Single line text input -->
+@if (type() == 'text') {
+  <input
+    class="usa-input"
+    [ngClass]="inputClasses()"
+    [id]="textInputTypeID()"
+    [name]="textInputTypeID()"
+  />
+}
+
+<!-- Multi-line text input -->
+@if (type() == 'textarea') {
+  <textarea
+    class="usa-textarea"
+    [ngClass]="inputClasses()"
+    [id]="textInputTypeID()"
+    [name]="textInputTypeID()"
+  ></textarea>
+}

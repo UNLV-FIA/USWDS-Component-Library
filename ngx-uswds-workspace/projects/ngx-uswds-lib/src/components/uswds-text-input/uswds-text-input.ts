@@ -5,18 +5,35 @@ import { NgClass } from '@angular/common';
 /**
  * @class UswdsTextInput
  * @description
- * An Angular standalone component that renders a U.S. Web Design System (USWDS) text input.
+ * An Angular component that renders a U.S. Web Design System (USWDS) text input.
  * Text input allows users to enter letters, numbers, or symbols useful for unpredicatable responses and pasted content.
  * Text input boxes can be single or multiple lines.
  *
  * @selector ngx-uswds-text-input
  *
  * @example
- * <!-- Example -->
+ * <!-- Using a single-line text input -->
+ * <ngx-uswds-text-input
+ *   label="Text input label"
+ *   type="text"
+ * ></ngx-uswds-text-input>
  *
+ * <!-- Using a multi-line text input -->
+ * <ngx-uswds-text-input
+ *   label="Text area label"
+ *   type="textarea"
+ * ></ngx-uswds-text-input>
  *
- * @input {type} [varname='default val'] -
+ * @input {string} label - The visual label text rendered next to the text input. Required.
  *
+ * @input {textInputType} type - The type of the text input. 'text' sets the text input as single-lined
+ *   and 'textarea' sets it to multi-lined. Required.
+ *
+ * @input {textInputWidth} width - The width of the text input. Accepts '2xs', 'xs', 'sm' or 'small',
+ *   'md' or 'medium', 'lg', 'xl', and '2xl'.
+ *
+ * @input {textInputState} state - The state of the text input. 'error' sets the text input in an error state
+ *   and 'success' sets the text input in a success state.
  */
 @Component({
   selector: 'ngx-uswds-text-input',
@@ -25,10 +42,10 @@ import { NgClass } from '@angular/common';
   styleUrl: './uswds-text-input.scss',
 })
 export class UswdsTextInput {
-  label = input.required<string>(); // required (maybe use.required here?)
-  type = input.required<textInputType>(); // required
-  width = input<textInputWidth>(); // optional
-  state = input<textInputState>(); // optional
+  label = input.required<string>();
+  type = input.required<textInputType>();
+  width = input<textInputWidth>();
+  state = input<textInputState>();
 
   ngOnInit(): void {
     if (this.label() === '') {
@@ -39,8 +56,8 @@ export class UswdsTextInput {
   // Type of text input selection function
   textInputTypeID = computed(() => this.textInputTypeIDFn());
   textInputTypeIDFn = () => {
-    const val = this.type();
-    switch (val) {
+    const ty = this.type();
+    switch (ty) {
       case 'text':
         return 'input-type-text';
       case 'textarea':
@@ -50,7 +67,7 @@ export class UswdsTextInput {
     }
   };
 
-  // Computes the classes for width and state of text input
+  // Adds the classes for width and state of text input
   inputClasses = computed(() => this.inputClassesFn());
   inputClassesFn = () => {
     const classes = [''];

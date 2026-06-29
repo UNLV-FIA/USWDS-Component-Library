@@ -24,3 +24,6 @@ export type { BreadcrumbVariant } from './components/uswds-breadcrumb/uswds-brea
 export * from './components/uswds-checkbox/uswds-checkbox';
 export * from './components/uswds-checkbox-item/uswds-checkbox-item';
 export type { CheckboxVariant } from './components/uswds-checkbox/checkbox-types';
+
+// Text Input Component
+export * from './components/uswds-text-input/uswds-text-input';

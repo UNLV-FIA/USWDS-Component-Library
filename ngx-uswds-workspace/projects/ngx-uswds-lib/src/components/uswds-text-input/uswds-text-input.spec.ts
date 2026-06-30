@@ -49,7 +49,7 @@ describe('UswdsTextInput', () => {
     expect(el.textContent).toBe('Text input label');
   });
 
-  it('should throw an error if invalid variant is provided', () => {
+  it('should throw an error if an empty label is provided', () => {
     fixture = TestBed.createComponent(UswdsTextInput);
     fixture.componentRef.setInput('label', '');
     expect(() => {

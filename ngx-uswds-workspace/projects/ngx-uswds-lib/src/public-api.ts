@@ -27,3 +27,6 @@ export type { CheckboxVariant } from './components/uswds-checkbox/checkbox-types
 
 // Tag Component
 export * from "./components/uswds-tag/uswds-tag";
+
+// Footer Component
+export * from './components/uswds-footer/uswds-footer';

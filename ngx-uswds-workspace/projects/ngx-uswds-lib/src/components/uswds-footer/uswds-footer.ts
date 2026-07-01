@@ -1,4 +1,5 @@
 import { Component, input, computed } from '@angular/core';
+import { FooterVariant } from './footer-types';
 import { footer } from '@uswds/uswds/js';
 
 @Component({
@@ -9,6 +10,7 @@ import { footer } from '@uswds/uswds/js';
   styleUrl: './uswds-footer.scss',
 })
 export class UswdsFooter {
+  variant = input<FooterVariant>();
   assetsPath = input<string>('/assets/img');
   agency = input<string>();
   logoImagePath = input<string>();

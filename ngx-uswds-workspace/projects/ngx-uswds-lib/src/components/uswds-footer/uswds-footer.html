@@ -105,7 +105,7 @@
           <div class="tablet:grid-col-4">
             <div class="usa-sign-up">
               <h3 class="usa-sign-up__heading">Sign up</h3>
-              <form class="usa-form">
+              <form ngNativeValidate class="usa-form" (ngSubmit)="handleSubmit()">
                 <label class="usa-label" for="email" id="">Your email address</label>
                 <input
                   class="usa-input"
@@ -113,8 +113,9 @@
                   name="email"
                   type="email"
                   autocomplete="email"
+                  [(ngModel)]="userEmail"
                 />
-                <button class="usa-button" type="submit">Sign up</button>
+                <ngx-uswds-button type="submit">{{ btnText() ?? 'Sign up' }}</ngx-uswds-button>
               </form>
             </div>
           </div>

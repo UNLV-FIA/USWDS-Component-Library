@@ -119,27 +119,31 @@ describe('UswdsTextInput', () => {
     expect(el?.classList.contains('usa-input--xs')).toBeTruthy();
   });
 
-  it('should change the text input`s width to small when provided', () => {
+  it('should change the text input`s width to small for "small"', () => {
     fixture.componentRef.setInput('width', 'small');
     fixture.detectChanges();
-    let el: HTMLElement = fixture.nativeElement.querySelector('input');
+    const el: HTMLElement = fixture.nativeElement.querySelector('input');
     expect(el?.classList.contains('usa-input--small')).toBeTruthy();
+  });
 
+  it('should change the text input`s width to small for "sm"', () => {
     fixture.componentRef.setInput('width', 'sm');
     fixture.detectChanges();
-    el = fixture.nativeElement.querySelector('input');
+    const el: HTMLElement = fixture.nativeElement.querySelector('input');
     expect(el?.classList.contains('usa-input--sm')).toBeTruthy();
   });
 
-  it('should change the text input`s width to medium when provided', () => {
+  it('should change the text input`s width to medium for "medium"', () => {
     fixture.componentRef.setInput('width', 'medium');
     fixture.detectChanges();
-    let el: HTMLElement = fixture.nativeElement.querySelector('input');
+    const el: HTMLElement = fixture.nativeElement.querySelector('input');
     expect(el?.classList.contains('usa-input--medium')).toBeTruthy();
+  });
 
+  it('should change the text input`s width to medium for "md"', () => {
     fixture.componentRef.setInput('width', 'md');
     fixture.detectChanges();
-    el = fixture.nativeElement.querySelector('input');
+    const el: HTMLElement = fixture.nativeElement.querySelector('input');
     expect(el?.classList.contains('usa-input--md')).toBeTruthy();
   });
 

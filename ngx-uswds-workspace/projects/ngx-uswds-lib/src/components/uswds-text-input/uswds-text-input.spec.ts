@@ -88,6 +88,11 @@ describe('UswdsTextInput', () => {
       expect(el?.classList.length).toBe(1);
     });
 
+    it('should only render the input element and not the textarea element', () => {
+      expect(fixture.nativeElement.querySelector('input')).not.toBeNull();
+      expect(fixture.nativeElement.querySelector('textarea')).toBeNull();
+    });
+
     it('should have the correct text id for the label`s for attribute', () => {
       const el: HTMLElement = fixture.nativeElement.querySelector('label');
       expect(el?.getAttribute('for')).toBe('input-type-text');
@@ -195,6 +200,11 @@ describe('UswdsTextInput', () => {
       const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
       expect(el?.classList.contains('usa-textarea')).toBeTruthy();
       expect(el?.classList.length).toBe(1);
+    });
+
+    it('should only render the textarea element and not the input element', () => {
+      expect(fixture.nativeElement.querySelector('textarea')).not.toBeNull();
+      expect(fixture.nativeElement.querySelector('input')).toBeNull();
     });
 
     it('should have the correct textarea id for the label`s for attribute', () => {

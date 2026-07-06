@@ -85,6 +85,7 @@ describe('UswdsTextInput', () => {
     it('should change the text input`s type to single-line when provided', () => {
       const el: HTMLElement = fixture.nativeElement.querySelector('input');
       expect(el?.classList.contains('usa-input')).toBeTruthy();
+      expect(el?.classList.length).toBe(1);
     });
 
     it('should have the correct text id for the label`s for attribute', () => {
@@ -193,6 +194,7 @@ describe('UswdsTextInput', () => {
     it('should change the text input`s type to multi-line when provided', () => {
       const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
       expect(el?.classList.contains('usa-textarea')).toBeTruthy();
+      expect(el?.classList.length).toBe(1);
     });
 
     it('should have the correct textarea id for the label`s for attribute', () => {

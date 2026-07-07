@@ -27,6 +27,10 @@ describe('UswdsTextInput', () => {
       expect(component).toBeTruthy();
     });
 
+    it('should default to no required attribute', () => {
+      expect(component.required()).toBe(false);
+    });
+
     it('should have the correct class for the label', () => {
       const el: HTMLElement = fixture.nativeElement.querySelector('label');
       expect(el?.classList.contains('usa-label')).toBeTruthy();
@@ -96,6 +100,13 @@ describe('UswdsTextInput', () => {
       const inputID: string = fixture.nativeElement.querySelector('input')?.getAttribute('id');
       const inputName: string = fixture.nativeElement.querySelector('input')?.getAttribute('name');
       expect(inputName).toEqual(inputID);
+    });
+
+    it('should add required attribute when requested', () => {
+      fixture.componentRef.setInput('required', 'true');
+      fixture.detectChanges();
+      const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+      expect(el?.required).toBeTruthy();
     });
 
     // Test text input 'text's widths
@@ -213,6 +224,13 @@ describe('UswdsTextInput', () => {
         .querySelector('textarea')
         ?.getAttribute('name');
       expect(textAreaName).toEqual(textAreaID);
+    });
+
+    it('should add required attribute when requested', () => {
+      fixture.componentRef.setInput('required', 'true');
+      fixture.detectChanges();
+      const el: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+      expect(el?.required).toBeTruthy();
     });
 
     // Test text input's 'textarea's widths

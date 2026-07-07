@@ -35,6 +35,8 @@ import { NgClass } from '@angular/common';
  *
  * @input {textInputState} state - The state of the text input. 'error' sets the text input in an error state
  *   and 'success' sets the text input in a success state.
+ *
+ * @input {boolean} [required=false] - When true, adds the required attribute to the text input.
  */
 @Component({
   selector: 'ngx-uswds-text-input',
@@ -51,6 +53,8 @@ export class UswdsTextInput {
   width = input<textInputWidth>();
   // v8 ignore next
   state = input<textInputState>();
+  // v8 ignore next
+  required = input<boolean>(false);
 
   ngOnInit(): void {
     if (this.label() === '') {

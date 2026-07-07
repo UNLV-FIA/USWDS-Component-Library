@@ -16,7 +16,7 @@ import { NgClass } from '@angular/common';
  * <ngx-uswds-text-input
  *   label="Text input label"
  *   type="text"
- *   inputID="input-type-text"
+ *   inputId="input-type-text"
  * ></ngx-uswds-text-input>
  *
  * @example
@@ -24,7 +24,7 @@ import { NgClass } from '@angular/common';
  * <ngx-uswds-text-input
  *   label="Text area label"
  *   type="textarea"
- *   inputID="input-type-textarea"
+ *   inputId="input-type-textarea"
  * ></ngx-uswds-text-input>
  *
  * @input {string} label - The visual label text rendered next to the text input. Required.
@@ -32,7 +32,7 @@ import { NgClass } from '@angular/common';
  * @input {textInputType} type - The type of the text input. 'text' sets the text input as single-lined
  *   and 'textarea' sets it to multi-lined. Required.
  *
- * @input {string} inputID - The value set for the id and name attribute for the text input. Also sets the label's for
+ * @input {string} inputId - The value set for the id and name attribute for the text input. Also sets the label's for
  *   attribute. Should be unique across text input components. Required.
  *
  * @input {textInputWidth} width - The width of the text input. Accepts '2xs', 'xs', 'sm' or 'small',
@@ -58,7 +58,7 @@ export class UswdsTextInput {
   // v8 ignore next
   type = input.required<textInputType>();
   // v8 ignore next
-  inputID = input.required<string>();
+  inputId = input.required<string>();
   // v8 ignore next
   width = input<textInputWidth>();
   // v8 ignore next
@@ -72,25 +72,10 @@ export class UswdsTextInput {
     if (this.label() === '') {
       throw new Error('Propery "label" is required and cannot be an empty string');
     }
-    if (this.inputID() === '') {
-      throw new Error('Propery "inputID" is required and cannot be an empty string');
+    if (this.inputId() === '') {
+      throw new Error('Propery "inputId" is required and cannot be an empty string');
     }
   }
-
-  // Type of text input selection function
-  // v8 ignore next
-  textInputTypeID = computed(() => this.textInputTypeIDFn());
-  textInputTypeIDFn = () => {
-    const ty = this.type();
-    switch (ty) {
-      case 'text':
-        return 'input-type-text';
-      case 'textarea':
-        return 'input-type-textarea';
-      default:
-        throw new Error('Invalid text input type selected, valid types are: [text, textarea]');
-    }
-  };
 
   // Adds the classes for width and state of text input
   // v8 ignore next

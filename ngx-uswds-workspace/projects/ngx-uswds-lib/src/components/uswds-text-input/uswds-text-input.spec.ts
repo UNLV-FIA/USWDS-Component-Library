@@ -16,7 +16,7 @@ describe('UswdsTextInput', () => {
     // Provide required props
     fixture.componentRef.setInput('label', 'Default label');
     fixture.componentRef.setInput('type', 'text');
-    fixture.componentRef.setInput('inputID', 'input-type-text');
+    fixture.componentRef.setInput('inputId', 'input-type-text');
 
     await fixture.whenStable();
   });
@@ -53,11 +53,11 @@ describe('UswdsTextInput', () => {
 
     it('should throw an error if an empty input id is provided', () => {
       fixture = TestBed.createComponent(UswdsTextInput);
-      fixture.componentRef.setInput('inputID', '');
+      fixture.componentRef.setInput('inputId', '');
       fixture.componentRef.setInput('label', 'Text input label');
       expect(() => {
         fixture.detectChanges();
-      }).toThrowError('Propery "inputID" is required and cannot be an empty string');
+      }).toThrowError('Propery "inputId" is required and cannot be an empty string');
     });
 
     it('should throw an error if invalid width is provided', () => {
@@ -92,14 +92,14 @@ describe('UswdsTextInput', () => {
 
     it('should link the label`s for attribute to the input`s id attribute', () => {
       const labelFor: string = fixture.nativeElement.querySelector('label')?.getAttribute('for');
-      const inputID: string = fixture.nativeElement.querySelector('input')?.getAttribute('id');
-      expect(labelFor).toEqual(inputID);
+      const inputId: string = fixture.nativeElement.querySelector('input')?.getAttribute('id');
+      expect(labelFor).toEqual(inputId);
     });
 
     it('should have identical values for the input`s id and name attributes', () => {
-      const inputID: string = fixture.nativeElement.querySelector('input')?.getAttribute('id');
+      const inputId: string = fixture.nativeElement.querySelector('input')?.getAttribute('id');
       const inputName: string = fixture.nativeElement.querySelector('input')?.getAttribute('name');
-      expect(inputName).toEqual(inputID);
+      expect(inputName).toEqual(inputId);
     });
 
     it('should add required attribute when requested', () => {
@@ -193,7 +193,7 @@ describe('UswdsTextInput', () => {
   describe('text area variant', () => {
     beforeEach(() => {
       fixture.componentRef.setInput('type', 'textarea');
-      fixture.componentRef.setInput('inputID', 'input-type-textarea');
+      fixture.componentRef.setInput('inputId', 'input-type-textarea');
       fixture.detectChanges();
     });
 

@@ -1,0 +1,9 @@
+<div>
+  <ul class="usa-card-group">
+    @for (card of cards(); track card) {
+      <li [class]="card.hostClasses()">
+        <ng-container [ngTemplateOutlet]="card.cardContentTemplate()"> </ng-container>
+      </li>
+    }
+  </ul>
+</div>

@@ -16,17 +16,13 @@ describe('UswdsTextInput', () => {
     // Provide required props
     fixture.componentRef.setInput('label', 'Default label');
     fixture.componentRef.setInput('type', 'text');
+    fixture.componentRef.setInput('inputID', 'input-type-text');
 
     await fixture.whenStable();
   });
 
   // Generic text input component tests (using single-line text input)
   describe('creation', () => {
-    beforeEach(() => {
-      fixture.componentRef.setInput('type', 'text');
-      fixture.detectChanges();
-    });
-
     it('should create', () => {
       expect(component).toBeTruthy();
     });
@@ -51,11 +47,13 @@ describe('UswdsTextInput', () => {
       }).toThrowError('Propery "label" is required and cannot be an empty string');
     });
 
-    it('should throw an error if invalid type is provided', () => {
-      fixture.componentRef.setInput('type', 'BADTYPE');
+    it('should throw an error if an empty input id is provided', () => {
+      fixture = TestBed.createComponent(UswdsTextInput);
+      fixture.componentRef.setInput('inputID', '');
+      fixture.componentRef.setInput('label', 'Text input label');
       expect(() => {
         fixture.detectChanges();
-      }).toThrowError('Invalid text input type selected, valid types are: [text, textarea]');
+      }).toThrowError('Propery "inputID" is required and cannot be an empty string');
     });
 
     it('should throw an error if invalid width is provided', () => {
@@ -77,11 +75,6 @@ describe('UswdsTextInput', () => {
 
   // Test text input 'text' variant
   describe('text input variant', () => {
-    beforeEach(() => {
-      fixture.componentRef.setInput('type', 'text');
-      fixture.detectChanges();
-    });
-
     it('should change the text input`s type to single-line when provided', () => {
       const el: HTMLElement = fixture.nativeElement.querySelector('input');
       expect(el?.classList.contains('usa-input')).toBeTruthy();
@@ -93,20 +86,16 @@ describe('UswdsTextInput', () => {
       expect(fixture.nativeElement.querySelector('textarea')).toBeNull();
     });
 
-    it('should have the correct text id for the label`s for attribute', () => {
-      const el: HTMLElement = fixture.nativeElement.querySelector('label');
-      expect(el?.getAttribute('for')).toBe('input-type-text');
-    });
-
-    it('should link the input label`s for attribute to the input`s id attribute', () => {
+    it('should link the label`s for attribute to the input`s id attribute', () => {
       const labelFor: string = fixture.nativeElement.querySelector('label')?.getAttribute('for');
       const inputID: string = fixture.nativeElement.querySelector('input')?.getAttribute('id');
       expect(labelFor).toEqual(inputID);
     });
 
-    it('should have the correct input id for the input`s name attribute', () => {
+    it('should have identical values for the input`s id and name attributes', () => {
+      const inputID: string = fixture.nativeElement.querySelector('input')?.getAttribute('id');
       const inputName: string = fixture.nativeElement.querySelector('input')?.getAttribute('name');
-      expect(inputName).toEqual('input-type-text');
+      expect(inputName).toEqual(inputID);
     });
 
     // Test text input 'text's widths
@@ -193,6 +182,7 @@ describe('UswdsTextInput', () => {
   describe('text area variant', () => {
     beforeEach(() => {
       fixture.componentRef.setInput('type', 'textarea');
+      fixture.componentRef.setInput('inputID', 'input-type-textarea');
       fixture.detectChanges();
     });
 
@@ -207,22 +197,22 @@ describe('UswdsTextInput', () => {
       expect(fixture.nativeElement.querySelector('input')).toBeNull();
     });
 
-    it('should have the correct textarea id for the label`s for attribute', () => {
-      const el: HTMLElement = fixture.nativeElement.querySelector('label');
-      expect(el?.getAttribute('for')).toBe('input-type-textarea');
-    });
-
-    it('should link the textarea label`s for attribute to the textarea`s id attribute', () => {
+    it('should link the label`s for attribute to the textarea`s id attribute', () => {
       const labelFor: string = fixture.nativeElement.querySelector('label')?.getAttribute('for');
-      const inputID: string = fixture.nativeElement.querySelector('textarea')?.getAttribute('id');
-      expect(labelFor).toEqual(inputID);
+      const textAreaID: string = fixture.nativeElement
+        .querySelector('textarea')
+        ?.getAttribute('id');
+      expect(labelFor).toEqual(textAreaID);
     });
 
-    it('should have the correct textarea id for the textarea`s name attribute', () => {
-      const inputName: string = fixture.nativeElement
+    it('should have identical values for the textarea`s id and name attributes', () => {
+      const textAreaID: string = fixture.nativeElement
+        .querySelector('textarea')
+        ?.getAttribute('id');
+      const textAreaName: string = fixture.nativeElement
         .querySelector('textarea')
         ?.getAttribute('name');
-      expect(inputName).toEqual('input-type-textarea');
+      expect(textAreaName).toEqual(textAreaID);
     });
 
     // Test text input's 'textarea's widths

@@ -16,6 +16,7 @@ import { NgClass } from '@angular/common';
  * <ngx-uswds-text-input
  *   label="Text input label"
  *   type="text"
+ *   inputID="input-type-text"
  * ></ngx-uswds-text-input>
  *
  * @example
@@ -23,12 +24,16 @@ import { NgClass } from '@angular/common';
  * <ngx-uswds-text-input
  *   label="Text area label"
  *   type="textarea"
+ *   inputID="input-type-textarea"
  * ></ngx-uswds-text-input>
  *
  * @input {string} label - The visual label text rendered next to the text input. Required.
  *
  * @input {textInputType} type - The type of the text input. 'text' sets the text input as single-lined
  *   and 'textarea' sets it to multi-lined. Required.
+ *
+ * @input {string} inputID - The value set for the id and name attribute for the text input. Also sets the label's for
+ *   attribute. Should be unique across text input components. Required.
  *
  * @input {textInputWidth} width - The width of the text input. Accepts '2xs', 'xs', 'sm' or 'small',
  *   'md' or 'medium', 'lg', 'xl', and '2xl'.
@@ -37,6 +42,9 @@ import { NgClass } from '@angular/common';
  *   and 'success' sets the text input in a success state.
  *
  * @input {boolean} [required=false] - When true, adds the required attribute to the text input.
+ *
+ * @input {boolean} [disabled=false] - When true, adds the disabled attribute to the text input and
+ *   and sets 'aria-disabled' to true.
  */
 @Component({
   selector: 'ngx-uswds-text-input',
@@ -50,15 +58,22 @@ export class UswdsTextInput {
   // v8 ignore next
   type = input.required<textInputType>();
   // v8 ignore next
+  inputID = input.required<string>();
+  // v8 ignore next
   width = input<textInputWidth>();
   // v8 ignore next
   state = input<textInputState>();
   // v8 ignore next
   required = input<boolean>(false);
+  // v8 ignore next
+  disabled = input<boolean>(false);
 
   ngOnInit(): void {
     if (this.label() === '') {
       throw new Error('Propery "label" is required and cannot be an empty string');
+    }
+    if (this.inputID() === '') {
+      throw new Error('Propery "inputID" is required and cannot be an empty string');
     }
   }
 

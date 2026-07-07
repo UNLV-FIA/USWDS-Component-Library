@@ -1,12 +1,14 @@
-<label class="usa-label" [attr.for]="textInputTypeID()">{{ label() }}</label>
+<label class="usa-label" [attr.for]="inputID()">{{ label() }}</label>
 <!-- Single line text input -->
 @if (type() == 'text') {
   <input
     class="usa-input"
     [ngClass]="inputClasses()"
-    [id]="textInputTypeID()"
-    [name]="textInputTypeID()"
+    [id]="inputID()"
+    [name]="inputID()"
     [required]="required()"
+    [disabled]="disabled()"
+    [attr.aria-disabled]="disabled()"
   />
 }
 
@@ -15,8 +17,10 @@
   <textarea
     class="usa-textarea"
     [ngClass]="inputClasses()"
-    [id]="textInputTypeID()"
-    [name]="textInputTypeID()"
+    [id]="inputID()"
+    [name]="inputID()"
     [required]="required()"
+    [disabled]="disabled()"
+    [attr.aria-disabled]="disabled()"
   ></textarea>
 }

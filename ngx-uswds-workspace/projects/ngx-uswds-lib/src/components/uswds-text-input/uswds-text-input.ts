@@ -45,6 +45,13 @@ import { NgClass } from '@angular/common';
  *
  * @input {boolean} [disabled=false] - When true, adds the disabled attribute to the text input and
  *   and sets 'aria-disabled' to true.
+ *
+ * @input {string} hint - The optional text that can be put in between the label and text input.
+ *
+ * @input {string} externalDescribedBy - Space-seperated list of element ids outside this component that describe this input.
+ *   Placed into aria-describedby alongside the hint id.
+ *
+ * @input {number} maxLen - Defines the maximum number of characters that the user can enter in a text input.
  */
 @Component({
   selector: 'ngx-uswds-text-input',
@@ -67,6 +74,12 @@ export class UswdsTextInput {
   required = input<boolean>(false);
   // v8 ignore next
   disabled = input<boolean>(false);
+  // v8 ignore next
+  hint = input<string>();
+  // v8 ignore next
+  externalDescribedBy = input<string>();
+  // v8 ignore next
+  maxLen = input<number>();
 
   ngOnInit(): void {
     if (this.label() === '') {
@@ -77,13 +90,34 @@ export class UswdsTextInput {
     }
   }
 
-  // Adds the classes for width and state of text input
+  // v8 ignore next
+  hintId = computed(() => (this.hint() ? `${this.inputId()}-hint` : null));
+
+  // v8 ignore next
+  describedBy = computed(() => this.describedByFn());
+  describedByFn = () => {
+    const ids = [];
+    if (this.hint()) {
+      ids.push(this.hintId());
+    }
+    if (this.externalDescribedBy()) {
+      ids.push(this.externalDescribedBy());
+    }
+    return ids.length ? ids.join(' ') : null;
+  };
+
+  // Adds the CSS classes for width, state, and character count to the text input
   // v8 ignore next
   inputClasses = computed(() => this.inputClassesFn());
   inputClassesFn = () => {
-    const classes = [''];
+    const classes = [];
     const wid = this.width();
     const st = this.state();
+
+    // If a max length is defined, add the character count class
+    if (this.maxLen()) {
+      classes.push('usa-character-count__field');
+    }
 
     // Add CSS for text input's width
     switch (wid) {

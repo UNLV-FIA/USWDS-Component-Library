@@ -1,4 +1,7 @@
 <label class="usa-label" [attr.for]="inputId()">{{ label() }}</label>
+@if (hint()) {
+  <span class="usa-hint" [id]="hintId()">{{ hint() }}</span>
+}
 <!-- Single line text input -->
 @if (type() == 'text') {
   <input
@@ -9,9 +12,10 @@
     [required]="required()"
     [disabled]="disabled()"
     [attr.aria-disabled]="disabled()"
+    [attr.aria-describedby]="describedBy()"
+    [attr.maxlength]="maxLen()"
   />
 }
-
 <!-- Multi-line text input -->
 @if (type() == 'textarea') {
   <textarea
@@ -22,5 +26,7 @@
     [required]="required()"
     [disabled]="disabled()"
     [attr.aria-disabled]="disabled()"
+    [attr.aria-describedby]="describedBy()"
+    [attr.maxlength]="maxLen()"
   ></textarea>
 }

@@ -34,7 +34,9 @@ describe('UswdsTextInput', () => {
     it('should default to no disabled attribute', () => {
       expect(component.disabled()).toBe(false);
     });
+  });
 
+  describe('label', () => {
     it('should have the correct class for the label', () => {
       const el: HTMLElement = fixture.nativeElement.querySelector('label');
       expect(el?.classList.contains('usa-label')).toBeTruthy();
@@ -54,7 +56,9 @@ describe('UswdsTextInput', () => {
         fixture.detectChanges();
       }).toThrowError('Propery "label" is required and cannot be an empty string');
     });
+  });
 
+  describe('input validation', () => {
     it('should throw an error if an empty input id is provided', () => {
       fixture = TestBed.createComponent(UswdsTextInput);
       fixture.componentRef.setInput('inputId', '');
@@ -92,6 +96,11 @@ describe('UswdsTextInput', () => {
     it('should only render the input element and not the textarea element', () => {
       expect(fixture.nativeElement.querySelector('input')).not.toBeNull();
       expect(fixture.nativeElement.querySelector('textarea')).toBeNull();
+    });
+
+    it('should render no required attribute at the start', () => {
+      const el: HTMLElement = fixture.nativeElement.querySelector('input');
+      expect(el?.hasAttribute('required')).toBe(false);
     });
 
     it('should render no disabled attribute at the start', () => {
@@ -234,6 +243,11 @@ describe('UswdsTextInput', () => {
     it('should only render the textarea element and not the input element', () => {
       expect(fixture.nativeElement.querySelector('textarea')).not.toBeNull();
       expect(fixture.nativeElement.querySelector('input')).toBeNull();
+    });
+
+    it('should render no required attribute at the start', () => {
+      const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+      expect(el?.hasAttribute('required')).toBe(false);
     });
 
     it('should render no disabled attribute at the start', () => {

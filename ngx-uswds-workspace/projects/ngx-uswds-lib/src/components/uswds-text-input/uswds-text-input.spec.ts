@@ -31,6 +31,10 @@ describe('UswdsTextInput', () => {
       expect(component.required()).toBe(false);
     });
 
+    it('should default to no disabled attribute', () => {
+      expect(component.disabled()).toBe(false);
+    });
+
     it('should have the correct class for the label', () => {
       const el: HTMLElement = fixture.nativeElement.querySelector('label');
       expect(el?.classList.contains('usa-label')).toBeTruthy();
@@ -90,6 +94,16 @@ describe('UswdsTextInput', () => {
       expect(fixture.nativeElement.querySelector('textarea')).toBeNull();
     });
 
+    it('should render no disabled attribute at the start', () => {
+      const el: HTMLElement = fixture.nativeElement.querySelector('input');
+      expect(el?.hasAttribute('disabled')).toBe(false);
+    });
+
+    it('should render no aria-disabled attribute at the start', () => {
+      const el: HTMLElement = fixture.nativeElement.querySelector('input');
+      expect(el?.hasAttribute('aria-disabled')).toBe(false);
+    });
+
     it('should link the label`s for attribute to the input`s id attribute', () => {
       const labelFor: string = fixture.nativeElement.querySelector('label')?.getAttribute('for');
       const inputId: string = fixture.nativeElement.querySelector('input')?.getAttribute('id');
@@ -102,11 +116,25 @@ describe('UswdsTextInput', () => {
       expect(inputName).toEqual(inputId);
     });
 
-    it('should add required attribute when requested', () => {
+    it('should set required attribute when requested', () => {
       fixture.componentRef.setInput('required', 'true');
       fixture.detectChanges();
       const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
       expect(el?.required).toBeTruthy();
+    });
+
+    it('should set disabled attribute when requested', () => {
+      fixture.componentRef.setInput('disabled', 'true');
+      fixture.detectChanges();
+      const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+      expect(el?.disabled).toBeTruthy();
+    });
+
+    it('should set aria-disabled to true when requested', () => {
+      fixture.componentRef.setInput('disabled', 'true');
+      fixture.detectChanges();
+      const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+      expect(el?.hasAttribute('aria-disabled')).toBeTruthy();
     });
 
     // Test text input 'text's widths
@@ -208,6 +236,16 @@ describe('UswdsTextInput', () => {
       expect(fixture.nativeElement.querySelector('input')).toBeNull();
     });
 
+    it('should render no disabled attribute at the start', () => {
+      const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+      expect(el?.hasAttribute('disabled')).toBe(false);
+    });
+
+    it('should render no aria-disabled attribute at the start', () => {
+      const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+      expect(el?.hasAttribute('aria-disabled')).toBe(false);
+    });
+
     it('should link the label`s for attribute to the textarea`s id attribute', () => {
       const labelFor: string = fixture.nativeElement.querySelector('label')?.getAttribute('for');
       const textAreaID: string = fixture.nativeElement
@@ -226,11 +264,25 @@ describe('UswdsTextInput', () => {
       expect(textAreaName).toEqual(textAreaID);
     });
 
-    it('should add required attribute when requested', () => {
+    it('should set required attribute when requested', () => {
       fixture.componentRef.setInput('required', 'true');
       fixture.detectChanges();
       const el: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
       expect(el?.required).toBeTruthy();
+    });
+
+    it('should set disabled attribute when requested', () => {
+      fixture.componentRef.setInput('disabled', 'true');
+      fixture.detectChanges();
+      const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
+      expect(el?.disabled).toBeTruthy();
+    });
+
+    it('should set aria-disabled to true when requested', () => {
+      fixture.componentRef.setInput('disabled', 'true');
+      fixture.detectChanges();
+      const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
+      expect(el?.hasAttribute('aria-disabled')).toBeTruthy();
     });
 
     // Test text input's 'textarea's widths

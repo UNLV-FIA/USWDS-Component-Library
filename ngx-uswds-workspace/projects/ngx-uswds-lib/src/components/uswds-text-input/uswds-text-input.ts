@@ -49,7 +49,7 @@ import { NgClass } from '@angular/common';
  * @input {string} hint - The optional text that can be put in between the label and text input.
  *
  * @input {string} externalDescribedBy - Space-seperated list of element ids outside this component that describe this input.
- *   Placed into aria-describedby alongside the hint id.
+ *   Placed into 'aria-describedby' alongside the hint id.
  *
  * @input {number} maxLen - Defines the maximum number of characters that the user can enter in a text input.
  */
@@ -89,6 +89,9 @@ export class UswdsTextInput {
       throw new Error('Propery "inputId" is required and cannot be an empty string');
     }
   }
+
+  // v8 ignore next
+  ariaDisabled = computed(() => (this.disabled() ? true : null));
 
   // v8 ignore next
   hintId = computed(() => (this.hint() ? `${this.inputId()}-hint` : null));

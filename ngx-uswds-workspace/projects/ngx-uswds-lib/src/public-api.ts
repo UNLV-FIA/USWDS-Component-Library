@@ -25,5 +25,8 @@ export * from './components/uswds-checkbox/uswds-checkbox';
 export * from './components/uswds-checkbox-item/uswds-checkbox-item';
 export type { CheckboxVariant } from './components/uswds-checkbox/checkbox-types';
 
+// Tag Component
+export * from "./components/uswds-tag/uswds-tag";
+
 // Text Input Component
 export * from './components/uswds-text-input/uswds-text-input';

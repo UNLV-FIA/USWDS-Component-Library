@@ -144,6 +144,11 @@ describe('UswdsTextInput', () => {
       expect(el?.hasAttribute('aria-describedby')).toBe(false);
     });
 
+    it('should render no maxlength attribute at initialization', () => {
+      const el: HTMLElement = fixture.nativeElement.querySelector('input');
+      expect(el?.hasAttribute('maxlength')).toBe(false);
+    });
+
     it('should link the label`s for attribute to the input`s id attribute', () => {
       const labelFor: string = fixture.nativeElement.querySelector('label')?.getAttribute('for');
       const inputId: string = fixture.nativeElement.querySelector('input')?.getAttribute('id');
@@ -182,6 +187,27 @@ describe('UswdsTextInput', () => {
       fixture.detectChanges();
       const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
       expect(el?.getAttribute('aria-describedby')).toContain(`${component.hintId()}`);
+    });
+
+    it('should add the externalDescribedBy in the aria-describedby attribute', () => {
+      fixture.componentRef.setInput('externalDescribedBy', 'additional-id');
+      fixture.detectChanges();
+      const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+      expect(el?.getAttribute('aria-describedby')).toContain('additional-id');
+    });
+
+    it('should add the maxlength attribute when requested', () => {
+      fixture.componentRef.setInput('maxLen', 5);
+      fixture.detectChanges();
+      const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+      expect(el?.getAttribute('maxlength')).toBe('5');
+    });
+
+    it('should add the character count class when there`s a maxlength', () => {
+      fixture.componentRef.setInput('maxLen', 5);
+      fixture.detectChanges();
+      const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+      expect(el?.classList.contains('usa-character-count__field')).toBeTruthy();
     });
 
     // Test text input 'text's widths
@@ -303,6 +329,11 @@ describe('UswdsTextInput', () => {
       expect(el?.hasAttribute('aria-describedby')).toBe(false);
     });
 
+    it('should render no maxlength attribute at initialization', () => {
+      const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+      expect(el?.hasAttribute('maxlength')).toBe(false);
+    });
+
     it('should link the label`s for attribute to the textarea`s id attribute', () => {
       const labelFor: string = fixture.nativeElement.querySelector('label')?.getAttribute('for');
       const textAreaID: string = fixture.nativeElement
@@ -347,6 +378,27 @@ describe('UswdsTextInput', () => {
       fixture.detectChanges();
       const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
       expect(el?.getAttribute('aria-describedby')).toContain(`${component.hintId()}`);
+    });
+
+    it('should add the externalDescribedBy in the aria-describedby attribute', () => {
+      fixture.componentRef.setInput('externalDescribedBy', 'additional-id');
+      fixture.detectChanges();
+      const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
+      expect(el?.getAttribute('aria-describedby')).toContain('additional-id');
+    });
+
+    it('should add the maxlength attribute when requested', () => {
+      fixture.componentRef.setInput('maxLen', 5);
+      fixture.detectChanges();
+      const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
+      expect(el?.getAttribute('maxlength')).toBe('5');
+    });
+
+    it('should add the character count class when there`s a maxlength', () => {
+      fixture.componentRef.setInput('maxLen', 5);
+      fixture.detectChanges();
+      const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
+      expect(el?.classList.contains('usa-character-count__field')).toBeTruthy();
     });
 
     // Test text input's 'textarea's widths

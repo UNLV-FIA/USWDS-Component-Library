@@ -34,6 +34,10 @@ describe('UswdsTextInput', () => {
     it('should default to no disabled attribute', () => {
       expect(component.disabled()).toBe(false);
     });
+
+    it('should render no hint at initialization', () => {
+      expect(fixture.nativeElement.querySelector(`#${component.hintId()}`)).toBeNull();
+    });
   });
 
   describe('label', () => {
@@ -55,6 +59,28 @@ describe('UswdsTextInput', () => {
       expect(() => {
         fixture.detectChanges();
       }).toThrowError('Propery "label" is required and cannot be an empty string');
+    });
+  });
+
+  describe('hint', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('hint', 'This is hint text.');
+      fixture.detectChanges();
+    });
+
+    it('should have the correct id', () => {
+      const el: HTMLElement = fixture.nativeElement.querySelector('span');
+      expect(el?.getAttribute('id')).toBe(`${component.inputId()}-hint`);
+    });
+
+    it('should have the correct class for the hint', () => {
+      const el: HTMLElement = fixture.nativeElement.querySelector(`#${component.hintId()}`);
+      expect(el?.classList.contains('usa-hint')).toBeTruthy();
+    });
+
+    it('should render the hint text', () => {
+      const el: HTMLElement = fixture.nativeElement.querySelector(`#${component.hintId()}`);
+      expect(el.textContent).toBe('This is hint text.');
     });
   });
 
@@ -98,19 +124,24 @@ describe('UswdsTextInput', () => {
       expect(fixture.nativeElement.querySelector('textarea')).toBeNull();
     });
 
-    it('should render no required attribute at the start', () => {
+    it('should render no required attribute at initialization', () => {
       const el: HTMLElement = fixture.nativeElement.querySelector('input');
       expect(el?.hasAttribute('required')).toBe(false);
     });
 
-    it('should render no disabled attribute at the start', () => {
+    it('should render no disabled attribute at initialization', () => {
       const el: HTMLElement = fixture.nativeElement.querySelector('input');
       expect(el?.hasAttribute('disabled')).toBe(false);
     });
 
-    it('should render no aria-disabled attribute at the start', () => {
+    it('should render no aria-disabled attribute at initialization', () => {
       const el: HTMLElement = fixture.nativeElement.querySelector('input');
       expect(el?.hasAttribute('aria-disabled')).toBe(false);
+    });
+
+    it('should render no aria-describedby attribute at initialization', () => {
+      const el: HTMLElement = fixture.nativeElement.querySelector('input');
+      expect(el?.hasAttribute('aria-describedby')).toBe(false);
     });
 
     it('should link the label`s for attribute to the input`s id attribute', () => {
@@ -144,6 +175,13 @@ describe('UswdsTextInput', () => {
       fixture.detectChanges();
       const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
       expect(el?.hasAttribute('aria-disabled')).toBeTruthy();
+    });
+
+    it('should add the hint in the aria-describedby attribute', () => {
+      fixture.componentRef.setInput('hint', 'This is hint text.');
+      fixture.detectChanges();
+      const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+      expect(el?.getAttribute('aria-describedby')).toContain(`${component.hintId()}`);
     });
 
     // Test text input 'text's widths
@@ -245,19 +283,24 @@ describe('UswdsTextInput', () => {
       expect(fixture.nativeElement.querySelector('input')).toBeNull();
     });
 
-    it('should render no required attribute at the start', () => {
+    it('should render no required attribute at initialization', () => {
       const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
       expect(el?.hasAttribute('required')).toBe(false);
     });
 
-    it('should render no disabled attribute at the start', () => {
+    it('should render no disabled attribute at initialization', () => {
       const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
       expect(el?.hasAttribute('disabled')).toBe(false);
     });
 
-    it('should render no aria-disabled attribute at the start', () => {
+    it('should render no aria-disabled attribute at initialization', () => {
       const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
       expect(el?.hasAttribute('aria-disabled')).toBe(false);
+    });
+
+    it('should render no aria-describedby attribute at initialization', () => {
+      const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+      expect(el?.hasAttribute('aria-describedby')).toBe(false);
     });
 
     it('should link the label`s for attribute to the textarea`s id attribute', () => {
@@ -297,6 +340,13 @@ describe('UswdsTextInput', () => {
       fixture.detectChanges();
       const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
       expect(el?.hasAttribute('aria-disabled')).toBeTruthy();
+    });
+
+    it('should add the hint in the aria-describedby attribute', () => {
+      fixture.componentRef.setInput('hint', 'This is hint text.');
+      fixture.detectChanges();
+      const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
+      expect(el?.getAttribute('aria-describedby')).toContain(`${component.hintId()}`);
     });
 
     // Test text input's 'textarea's widths

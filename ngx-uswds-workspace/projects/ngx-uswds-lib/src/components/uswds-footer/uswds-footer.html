@@ -99,14 +99,18 @@
           <address class="usa-footer__address">
             <div class="grid-row grid-gap">
               <div class="grid-col-auto mobile-lg:grid-col-12 desktop:grid-col-auto">
-                <div class="usa-footer__contact-info">
-                  <a href="tel:1-800-555-5555">&lt;(800) 555-GOVT&gt;</a>
-                </div>
+                @if (agencyPhone()) {
+                  <div class="usa-footer__contact-info">
+                    <a [href]="`tel:${agencyPhone()}`">{{ agencyPhoneLabel() }}</a>
+                  </div>
+                }
               </div>
               <div class="grid-col-auto mobile-lg:grid-col-12 desktop:grid-col-auto">
-                <div class="usa-footer__contact-info">
-                  <a href="mailto:info@agency.gov">&lt;info@agency.gov&gt;</a>
-                </div>
+                @if (agencyEmail()) {
+                  <div class="usa-footer__contact-info">
+                    <a [href]="`mailto:${agencyEmail()}`">{{ agencyEmail() }}</a>
+                  </div>
+                }
               </div>
             </div>
           </address>
@@ -120,16 +124,16 @@
       @if (variant() == 'big' || variant() == 'medium') {
         <div class="grid-row grid-gap">
           <div class="usa-footer__logo grid-row mobile-lg:grid-col-6 mobile-lg:grid-gap-2">
-            <div class="mobile-lg:grid-col-auto">
-              @if (agencyLogoImagePath()) {
+            @if (agencyLogoImagePath()) {
+              <div class="mobile-lg:grid-col-auto">
                 <img class="usa-footer__logo-img" [src]="agencyLogoImagePath()" alt="" />
-              }
-            </div>
-            <div class="mobile-lg:grid-col-auto">
-              @if (agencyName()) {
+              </div>
+            }
+            @if (agencyName()) {
+              <div class="mobile-lg:grid-col-auto">
                 <p class="usa-footer__logo-heading">{{ agencyName() }}</p>
-              }
-            </div>
+              </div>
+            }
           </div>
           <div class="usa-footer__contact-links mobile-lg:grid-col-6">
             <div class="usa-footer__social-links grid-row grid-gap-1">
@@ -159,15 +163,21 @@
                 /></a>
               </div>
             </div>
-            <p class="usa-footer__contact-heading">&lt;Agency Contact Center&gt;</p>
+            @if (agencyContactHeading()) {
+              <p class="usa-footer__contact-heading">{{ agencyContactHeading() }}</p>
+            }
             <address class="usa-footer__address">
               <div class="usa-footer__contact-info grid-row grid-gap">
-                <div class="grid-col-auto">
-                  <a href="tel:1-800-555-5555">&lt;(800) 555-GOVT&gt;</a>
-                </div>
-                <div class="grid-col-auto">
-                  <a href="mailto:info@agency.gov">&lt;info@agency.gov&gt;</a>
-                </div>
+                @if (agencyPhone()) {
+                  <div class="grid-col-auto">
+                    <a [href]="`tel:${agencyPhone()}`">{{ agencyPhoneLabel() }}</a>
+                  </div>
+                }
+                @if (agencyEmail()) {
+                  <div class="grid-col-auto">
+                    <a [href]="`mailto:${agencyEmail}`">{{ agencyEmail() }}</a>
+                  </div>
+                }
               </div>
             </address>
           </div>
@@ -179,9 +189,11 @@
               <img class="usa-footer__logo-img" [src]="agencyLogoImagePath()" alt="" />
             }
           </div>
-          <div class="grid-col-auto">
-            <p class="usa-footer__logo-heading">&lt;Agency Contact Center&gt;</p>
-          </div>
+          @if (agencyContactHeading()) {
+            <div class="grid-col-auto">
+              <p class="usa-footer__logo-heading">{{ agencyContactHeading() }}</p>
+            </div>
+          }
         </div>
       }
     </div>

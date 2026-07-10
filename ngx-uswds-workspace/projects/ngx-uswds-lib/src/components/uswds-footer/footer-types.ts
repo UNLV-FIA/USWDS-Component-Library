@@ -13,7 +13,7 @@ export interface FooterLinkColumn {
 }
 
 export interface SignUpForm {
-  header?: string;
+  heading?: string;
   label?: string;
   buttonStyle?: ButtonStyle;
   buttonText?: string;
@@ -22,6 +22,8 @@ export interface SignUpForm {
 export interface AgencyInfo {
   name?: string;
   logoImagePath?: string;
+  contactHeading?: string;
+  phoneLabel?: string;
   phone?: string;
   email?: string;
 }

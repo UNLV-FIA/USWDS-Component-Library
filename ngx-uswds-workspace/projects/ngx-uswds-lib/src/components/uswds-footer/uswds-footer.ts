@@ -25,6 +25,15 @@ import { footer } from '@uswds/uswds/js';
  *
  * @input {FooterLinkColumn[]} [linkColumns=[]] - A list of columns of links to display in the 'big' footer.
  *   Each item requires a 'topic' and `links` for the column. Each link requires a 'label' and 'href'.
+ *
+ * @input {AgencyInfo} agencyInfo - An object that stores the agency's information to display in the footer.
+ *   Fields include:
+ *     - 'name': agency's name
+ *     - 'logoImagePath': path to agency's logo
+ *     - 'contactHeading': heading displayed above the agency's phone number and email
+ *     - 'phone': agency's contact phone number
+ *     - 'phoneLabel': optional label for the agency's phone number (e.g. (800) 555-GOVT)
+ *     - 'email': agency's contact email
  */
 @Component({
   selector: 'ngx-uswds-footer',
@@ -68,9 +77,14 @@ export class UswdsFooter {
     this.formSubmit.emit(this.userEmail);
   }
 
-  // Assign default values for footer items
-  agencyName = computed(() => this.agencyInfo()?.name ?? null);
-  agencyLogoImagePath = computed(() => this.agencyInfo()?.logoImagePath ?? null);
+  // Display the footer item if defined; otherwise, assign undefined or fall back to a default
+  agencyName = computed(() => this.agencyInfo()?.name);
+  agencyLogoImagePath = computed(() => this.agencyInfo()?.logoImagePath);
+  agencyContactHeading = computed(() => this.agencyInfo()?.contactHeading);
+  agencyPhone = computed(() => this.agencyInfo()?.phone);
+  agencyPhoneLabel = computed(() => this.agencyInfo()?.phoneLabel ?? this.agencyPhone());
+  agencyEmail = computed(() => this.agencyInfo()?.email);
+
   btnText = computed(() => this.signUpForm()?.buttonText ?? 'Sign Up');
 
   // Compute icon paths for social media links

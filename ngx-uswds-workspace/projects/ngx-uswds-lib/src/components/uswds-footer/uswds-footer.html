@@ -10,95 +10,24 @@
           <div class="tablet:grid-col-8">
             <nav class="usa-footer__nav" aria-label="Footer navigation,,">
               <div class="grid-row grid-gap-4">
-                <div class="mobile-lg:grid-col-6 desktop:grid-col-3">
-                  <section
-                    class="usa-footer__primary-content usa-footer__primary-content--collapsible"
-                  >
-                    <h4 class="usa-footer__primary-link">&lt;Topic&gt;</h4>
-                    <ul class="usa-list usa-list--unstyled">
-                      <li class="usa-footer__secondary-link">
-                        <a href="javascript:void(0);">&lt;Secondary link&gt;</a>
-                      </li>
-                      <li class="usa-footer__secondary-link">
-                        <a href="javascript:void(0);">&lt;Secondary link&gt;</a>
-                      </li>
-                      <li class="usa-footer__secondary-link">
-                        <a href="javascript:void(0);"
-                          >&lt;Secondary link that&#039;s a bit longer than most of the
-                          others&gt;</a
-                        >
-                      </li>
-                      <li class="usa-footer__secondary-link">
-                        <a href="javascript:void(0);">&lt;Secondary link&gt;</a>
-                      </li>
-                    </ul>
-                  </section>
-                </div>
-                <div class="mobile-lg:grid-col-6 desktop:grid-col-3">
-                  <section
-                    class="usa-footer__primary-content usa-footer__primary-content--collapsible"
-                  >
-                    <h4 class="usa-footer__primary-link">&lt;Topic&gt;</h4>
-                    <ul class="usa-list usa-list--unstyled">
-                      <li class="usa-footer__secondary-link">
-                        <a href="javascript:void(0);">&lt;Secondary link&gt;</a>
-                      </li>
-                      <li class="usa-footer__secondary-link">
-                        <a href="javascript:void(0);"
-                          >&lt;Secondary link that&#039;s pretty long&gt;</a
-                        >
-                      </li>
-                      <li class="usa-footer__secondary-link">
-                        <a href="javascript:void(0);">&lt;Secondary link&gt;</a>
-                      </li>
-                      <li class="usa-footer__secondary-link">
-                        <a href="javascript:void(0);">&lt;Secondary link&gt;</a>
-                      </li>
-                    </ul>
-                  </section>
-                </div>
-                <div class="mobile-lg:grid-col-6 desktop:grid-col-3">
-                  <section
-                    class="usa-footer__primary-content usa-footer__primary-content--collapsible"
-                  >
-                    <h4 class="usa-footer__primary-link">&lt;Topic&gt;</h4>
-                    <ul class="usa-list usa-list--unstyled">
-                      <li class="usa-footer__secondary-link">
-                        <a href="javascript:void(0);">&lt;Secondary link&gt;</a>
-                      </li>
-                      <li class="usa-footer__secondary-link">
-                        <a href="javascript:void(0);">&lt;Secondary link&gt;</a>
-                      </li>
-                      <li class="usa-footer__secondary-link">
-                        <a href="javascript:void(0);">&lt;Secondary link&gt;</a>
-                      </li>
-                      <li class="usa-footer__secondary-link">
-                        <a href="javascript:void(0);">&lt;Secondary link&gt;</a>
-                      </li>
-                    </ul>
-                  </section>
-                </div>
-                <div class="mobile-lg:grid-col-6 desktop:grid-col-3">
-                  <section
-                    class="usa-footer__primary-content usa-footer__primary-content--collapsible"
-                  >
-                    <h4 class="usa-footer__primary-link">&lt;Topic&gt;</h4>
-                    <ul class="usa-list usa-list--unstyled">
-                      <li class="usa-footer__secondary-link">
-                        <a href="javascript:void(0);">&lt;Secondary link&gt;</a>
-                      </li>
-                      <li class="usa-footer__secondary-link">
-                        <a href="javascript:void(0);">&lt;Secondary link&gt;</a>
-                      </li>
-                      <li class="usa-footer__secondary-link">
-                        <a href="javascript:void(0);">&lt;Secondary link&gt;</a>
-                      </li>
-                      <li class="usa-footer__secondary-link">
-                        <a href="javascript:void(0);">&lt;Secondary link&gt;</a>
-                      </li>
-                    </ul>
-                  </section>
-                </div>
+                <!-- Load in link columns -->
+                @for (col of linkColumns(); track col.topic) {
+                  <div class="mobile-lg:grid-col-6 desktop:grid-col-3">
+                    <section
+                      class="usa-footer__primary-content usa-footer__primary-content--collapsible"
+                    >
+                      <h4 class="usa-footer__primary-link">{{ col.topic }}</h4>
+                      <ul class="usa-list usa-list--unstyled">
+                        <!-- Load in each link -->
+                        @for (link of col.links; track link.href) {
+                          <li class="usa-footer__secondary-link">
+                            <a [href]="link.href">{{ link.label }}</a>
+                          </li>
+                        }
+                      </ul>
+                    </section>
+                  </div>
+                }
               </div>
             </nav>
           </div>
@@ -115,7 +44,7 @@
                   autocomplete="email"
                   [(ngModel)]="userEmail"
                 />
-                <ngx-uswds-button type="submit">{{ btnText() ?? 'Sign up' }}</ngx-uswds-button>
+                <ngx-uswds-button type="submit">{{ btnText() }}</ngx-uswds-button>
               </form>
             </div>
           </div>
@@ -192,41 +121,41 @@
         <div class="grid-row grid-gap">
           <div class="usa-footer__logo grid-row mobile-lg:grid-col-6 mobile-lg:grid-gap-2">
             <div class="mobile-lg:grid-col-auto">
-              <img
-                class="usa-footer__logo-img"
-                [src]="logoImagePath() ?? defaultLogoImagePath()"
-                alt=""
-              />
+              @if (agencyLogoImagePath()) {
+                <img class="usa-footer__logo-img" [src]="agencyLogoImagePath()" alt="" />
+              }
             </div>
             <div class="mobile-lg:grid-col-auto">
-              <p class="usa-footer__logo-heading">{{ agency() ?? '&lt;Name of Agency&gt;' }}</p>
+              @if (agencyName()) {
+                <p class="usa-footer__logo-heading">{{ agencyName() }}</p>
+              }
             </div>
           </div>
           <div class="usa-footer__contact-links mobile-lg:grid-col-6">
             <div class="usa-footer__social-links grid-row grid-gap-1">
               <div class="grid-col-auto">
                 <a class="usa-social-link" href="javascript:void(0);"
-                  ><img class="usa-social-link__icon" [src]="facebookImagePath()" alt="Facebook"
+                  ><img class="usa-social-link__icon" [src]="facebookIconPath()" alt="Facebook"
                 /></a>
               </div>
               <div class="grid-col-auto">
                 <a class="usa-social-link" href="javascript:void(0);"
-                  ><img class="usa-social-link__icon" [src]="twitterImagePath()" alt="Twitter"
+                  ><img class="usa-social-link__icon" [src]="twitterIconPath()" alt="Twitter"
                 /></a>
               </div>
               <div class="grid-col-auto">
                 <a class="usa-social-link" href="javascript:void(0);"
-                  ><img class="usa-social-link__icon" [src]="youtubeImagePath()" alt="YouTube"
+                  ><img class="usa-social-link__icon" [src]="youtubeIconPath()" alt="YouTube"
                 /></a>
               </div>
               <div class="grid-col-auto">
                 <a class="usa-social-link" href="javascript:void(0);"
-                  ><img class="usa-social-link__icon" [src]="instagramImagePath()" alt="Instagram"
+                  ><img class="usa-social-link__icon" [src]="instagramIconPath()" alt="Instagram"
                 /></a>
               </div>
               <div class="grid-col-auto">
                 <a class="usa-social-link" href="javascript:void(0);"
-                  ><img class="usa-social-link__icon" [src]="rssFeedImagePath()" alt="RSS"
+                  ><img class="usa-social-link__icon" [src]="rssFeedIconPath()" alt="RSS"
                 /></a>
               </div>
             </div>
@@ -246,11 +175,9 @@
       } @else if (variant() == 'slim') {
         <div class="usa-footer__logo grid-row grid-gap-2">
           <div class="grid-col-auto">
-            <img
-              class="usa-footer__logo-img"
-              [src]="logoImagePath() ?? defaultLogoImagePath()"
-              alt=""
-            />
+            @if (agencyLogoImagePath()) {
+              <img class="usa-footer__logo-img" [src]="agencyLogoImagePath()" alt="" />
+            }
           </div>
           <div class="grid-col-auto">
             <p class="usa-footer__logo-heading">&lt;Agency Contact Center&gt;</p>

@@ -1,11 +1,31 @@
 import { Component, input, output, computed } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { UswdsButton } from '../uswds-button/uswds-button';
-import { ButtonStyle } from '../uswds-button/uswds-button.types';
 import { FormsModule } from '@angular/forms';
-import { FooterVariant } from './footer-types';
+import { FooterVariant, FooterLinkColumn, AgencyInfo, SignUpForm } from './footer-types';
 import { footer } from '@uswds/uswds/js';
 
+/**
+ * @class UswdsFooter
+ * @description
+ * An Angular standalone component that renders a U.S. Web Design System (USWDS) footer.
+ * Footers...
+ *
+ * @selector ngx-uswds-footer
+ *
+ * @example
+ * <!-- Using the big footer -->
+ * <ngx-uswds-footer>INFO</ngx-uswds-footer>
+ *
+ * @input {FooterVariant} variant - The visual style of the footer.
+ *   Accepts 'big', 'medium', or 'slim'.
+ *
+ * @input {string} [iconsPath='/assets/img/usa-icons'] - Base path to the footer icon assets.
+ *   Useful when icons are hosted in a different location.
+ *
+ * @input {FooterLinkColumn[]} [linkColumns=[]] - A list of columns of links to display in the 'big' footer.
+ *   Each item requires a 'topic' and `links` for the column. Each link requires a 'label' and 'href'.
+ */
 @Component({
   selector: 'ngx-uswds-footer',
   imports: [NgClass, UswdsButton, FormsModule],
@@ -14,13 +34,14 @@ import { footer } from '@uswds/uswds/js';
 })
 export class UswdsFooter {
   variant = input<FooterVariant>();
-  assetsPath = input<string>('/assets/img');
-  agency = input<string>();
-  logoImagePath = input<string>();
-  btnStyle = input<ButtonStyle>();
-  btnText = input<string>();
+  iconsPath = input<string>('/assets/img/usa-icons');
+  agencyInfo = input<AgencyInfo>();
+  signUpForm = input<SignUpForm>();
+
+  // For the big variant footer
   formSubmit = output<string>(); // the function you want ran
   userEmail = '';
+  linkColumns = input<FooterLinkColumn[]>([]); // for the big variant only
 
   ngOnInit() {
     footer.on();
@@ -39,7 +60,7 @@ export class UswdsFooter {
         return 'usa-footer--slim';
       default:
         throw new Error('Invalid footer variant selected, valid variants are: [big, medium, slim]');
-    } // compile component, check if fixed
+    }
   };
 
   handleSubmit() {
@@ -47,10 +68,15 @@ export class UswdsFooter {
     this.formSubmit.emit(this.userEmail);
   }
 
-  defaultLogoImagePath = computed(() => `${this.assetsPath()}/logo-img.png`);
-  facebookImagePath = computed(() => `${this.assetsPath()}/usa-icons/facebook.svg`);
-  twitterImagePath = computed(() => `${this.assetsPath()}/usa-icons/twitter.svg`);
-  youtubeImagePath = computed(() => `${this.assetsPath()}/usa-icons/youtube.svg`);
-  instagramImagePath = computed(() => `${this.assetsPath()}/usa-icons/instagram.svg`);
-  rssFeedImagePath = computed(() => `${this.assetsPath()}/usa-icons/rss_feed.svg`);
+  // Assign default values for footer items
+  agencyName = computed(() => this.agencyInfo()?.name ?? null);
+  agencyLogoImagePath = computed(() => this.agencyInfo()?.logoImagePath ?? null);
+  btnText = computed(() => this.signUpForm()?.buttonText ?? 'Sign Up');
+
+  // Compute icon paths for social media links
+  facebookIconPath = computed(() => `${this.iconsPath()}/facebook.svg`);
+  twitterIconPath = computed(() => `${this.iconsPath()}/twitter.svg`);
+  youtubeIconPath = computed(() => `${this.iconsPath()}/youtube.svg`);
+  instagramIconPath = computed(() => `${this.iconsPath()}/instagram.svg`);
+  rssFeedIconPath = computed(() => `${this.iconsPath()}/rss_feed.svg`);
 }

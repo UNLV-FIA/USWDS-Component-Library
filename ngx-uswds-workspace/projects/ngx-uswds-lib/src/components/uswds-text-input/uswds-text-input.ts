@@ -36,7 +36,7 @@ import { NgClass } from '@angular/common';
  * @input {string} label - The visual label text rendered next to the text input. Can be omitted to allow
  *   custom HTML around the input/textarea element.
  *
- * @input {TextInputVariant} variant - The variant of the text input. 'text' sets the text input as single-lined (input tag)
+ * @input {TextInputVariant} [variant='text'] - The variant of the text input. 'text' sets the text input as single-lined (input tag)
  *   and 'textarea' sets it to multi-lined (textarea tag). Required.
  *
  * @input {string} inputId - The value set for the id and name attribute for the text input. Also sets the label's for
@@ -74,7 +74,7 @@ export class UswdsTextInput {
   // v8 ignore next
   label = input<string>();
   // v8 ignore next
-  variant = input.required<TextInputVariant>();
+  variant = input<TextInputVariant>('text');
   // v8 ignore next
   inputId = input.required<string>();
   // v8 ignore next

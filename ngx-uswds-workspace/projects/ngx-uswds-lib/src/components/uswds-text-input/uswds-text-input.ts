@@ -1,5 +1,11 @@
 import { Component, input, computed } from '@angular/core';
-import { TextInputVariant, TextInputWidth, TextInputState, HintType } from './text-input-types';
+import {
+  TextInputVariant,
+  TextInputWidth,
+  TextInputState,
+  HintEl,
+  InputType,
+} from './text-input-types';
 import { NgClass } from '@angular/common';
 
 /**
@@ -44,7 +50,7 @@ import { NgClass } from '@angular/common';
  *
  * @input {string} hint - The optional text that can be put in between the label and text input.
  *
- * @input {HintType} [hintTag='span'] - The element used to display the hint. Accepts 'span' and 'div'.
+ * @input {HintEl} [hintEl='span'] - The element used to display the hint. Accepts 'span' and 'div'.
  *
  * @input {boolean} [required=false] - When true, adds the required attribute to the text input.
  *
@@ -56,7 +62,7 @@ import { NgClass } from '@angular/common';
  *
  * @input {number} maxLen - Defines the maximum number of characters that the user can enter in a text input.
  *
- * @input {} - Defines the type attribute of the input element.
+ * @input {InputType} type - Defines the type attribute of the input element.
  */
 @Component({
   selector: 'ngx-uswds-text-input',
@@ -78,7 +84,7 @@ export class UswdsTextInput {
   // v8 ignore next
   hint = input<string>();
   // v8 ignore next
-  hintTag = input<HintType>('span');
+  hintEl = input<HintEl>('span');
 
   // Text input attributes
   // v8 ignore next
@@ -89,6 +95,8 @@ export class UswdsTextInput {
   externalDescribedBy = input<string>();
   // v8 ignore next
   maxLen = input<number>();
+  // v8 ignore next
+  type = input<InputType>();
 
   ngOnInit(): void {
     if (this.inputId() === '') {

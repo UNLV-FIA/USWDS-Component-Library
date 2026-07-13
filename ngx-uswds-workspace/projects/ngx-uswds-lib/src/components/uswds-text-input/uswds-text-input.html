@@ -2,7 +2,7 @@
   <label class="usa-label" [attr.for]="inputId()">{{ label() }}</label>
 }
 @if (hint()) {
-  @if (hintTag() == 'div') {
+  @if (hintEl() == 'div') {
     <div class="usa-hint" [id]="hintId()">{{ hint() }}</div>
   } @else {
     <span class="usa-hint" [id]="hintId()">{{ hint() }}</span>
@@ -20,6 +20,7 @@
     [attr.aria-disabled]="ariaDisabled()"
     [attr.aria-describedby]="describedBy()"
     [attr.maxlength]="maxLen()"
+    [attr.type]="type()"
   />
 }
 <!-- Multi-line text input -->

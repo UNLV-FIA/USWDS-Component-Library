@@ -38,8 +38,8 @@ describe('UswdsTextInput', () => {
       expect(fixture.nativeElement.querySelector(`#${component.hintId()}`)).toBeNull();
     });
 
-    it('should default to span for hintTag', () => {
-      expect(component.hintTag()).toBe('span');
+    it('should default to span for hint`s element', () => {
+      expect(component.hintEl()).toBe('span');
     });
   });
 
@@ -77,14 +77,14 @@ describe('UswdsTextInput', () => {
     });
 
     it('should render the span element when requested', () => {
-      fixture.componentRef.setInput('hintTag', 'span');
+      fixture.componentRef.setInput('hintEl', 'span');
       fixture.detectChanges();
       const el: HTMLSpanElement = fixture.nativeElement.querySelector(`#${component.hintId()}`);
       expect(el).not.toBeNull();
     });
 
     it('should render the div element when requested', () => {
-      fixture.componentRef.setInput('hintTag', 'div');
+      fixture.componentRef.setInput('hintEl', 'div');
       fixture.detectChanges();
       const el: HTMLSpanElement = fixture.nativeElement.querySelector(`#${component.hintId()}`);
       expect(el).not.toBeNull();
@@ -96,21 +96,21 @@ describe('UswdsTextInput', () => {
     });
 
     it('should render the hint text in div element', () => {
-      fixture.componentRef.setInput('hintTag', 'div');
+      fixture.componentRef.setInput('hintEl', 'div');
       fixture.detectChanges();
       const el: HTMLElement = fixture.nativeElement.querySelector(`#${component.hintId()}`);
       expect(el.textContent).toBe('This is hint text.');
     });
 
     it('should not render the span element if hint is empty', () => {
-      fixture.componentRef.setInput('hintTag', 'span');
+      fixture.componentRef.setInput('hintEl', 'span');
       fixture.componentRef.setInput('hint', '');
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('span.usa-hint')).toBeNull();
     });
 
     it('should not render the div element if hint is empty', () => {
-      fixture.componentRef.setInput('hintTag', 'div');
+      fixture.componentRef.setInput('hintEl', 'div');
       fixture.componentRef.setInput('hint', '');
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('div.usa-hint')).toBeNull();
@@ -122,7 +122,7 @@ describe('UswdsTextInput', () => {
     });
 
     it('should have the correct id in div element', () => {
-      fixture.componentRef.setInput('hintTag', 'div');
+      fixture.componentRef.setInput('hintEl', 'div');
       fixture.detectChanges();
       const el: HTMLElement = fixture.nativeElement.querySelector('div');
       expect(el?.getAttribute('id')).toBe(`${component.inputId()}-hint`);
@@ -173,31 +173,6 @@ describe('UswdsTextInput', () => {
       expect(fixture.nativeElement.querySelector('textarea')).toBeNull();
     });
 
-    it('should render no required attribute at initialization', () => {
-      const el: HTMLElement = fixture.nativeElement.querySelector('input');
-      expect(el?.hasAttribute('required')).toBe(false);
-    });
-
-    it('should render no disabled attribute at initialization', () => {
-      const el: HTMLElement = fixture.nativeElement.querySelector('input');
-      expect(el?.hasAttribute('disabled')).toBe(false);
-    });
-
-    it('should render no aria-disabled attribute at initialization', () => {
-      const el: HTMLElement = fixture.nativeElement.querySelector('input');
-      expect(el?.hasAttribute('aria-disabled')).toBe(false);
-    });
-
-    it('should render no aria-describedby attribute at initialization', () => {
-      const el: HTMLElement = fixture.nativeElement.querySelector('input');
-      expect(el?.hasAttribute('aria-describedby')).toBe(false);
-    });
-
-    it('should render no maxlength attribute at initialization', () => {
-      const el: HTMLElement = fixture.nativeElement.querySelector('input');
-      expect(el?.hasAttribute('maxlength')).toBe(false);
-    });
-
     it('should link the label`s for attribute to the input`s id attribute', () => {
       fixture.componentRef.setInput('label', 'Text input label');
       fixture.detectChanges();
@@ -212,132 +187,204 @@ describe('UswdsTextInput', () => {
       expect(inputName).toEqual(inputId);
     });
 
-    it('should set required attribute when requested', () => {
-      fixture.componentRef.setInput('required', 'true');
-      fixture.detectChanges();
-      const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
-      expect(el?.required).toBeTruthy();
-    });
+    // Test text input's 'text's attributes
+    describe('attributes', () => {
+      it('should render no required attribute at initialization', () => {
+        const el: HTMLElement = fixture.nativeElement.querySelector('input');
+        expect(el?.hasAttribute('required')).toBe(false);
+      });
 
-    it('should set disabled attribute when requested', () => {
-      fixture.componentRef.setInput('disabled', 'true');
-      fixture.detectChanges();
-      const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
-      expect(el?.disabled).toBeTruthy();
-    });
+      it('should render no disabled attribute at initialization', () => {
+        const el: HTMLElement = fixture.nativeElement.querySelector('input');
+        expect(el?.hasAttribute('disabled')).toBe(false);
+      });
 
-    it('should set aria-disabled to true when requested', () => {
-      fixture.componentRef.setInput('disabled', 'true');
-      fixture.detectChanges();
-      const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
-      expect(el?.hasAttribute('aria-disabled')).toBeTruthy();
-    });
+      it('should render no aria-disabled attribute at initialization', () => {
+        const el: HTMLElement = fixture.nativeElement.querySelector('input');
+        expect(el?.hasAttribute('aria-disabled')).toBe(false);
+      });
 
-    it('should add the hint in the aria-describedby attribute', () => {
-      fixture.componentRef.setInput('hint', 'This is hint text.');
-      fixture.detectChanges();
-      const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
-      expect(el?.getAttribute('aria-describedby')).toContain(`${component.hintId()}`);
-    });
+      it('should render no aria-describedby attribute at initialization', () => {
+        const el: HTMLElement = fixture.nativeElement.querySelector('input');
+        expect(el?.hasAttribute('aria-describedby')).toBe(false);
+      });
 
-    it('should add the externalDescribedBy in the aria-describedby attribute', () => {
-      fixture.componentRef.setInput('externalDescribedBy', 'additional-id');
-      fixture.detectChanges();
-      const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
-      expect(el?.getAttribute('aria-describedby')).toContain('additional-id');
-    });
+      it('should render no maxlength attribute at initialization', () => {
+        const el: HTMLElement = fixture.nativeElement.querySelector('input');
+        expect(el?.hasAttribute('maxlength')).toBe(false);
+      });
 
-    it('should add the maxlength attribute when requested', () => {
-      fixture.componentRef.setInput('maxLen', 5);
-      fixture.detectChanges();
-      const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
-      expect(el?.getAttribute('maxlength')).toBe('5');
-    });
+      it('should render no type attribute at initialization', () => {
+        const el: HTMLElement = fixture.nativeElement.querySelector('input');
+        expect(el?.hasAttribute('type')).toBe(false);
+      });
 
-    it('should add the character count class when there`s a maxlength', () => {
-      fixture.componentRef.setInput('maxLen', 5);
-      fixture.detectChanges();
-      const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
-      expect(el?.classList.contains('usa-character-count__field')).toBeTruthy();
+      it('should set required attribute when requested', () => {
+        fixture.componentRef.setInput('required', 'true');
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+        expect(el?.required).toBeTruthy();
+      });
+
+      it('should set disabled attribute when requested', () => {
+        fixture.componentRef.setInput('disabled', 'true');
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+        expect(el?.disabled).toBeTruthy();
+      });
+
+      it('should set aria-disabled to true when requested', () => {
+        fixture.componentRef.setInput('disabled', 'true');
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+        expect(el?.hasAttribute('aria-disabled')).toBeTruthy();
+      });
+
+      it('should add the hint in the aria-describedby attribute', () => {
+        fixture.componentRef.setInput('hint', 'This is hint text.');
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+        expect(el?.getAttribute('aria-describedby')).toContain(`${component.hintId()}`);
+      });
+
+      it('should add the externalDescribedBy in the aria-describedby attribute', () => {
+        fixture.componentRef.setInput('externalDescribedBy', 'additional-id');
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+        expect(el?.getAttribute('aria-describedby')).toContain('additional-id');
+      });
+
+      it('should add the maxlength attribute when requested', () => {
+        fixture.componentRef.setInput('maxLen', 5);
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+        expect(el?.getAttribute('maxlength')).toBe('5');
+      });
+
+      it('should add the character count class when there`s a maxlength', () => {
+        fixture.componentRef.setInput('maxLen', 5);
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+        expect(el?.classList.contains('usa-character-count__field')).toBeTruthy();
+      });
+
+      it('should change the input`s type attribute to email', () => {
+        fixture.componentRef.setInput('type', 'email');
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+        expect(el?.getAttribute('type')).toBe('email');
+      });
+
+      it('should change the input`s type attribute to number', () => {
+        fixture.componentRef.setInput('type', 'number');
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+        expect(el?.getAttribute('type')).toBe('number');
+      });
+
+      it('should change the input`s type attribute to password', () => {
+        fixture.componentRef.setInput('type', 'password');
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+        expect(el?.getAttribute('type')).toBe('password');
+      });
+
+      it('should change the input`s type attribute to search', () => {
+        fixture.componentRef.setInput('type', 'search');
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+        expect(el?.getAttribute('type')).toBe('search');
+      });
+
+      it('should change the input`s type attribute to tel', () => {
+        fixture.componentRef.setInput('type', 'tel');
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+        expect(el?.getAttribute('type')).toBe('tel');
+      });
     });
 
     // Test text input 'text's widths
-    it('should change the text input`s width to 2xs when provided', () => {
-      fixture.componentRef.setInput('width', '2xs');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('input');
-      expect(el?.classList.contains('usa-input--2xs')).toBeTruthy();
-    });
+    describe('widths', () => {
+      it('should change the text input`s width to 2xs when provided', () => {
+        fixture.componentRef.setInput('width', '2xs');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('input');
+        expect(el?.classList.contains('usa-input--2xs')).toBeTruthy();
+      });
 
-    it('should change the text input`s width to xs when provided', () => {
-      fixture.componentRef.setInput('width', 'xs');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('input');
-      expect(el?.classList.contains('usa-input--xs')).toBeTruthy();
-    });
+      it('should change the text input`s width to xs when provided', () => {
+        fixture.componentRef.setInput('width', 'xs');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('input');
+        expect(el?.classList.contains('usa-input--xs')).toBeTruthy();
+      });
 
-    it('should change the text input`s width to small for "small"', () => {
-      fixture.componentRef.setInput('width', 'small');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('input');
-      expect(el?.classList.contains('usa-input--small')).toBeTruthy();
-    });
+      it('should change the text input`s width to small for "small"', () => {
+        fixture.componentRef.setInput('width', 'small');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('input');
+        expect(el?.classList.contains('usa-input--small')).toBeTruthy();
+      });
 
-    it('should change the text input`s width to small for "sm"', () => {
-      fixture.componentRef.setInput('width', 'sm');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('input');
-      expect(el?.classList.contains('usa-input--sm')).toBeTruthy();
-    });
+      it('should change the text input`s width to small for "sm"', () => {
+        fixture.componentRef.setInput('width', 'sm');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('input');
+        expect(el?.classList.contains('usa-input--sm')).toBeTruthy();
+      });
 
-    it('should change the text input`s width to medium for "medium"', () => {
-      fixture.componentRef.setInput('width', 'medium');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('input');
-      expect(el?.classList.contains('usa-input--medium')).toBeTruthy();
-    });
+      it('should change the text input`s width to medium for "medium"', () => {
+        fixture.componentRef.setInput('width', 'medium');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('input');
+        expect(el?.classList.contains('usa-input--medium')).toBeTruthy();
+      });
 
-    it('should change the text input`s width to medium for "md"', () => {
-      fixture.componentRef.setInput('width', 'md');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('input');
-      expect(el?.classList.contains('usa-input--md')).toBeTruthy();
-    });
+      it('should change the text input`s width to medium for "md"', () => {
+        fixture.componentRef.setInput('width', 'md');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('input');
+        expect(el?.classList.contains('usa-input--md')).toBeTruthy();
+      });
 
-    it('should change the text input`s width to lg when provided', () => {
-      fixture.componentRef.setInput('width', 'lg');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('input');
-      expect(el?.classList.contains('usa-input--lg')).toBeTruthy();
-    });
+      it('should change the text input`s width to lg when provided', () => {
+        fixture.componentRef.setInput('width', 'lg');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('input');
+        expect(el?.classList.contains('usa-input--lg')).toBeTruthy();
+      });
 
-    it('should change the text input`s width to xl when provided', () => {
-      fixture.componentRef.setInput('width', 'xl');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('input');
-      expect(el?.classList.contains('usa-input--xl')).toBeTruthy();
-    });
+      it('should change the text input`s width to xl when provided', () => {
+        fixture.componentRef.setInput('width', 'xl');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('input');
+        expect(el?.classList.contains('usa-input--xl')).toBeTruthy();
+      });
 
-    it('should change the text input`s width to 2xl when provided', () => {
-      fixture.componentRef.setInput('width', '2xl');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('input');
-      expect(el?.classList.contains('usa-input--2xl')).toBeTruthy();
+      it('should change the text input`s width to 2xl when provided', () => {
+        fixture.componentRef.setInput('width', '2xl');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('input');
+        expect(el?.classList.contains('usa-input--2xl')).toBeTruthy();
+      });
     });
 
     // Test text input 'text's states
-    it('should change the text input`s state to error when provided', () => {
-      fixture.componentRef.setInput('state', 'error');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('input');
-      expect(el?.classList.contains('usa-input--error')).toBeTruthy();
-    });
+    describe('states', () => {
+      it('should change the text input`s state to error when provided', () => {
+        fixture.componentRef.setInput('state', 'error');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('input');
+        expect(el?.classList.contains('usa-input--error')).toBeTruthy();
+      });
 
-    it('should change the text input`s state to success when provided', () => {
-      fixture.componentRef.setInput('state', 'success');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('input');
-      expect(el?.classList.contains('usa-input--success')).toBeTruthy();
+      it('should change the text input`s state to success when provided', () => {
+        fixture.componentRef.setInput('state', 'success');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('input');
+        expect(el?.classList.contains('usa-input--success')).toBeTruthy();
+      });
     });
   });
 
@@ -361,31 +408,6 @@ describe('UswdsTextInput', () => {
       expect(fixture.nativeElement.querySelector('input')).toBeNull();
     });
 
-    it('should render no required attribute at initialization', () => {
-      const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.hasAttribute('required')).toBe(false);
-    });
-
-    it('should render no disabled attribute at initialization', () => {
-      const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.hasAttribute('disabled')).toBe(false);
-    });
-
-    it('should render no aria-disabled attribute at initialization', () => {
-      const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.hasAttribute('aria-disabled')).toBe(false);
-    });
-
-    it('should render no aria-describedby attribute at initialization', () => {
-      const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.hasAttribute('aria-describedby')).toBe(false);
-    });
-
-    it('should render no maxlength attribute at initialization', () => {
-      const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.hasAttribute('maxlength')).toBe(false);
-    });
-
     it('should link the label`s for attribute to the textarea`s id attribute', () => {
       const labelFor: string = fixture.nativeElement.querySelector('label')?.getAttribute('for');
       const textAreaID: string = fixture.nativeElement
@@ -404,132 +426,164 @@ describe('UswdsTextInput', () => {
       expect(textAreaName).toEqual(textAreaID);
     });
 
-    it('should set required attribute when requested', () => {
-      fixture.componentRef.setInput('required', 'true');
-      fixture.detectChanges();
-      const el: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.required).toBeTruthy();
-    });
+    // Test text input's 'textarea's attributes
+    describe('attributes', () => {
+      it('should render no required attribute at initialization', () => {
+        const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.hasAttribute('required')).toBe(false);
+      });
 
-    it('should set disabled attribute when requested', () => {
-      fixture.componentRef.setInput('disabled', 'true');
-      fixture.detectChanges();
-      const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.disabled).toBeTruthy();
-    });
+      it('should render no disabled attribute at initialization', () => {
+        const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.hasAttribute('disabled')).toBe(false);
+      });
 
-    it('should set aria-disabled to true when requested', () => {
-      fixture.componentRef.setInput('disabled', 'true');
-      fixture.detectChanges();
-      const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.hasAttribute('aria-disabled')).toBeTruthy();
-    });
+      it('should render no aria-disabled attribute at initialization', () => {
+        const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.hasAttribute('aria-disabled')).toBe(false);
+      });
 
-    it('should add the hint in the aria-describedby attribute', () => {
-      fixture.componentRef.setInput('hint', 'This is hint text.');
-      fixture.detectChanges();
-      const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.getAttribute('aria-describedby')).toContain(`${component.hintId()}`);
-    });
+      it('should render no aria-describedby attribute at initialization', () => {
+        const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.hasAttribute('aria-describedby')).toBe(false);
+      });
 
-    it('should add the externalDescribedBy in the aria-describedby attribute', () => {
-      fixture.componentRef.setInput('externalDescribedBy', 'additional-id');
-      fixture.detectChanges();
-      const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.getAttribute('aria-describedby')).toContain('additional-id');
-    });
+      it('should render no maxlength attribute at initialization', () => {
+        const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.hasAttribute('maxlength')).toBe(false);
+      });
 
-    it('should add the maxlength attribute when requested', () => {
-      fixture.componentRef.setInput('maxLen', 5);
-      fixture.detectChanges();
-      const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.getAttribute('maxlength')).toBe('5');
-    });
+      it('should set required attribute when requested', () => {
+        fixture.componentRef.setInput('required', 'true');
+        fixture.detectChanges();
+        const el: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.required).toBeTruthy();
+      });
 
-    it('should add the character count class when there`s a maxlength', () => {
-      fixture.componentRef.setInput('maxLen', 5);
-      fixture.detectChanges();
-      const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.classList.contains('usa-character-count__field')).toBeTruthy();
+      it('should set disabled attribute when requested', () => {
+        fixture.componentRef.setInput('disabled', 'true');
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.disabled).toBeTruthy();
+      });
+
+      it('should set aria-disabled to true when requested', () => {
+        fixture.componentRef.setInput('disabled', 'true');
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.hasAttribute('aria-disabled')).toBeTruthy();
+      });
+
+      it('should add the hint in the aria-describedby attribute', () => {
+        fixture.componentRef.setInput('hint', 'This is hint text.');
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.getAttribute('aria-describedby')).toContain(`${component.hintId()}`);
+      });
+
+      it('should add the externalDescribedBy in the aria-describedby attribute', () => {
+        fixture.componentRef.setInput('externalDescribedBy', 'additional-id');
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.getAttribute('aria-describedby')).toContain('additional-id');
+      });
+
+      it('should add the maxlength attribute when requested', () => {
+        fixture.componentRef.setInput('maxLen', 5);
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.getAttribute('maxlength')).toBe('5');
+      });
+
+      it('should add the character count class when there`s a maxlength', () => {
+        fixture.componentRef.setInput('maxLen', 5);
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.classList.contains('usa-character-count__field')).toBeTruthy();
+      });
     });
 
     // Test text input's 'textarea's widths
-    it('should change the text area`s width to 2xs when provided', () => {
-      fixture.componentRef.setInput('width', '2xs');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.classList.contains('usa-input--2xs')).toBeTruthy();
-    });
+    describe('widths', () => {
+      it('should change the text area`s width to 2xs when provided', () => {
+        fixture.componentRef.setInput('width', '2xs');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.classList.contains('usa-input--2xs')).toBeTruthy();
+      });
 
-    it('should change the text area`s width to xs when provided', () => {
-      fixture.componentRef.setInput('width', 'xs');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.classList.contains('usa-input--xs')).toBeTruthy();
-    });
+      it('should change the text area`s width to xs when provided', () => {
+        fixture.componentRef.setInput('width', 'xs');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.classList.contains('usa-input--xs')).toBeTruthy();
+      });
 
-    it('should change the text area`s width to small for "small"', () => {
-      fixture.componentRef.setInput('width', 'small');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.classList.contains('usa-input--small')).toBeTruthy();
-    });
+      it('should change the text area`s width to small for "small"', () => {
+        fixture.componentRef.setInput('width', 'small');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.classList.contains('usa-input--small')).toBeTruthy();
+      });
 
-    it('should change the text area`s width to small for "sm"', () => {
-      fixture.componentRef.setInput('width', 'sm');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.classList.contains('usa-input--sm')).toBeTruthy();
-    });
+      it('should change the text area`s width to small for "sm"', () => {
+        fixture.componentRef.setInput('width', 'sm');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.classList.contains('usa-input--sm')).toBeTruthy();
+      });
 
-    it('should change the text area`s width to medium for "medium"', () => {
-      fixture.componentRef.setInput('width', 'medium');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.classList.contains('usa-input--medium')).toBeTruthy();
-    });
+      it('should change the text area`s width to medium for "medium"', () => {
+        fixture.componentRef.setInput('width', 'medium');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.classList.contains('usa-input--medium')).toBeTruthy();
+      });
 
-    it('should change the text area`s width to medium for "md"', () => {
-      fixture.componentRef.setInput('width', 'md');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.classList.contains('usa-input--md')).toBeTruthy();
-    });
+      it('should change the text area`s width to medium for "md"', () => {
+        fixture.componentRef.setInput('width', 'md');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.classList.contains('usa-input--md')).toBeTruthy();
+      });
 
-    it('should change the text area`s width to lg when provided', () => {
-      fixture.componentRef.setInput('width', 'lg');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.classList.contains('usa-input--lg')).toBeTruthy();
-    });
+      it('should change the text area`s width to lg when provided', () => {
+        fixture.componentRef.setInput('width', 'lg');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.classList.contains('usa-input--lg')).toBeTruthy();
+      });
 
-    it('should change the text area`s width to xl when provided', () => {
-      fixture.componentRef.setInput('width', 'xl');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.classList.contains('usa-input--xl')).toBeTruthy();
-    });
+      it('should change the text area`s width to xl when provided', () => {
+        fixture.componentRef.setInput('width', 'xl');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.classList.contains('usa-input--xl')).toBeTruthy();
+      });
 
-    it('should change the text area`s width to 2xl when provided', () => {
-      fixture.componentRef.setInput('width', '2xl');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.classList.contains('usa-input--2xl')).toBeTruthy();
+      it('should change the text area`s width to 2xl when provided', () => {
+        fixture.componentRef.setInput('width', '2xl');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.classList.contains('usa-input--2xl')).toBeTruthy();
+      });
     });
 
     // Test text input 'textarea's states
-    it('should change the text area`s state to error when provided', () => {
-      fixture.componentRef.setInput('state', 'error');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.classList.contains('usa-input--error')).toBeTruthy();
-    });
+    describe('states', () => {
+      it('should change the text area`s state to error when provided', () => {
+        fixture.componentRef.setInput('state', 'error');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.classList.contains('usa-input--error')).toBeTruthy();
+      });
 
-    it('should change the text area`s state to success when provided', () => {
-      fixture.componentRef.setInput('state', 'success');
-      fixture.detectChanges();
-      const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
-      expect(el?.classList.contains('usa-input--success')).toBeTruthy();
+      it('should change the text area`s state to success when provided', () => {
+        fixture.componentRef.setInput('state', 'success');
+        fixture.detectChanges();
+        const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.classList.contains('usa-input--success')).toBeTruthy();
+      });
     });
   });
 });

@@ -14,7 +14,7 @@ describe('UswdsTextInput', () => {
     component = fixture.componentInstance;
 
     // Provide required props
-    fixture.componentRef.setInput('type', 'text');
+    fixture.componentRef.setInput('variant', 'text');
     fixture.componentRef.setInput('inputId', 'input-type-text');
 
     await fixture.whenStable();
@@ -344,7 +344,7 @@ describe('UswdsTextInput', () => {
   // Test text input's 'textarea' variant
   describe('text area variant', () => {
     beforeEach(() => {
-      fixture.componentRef.setInput('type', 'textarea');
+      fixture.componentRef.setInput('variant', 'textarea');
       fixture.componentRef.setInput('inputId', 'input-type-textarea');
       fixture.componentRef.setInput('label', 'Text area label');
       fixture.detectChanges();

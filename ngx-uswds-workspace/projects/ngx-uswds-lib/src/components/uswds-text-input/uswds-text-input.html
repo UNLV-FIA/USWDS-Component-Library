@@ -9,7 +9,7 @@
   }
 }
 <!-- Single line text input -->
-@if (type() == 'text') {
+@if (variant() == 'text') {
   <input
     class="usa-input"
     [ngClass]="inputClasses()"
@@ -23,7 +23,7 @@
   />
 }
 <!-- Multi-line text input -->
-@if (type() == 'textarea') {
+@if (variant() == 'textarea') {
   <textarea
     class="usa-textarea"
     [ngClass]="inputClasses()"

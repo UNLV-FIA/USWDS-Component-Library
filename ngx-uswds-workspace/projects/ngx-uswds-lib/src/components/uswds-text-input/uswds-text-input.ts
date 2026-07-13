@@ -1,5 +1,5 @@
 import { Component, input, computed } from '@angular/core';
-import { TextInputType, TextInputWidth, TextInputState, HintType } from './text-input-types';
+import { TextInputVariant, TextInputWidth, TextInputState, HintType } from './text-input-types';
 import { NgClass } from '@angular/common';
 
 /**
@@ -15,7 +15,7 @@ import { NgClass } from '@angular/common';
  * <!-- Using a single-line text input -->
  * <ngx-uswds-text-input
  *   label="Text input label"
- *   type="text"
+ *   variant="text"
  *   inputId="input-type-text"
  * ></ngx-uswds-text-input>
  *
@@ -23,14 +23,14 @@ import { NgClass } from '@angular/common';
  * <!-- Using a multi-line text input -->
  * <ngx-uswds-text-input
  *   label="Text area label"
- *   type="textarea"
+ *   variant="textarea"
  *   inputId="input-type-textarea"
  * ></ngx-uswds-text-input>
  *
  * @input {string} label - The visual label text rendered next to the text input. Can be omitted to allow
  *   custom HTML around the input/textarea element.
  *
- * @input {TextInputType} type - The type of the text input. 'text' sets the text input as single-lined (input tag)
+ * @input {TextInputVariant} variant - The variant of the text input. 'text' sets the text input as single-lined (input tag)
  *   and 'textarea' sets it to multi-lined (textarea tag). Required.
  *
  * @input {string} inputId - The value set for the id and name attribute for the text input. Also sets the label's for
@@ -42,19 +42,21 @@ import { NgClass } from '@angular/common';
  * @input {TextInputState} state - The state of the text input. 'error' sets the text input in an error state
  *   and 'success' sets the text input in a success state.
  *
+ * @input {string} hint - The optional text that can be put in between the label and text input.
+ *
+ * @input {HintType} [hintTag='span'] - The element used to display the hint. Accepts 'span' and 'div'.
+ *
  * @input {boolean} [required=false] - When true, adds the required attribute to the text input.
  *
  * @input {boolean} [disabled=false] - When true, adds the disabled attribute to the text input and
  *   and sets 'aria-disabled' to true.
  *
- * @input {string} hint - The optional text that can be put in between the label and text input.
- *
- * @input {HintType} [hintTag='span'] - The element used to display the hint. Accepts 'span' and 'div'.
- *
  * @input {string} externalDescribedBy - Space-seperated list of element ids outside this component that describe this input.
  *   Placed into 'aria-describedby' alongside the hint id.
  *
  * @input {number} maxLen - Defines the maximum number of characters that the user can enter in a text input.
+ *
+ * @input {} - Defines the type attribute of the input element.
  */
 @Component({
   selector: 'ngx-uswds-text-input',
@@ -66,7 +68,7 @@ export class UswdsTextInput {
   // v8 ignore next
   label = input<string>();
   // v8 ignore next
-  type = input.required<TextInputType>();
+  variant = input.required<TextInputVariant>();
   // v8 ignore next
   inputId = input.required<string>();
   // v8 ignore next
@@ -74,13 +76,15 @@ export class UswdsTextInput {
   // v8 ignore next
   state = input<TextInputState>();
   // v8 ignore next
-  required = input<boolean>(false);
-  // v8 ignore next
-  disabled = input<boolean>(false);
-  // v8 ignore next
   hint = input<string>();
   // v8 ignore next
   hintTag = input<HintType>('span');
+
+  // Text input attributes
+  // v8 ignore next
+  required = input<boolean>(false);
+  // v8 ignore next
+  disabled = input<boolean>(false);
   // v8 ignore next
   externalDescribedBy = input<string>();
   // v8 ignore next

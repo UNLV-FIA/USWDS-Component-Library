@@ -1,6 +1,12 @@
-<label class="usa-label" [attr.for]="inputId()">{{ label() }}</label>
+@if (label()) {
+  <label class="usa-label" [attr.for]="inputId()">{{ label() }}</label>
+}
 @if (hint()) {
-  <span class="usa-hint" [id]="hintId()">{{ hint() }}</span>
+  @if (hintTag() == 'div') {
+    <div class="usa-hint" [id]="hintId()">{{ hint() }}</div>
+  } @else {
+    <span class="usa-hint" [id]="hintId()">{{ hint() }}</span>
+  }
 }
 <!-- Single line text input -->
 @if (type() == 'text') {

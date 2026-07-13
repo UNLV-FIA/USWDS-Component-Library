@@ -1,5 +1,5 @@
 import { Component, input, computed } from '@angular/core';
-import { textInputType, textInputWidth, textInputState } from './text-input-types';
+import { TextInputType, TextInputWidth, TextInputState, HintType } from './text-input-types';
 import { NgClass } from '@angular/common';
 
 /**
@@ -27,18 +27,19 @@ import { NgClass } from '@angular/common';
  *   inputId="input-type-textarea"
  * ></ngx-uswds-text-input>
  *
- * @input {string} label - The visual label text rendered next to the text input. Required.
+ * @input {string} label - The visual label text rendered next to the text input. Can be omitted to allow
+ *   custom HTML around the input/textarea element.
  *
- * @input {textInputType} type - The type of the text input. 'text' sets the text input as single-lined
- *   and 'textarea' sets it to multi-lined. Required.
+ * @input {TextInputType} type - The type of the text input. 'text' sets the text input as single-lined (input tag)
+ *   and 'textarea' sets it to multi-lined (textarea tag). Required.
  *
  * @input {string} inputId - The value set for the id and name attribute for the text input. Also sets the label's for
  *   attribute. Should be unique across text input components. Required.
  *
- * @input {textInputWidth} width - The width of the text input. Accepts '2xs', 'xs', 'sm' or 'small',
+ * @input {TextInputWidth} width - The width of the text input. Accepts '2xs', 'xs', 'sm' or 'small',
  *   'md' or 'medium', 'lg', 'xl', and '2xl'.
  *
- * @input {textInputState} state - The state of the text input. 'error' sets the text input in an error state
+ * @input {TextInputState} state - The state of the text input. 'error' sets the text input in an error state
  *   and 'success' sets the text input in a success state.
  *
  * @input {boolean} [required=false] - When true, adds the required attribute to the text input.
@@ -47,6 +48,8 @@ import { NgClass } from '@angular/common';
  *   and sets 'aria-disabled' to true.
  *
  * @input {string} hint - The optional text that can be put in between the label and text input.
+ *
+ * @input {HintType} [hintTag='span'] - The element used to display the hint. Accepts 'span' and 'div'.
  *
  * @input {string} externalDescribedBy - Space-seperated list of element ids outside this component that describe this input.
  *   Placed into 'aria-describedby' alongside the hint id.
@@ -61,15 +64,15 @@ import { NgClass } from '@angular/common';
 })
 export class UswdsTextInput {
   // v8 ignore next
-  label = input.required<string>();
+  label = input<string>();
   // v8 ignore next
-  type = input.required<textInputType>();
+  type = input.required<TextInputType>();
   // v8 ignore next
   inputId = input.required<string>();
   // v8 ignore next
-  width = input<textInputWidth>();
+  width = input<TextInputWidth>();
   // v8 ignore next
-  state = input<textInputState>();
+  state = input<TextInputState>();
   // v8 ignore next
   required = input<boolean>(false);
   // v8 ignore next
@@ -77,14 +80,13 @@ export class UswdsTextInput {
   // v8 ignore next
   hint = input<string>();
   // v8 ignore next
+  hintTag = input<HintType>('span');
+  // v8 ignore next
   externalDescribedBy = input<string>();
   // v8 ignore next
   maxLen = input<number>();
 
   ngOnInit(): void {
-    if (this.label() === '') {
-      throw new Error('Propery "label" is required and cannot be an empty string');
-    }
     if (this.inputId() === '') {
       throw new Error('Propery "inputId" is required and cannot be an empty string');
     }

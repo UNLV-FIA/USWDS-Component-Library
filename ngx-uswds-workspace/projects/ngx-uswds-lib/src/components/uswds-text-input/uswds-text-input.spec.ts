@@ -14,7 +14,6 @@ describe('UswdsTextInput', () => {
     component = fixture.componentInstance;
 
     // Provide required props
-    fixture.componentRef.setInput('label', 'Default label');
     fixture.componentRef.setInput('type', 'text');
     fixture.componentRef.setInput('inputId', 'input-type-text');
 
@@ -38,10 +37,16 @@ describe('UswdsTextInput', () => {
     it('should render no hint at initialization', () => {
       expect(fixture.nativeElement.querySelector(`#${component.hintId()}`)).toBeNull();
     });
+
+    it('should default to span for hintTag', () => {
+      expect(component.hintTag()).toBe('span');
+    });
   });
 
   describe('label', () => {
     it('should have the correct class for the label', () => {
+      fixture.componentRef.setInput('label', 'Default label');
+      fixture.detectChanges();
       const el: HTMLElement = fixture.nativeElement.querySelector('label');
       expect(el?.classList.contains('usa-label')).toBeTruthy();
     });
@@ -53,12 +58,10 @@ describe('UswdsTextInput', () => {
       expect(el.textContent).toBe('Text input label');
     });
 
-    it('should throw an error if an empty label is provided', () => {
-      fixture = TestBed.createComponent(UswdsTextInput);
+    it('should not render the label element if label is empty', () => {
       fixture.componentRef.setInput('label', '');
-      expect(() => {
-        fixture.detectChanges();
-      }).toThrowError('Propery "label" is required and cannot be an empty string');
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('label')).toBeNull();
     });
   });
 
@@ -68,8 +71,60 @@ describe('UswdsTextInput', () => {
       fixture.detectChanges();
     });
 
-    it('should have the correct id', () => {
+    it('should render the span element by default', () => {
       const el: HTMLElement = fixture.nativeElement.querySelector('span');
+      expect(el).not.toBeNull();
+    });
+
+    it('should render the span element when requested', () => {
+      fixture.componentRef.setInput('hintTag', 'span');
+      fixture.detectChanges();
+      const el: HTMLSpanElement = fixture.nativeElement.querySelector(`#${component.hintId()}`);
+      expect(el).not.toBeNull();
+    });
+
+    it('should render the div element when requested', () => {
+      fixture.componentRef.setInput('hintTag', 'div');
+      fixture.detectChanges();
+      const el: HTMLSpanElement = fixture.nativeElement.querySelector(`#${component.hintId()}`);
+      expect(el).not.toBeNull();
+    });
+
+    it('should render the hint text in span element', () => {
+      const el: HTMLElement = fixture.nativeElement.querySelector(`#${component.hintId()}`);
+      expect(el.textContent).toBe('This is hint text.');
+    });
+
+    it('should render the hint text in div element', () => {
+      fixture.componentRef.setInput('hintTag', 'div');
+      fixture.detectChanges();
+      const el: HTMLElement = fixture.nativeElement.querySelector(`#${component.hintId()}`);
+      expect(el.textContent).toBe('This is hint text.');
+    });
+
+    it('should not render the span element if hint is empty', () => {
+      fixture.componentRef.setInput('hintTag', 'span');
+      fixture.componentRef.setInput('hint', '');
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('span.usa-hint')).toBeNull();
+    });
+
+    it('should not render the div element if hint is empty', () => {
+      fixture.componentRef.setInput('hintTag', 'div');
+      fixture.componentRef.setInput('hint', '');
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('div.usa-hint')).toBeNull();
+    });
+
+    it('should have the correct id in span element', () => {
+      const el: HTMLElement = fixture.nativeElement.querySelector('span');
+      expect(el?.getAttribute('id')).toBe(`${component.inputId()}-hint`);
+    });
+
+    it('should have the correct id in div element', () => {
+      fixture.componentRef.setInput('hintTag', 'div');
+      fixture.detectChanges();
+      const el: HTMLElement = fixture.nativeElement.querySelector('div');
       expect(el?.getAttribute('id')).toBe(`${component.inputId()}-hint`);
     });
 
@@ -77,18 +132,12 @@ describe('UswdsTextInput', () => {
       const el: HTMLElement = fixture.nativeElement.querySelector(`#${component.hintId()}`);
       expect(el?.classList.contains('usa-hint')).toBeTruthy();
     });
-
-    it('should render the hint text', () => {
-      const el: HTMLElement = fixture.nativeElement.querySelector(`#${component.hintId()}`);
-      expect(el.textContent).toBe('This is hint text.');
-    });
   });
 
   describe('input validation', () => {
     it('should throw an error if an empty input id is provided', () => {
       fixture = TestBed.createComponent(UswdsTextInput);
       fixture.componentRef.setInput('inputId', '');
-      fixture.componentRef.setInput('label', 'Text input label');
       expect(() => {
         fixture.detectChanges();
       }).toThrowError('Propery "inputId" is required and cannot be an empty string');
@@ -150,6 +199,8 @@ describe('UswdsTextInput', () => {
     });
 
     it('should link the label`s for attribute to the input`s id attribute', () => {
+      fixture.componentRef.setInput('label', 'Text input label');
+      fixture.detectChanges();
       const labelFor: string = fixture.nativeElement.querySelector('label')?.getAttribute('for');
       const inputId: string = fixture.nativeElement.querySelector('input')?.getAttribute('id');
       expect(labelFor).toEqual(inputId);
@@ -295,6 +346,7 @@ describe('UswdsTextInput', () => {
     beforeEach(() => {
       fixture.componentRef.setInput('type', 'textarea');
       fixture.componentRef.setInput('inputId', 'input-type-textarea');
+      fixture.componentRef.setInput('label', 'Text area label');
       fixture.detectChanges();
     });
 

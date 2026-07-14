@@ -14,7 +14,6 @@ describe('UswdsTextInput', () => {
     component = fixture.componentInstance;
 
     // Provide required props
-    fixture.componentRef.setInput('variant', 'text');
     fixture.componentRef.setInput('inputId', 'input-type-text');
 
     await fixture.whenStable();
@@ -26,11 +25,19 @@ describe('UswdsTextInput', () => {
       expect(component).toBeTruthy();
     });
 
-    it('should default to no required attribute', () => {
+    it('should default to text variant', () => {
+      expect(component.variant()).toBe('text');
+    });
+
+    it('should render text variant by default', () => {
+      expect(fixture.nativeElement.querySelector('input')).not.toBeNull();
+    });
+
+    it('should default to false for required attribute', () => {
       expect(component.required()).toBe(false);
     });
 
-    it('should default to no disabled attribute', () => {
+    it('should default to false for disabled attribute', () => {
       expect(component.disabled()).toBe(false);
     });
 
@@ -128,7 +135,14 @@ describe('UswdsTextInput', () => {
       expect(el?.getAttribute('id')).toBe(`${component.inputId()}-hint`);
     });
 
-    it('should have the correct class for the hint', () => {
+    it('should have the correct class in span element', () => {
+      const el: HTMLElement = fixture.nativeElement.querySelector(`#${component.hintId()}`);
+      expect(el?.classList.contains('usa-hint')).toBeTruthy();
+    });
+
+    it('should have the correct class in div element', () => {
+      fixture.componentRef.setInput('hintEl', 'div');
+      fixture.detectChanges();
       const el: HTMLElement = fixture.nativeElement.querySelector(`#${component.hintId()}`);
       expect(el?.classList.contains('usa-hint')).toBeTruthy();
     });
@@ -219,6 +233,11 @@ describe('UswdsTextInput', () => {
         expect(el?.hasAttribute('type')).toBe(false);
       });
 
+      it('should render no autocomplete attribute at initialization', () => {
+        const el: HTMLElement = fixture.nativeElement.querySelector('input');
+        expect(el?.hasAttribute('autocomplete')).toBe(false);
+      });
+
       it('should set required attribute when requested', () => {
         fixture.componentRef.setInput('required', 'true');
         fixture.detectChanges();
@@ -247,8 +266,8 @@ describe('UswdsTextInput', () => {
         expect(el?.getAttribute('aria-describedby')).toContain(`${component.hintId()}`);
       });
 
-      it('should add the externalDescribedBy in the aria-describedby attribute', () => {
-        fixture.componentRef.setInput('externalDescribedBy', 'additional-id');
+      it('should add the ariaDescribedBy in the aria-describedby attribute', () => {
+        fixture.componentRef.setInput('ariaDescribedBy', 'additional-id');
         fixture.detectChanges();
         const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
         expect(el?.getAttribute('aria-describedby')).toContain('additional-id');
@@ -301,6 +320,27 @@ describe('UswdsTextInput', () => {
         fixture.detectChanges();
         const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
         expect(el?.getAttribute('type')).toBe('tel');
+      });
+
+      it('should change the autocomplete attribute to on', () => {
+        fixture.componentRef.setInput('autocomplete', 'on');
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+        expect(el?.getAttribute('autocomplete')).toBe('on');
+      });
+
+      it('should change the autocomplete attribute to off', () => {
+        fixture.componentRef.setInput('autocomplete', 'off');
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+        expect(el?.getAttribute('autocomplete')).toBe('off');
+      });
+
+      it('should change the autocomplete attribute to email', () => {
+        fixture.componentRef.setInput('autocomplete', 'email');
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+        expect(el?.getAttribute('autocomplete')).toBe('email');
       });
     });
 
@@ -453,6 +493,11 @@ describe('UswdsTextInput', () => {
         expect(el?.hasAttribute('maxlength')).toBe(false);
       });
 
+      it('should render no autocomplete attribute at initialization', () => {
+        const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.hasAttribute('autocomplete')).toBe(false);
+      });
+
       it('should set required attribute when requested', () => {
         fixture.componentRef.setInput('required', 'true');
         fixture.detectChanges();
@@ -481,8 +526,8 @@ describe('UswdsTextInput', () => {
         expect(el?.getAttribute('aria-describedby')).toContain(`${component.hintId()}`);
       });
 
-      it('should add the externalDescribedBy in the aria-describedby attribute', () => {
-        fixture.componentRef.setInput('externalDescribedBy', 'additional-id');
+      it('should add the ariaDescribedBy in the aria-describedby attribute', () => {
+        fixture.componentRef.setInput('ariaDescribedBy', 'additional-id');
         fixture.detectChanges();
         const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
         expect(el?.getAttribute('aria-describedby')).toContain('additional-id');
@@ -500,6 +545,27 @@ describe('UswdsTextInput', () => {
         fixture.detectChanges();
         const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
         expect(el?.classList.contains('usa-character-count__field')).toBeTruthy();
+      });
+
+      it('should change the autocomplete attribute to on', () => {
+        fixture.componentRef.setInput('autocomplete', 'on');
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.getAttribute('autocomplete')).toBe('on');
+      });
+
+      it('should change the autocomplete attribute to off', () => {
+        fixture.componentRef.setInput('autocomplete', 'off');
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.getAttribute('autocomplete')).toBe('off');
+      });
+
+      it('should change the autocomplete attribute to email', () => {
+        fixture.componentRef.setInput('autocomplete', 'email');
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
+        expect(el?.getAttribute('autocomplete')).toBe('email');
       });
     });
 

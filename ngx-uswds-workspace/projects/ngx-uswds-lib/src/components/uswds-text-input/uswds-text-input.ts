@@ -5,6 +5,7 @@ import {
   TextInputState,
   HintEl,
   InputType,
+  TextInputAutocomplete,
 } from './text-input-types';
 import { NgClass } from '@angular/common';
 
@@ -57,12 +58,14 @@ import { NgClass } from '@angular/common';
  * @input {boolean} [disabled=false] - When true, adds the disabled attribute to the text input and
  *   and sets 'aria-disabled' to true.
  *
- * @input {string} externalDescribedBy - Space-seperated list of element ids outside this component that describe this input.
+ * @input {string} ariaDescribedBy - Space-seperated list of element ids outside this component that describe this input.
  *   Placed into 'aria-describedby' alongside the hint id.
  *
  * @input {number} maxLen - Defines the maximum number of characters that the user can enter in a text input.
  *
- * @input {InputType} type - Defines the type attribute of the input element.
+ * @input {InputType} type - Defines the value for the type attribute of the input element. Only for the 'text' variant.
+ *
+ * @input {TextInputAutocomplete} autocomplete - Defines the value for the autocomplete attribute of the text input.
  */
 @Component({
   selector: 'ngx-uswds-text-input',
@@ -92,11 +95,13 @@ export class UswdsTextInput {
   // v8 ignore next
   disabled = input<boolean>(false);
   // v8 ignore next
-  externalDescribedBy = input<string>();
+  ariaDescribedBy = input<string>();
   // v8 ignore next
   maxLen = input<number>();
   // v8 ignore next
   type = input<InputType>();
+  // v8 ignore next
+  autocomplete = input<TextInputAutocomplete>();
 
   ngOnInit(): void {
     if (this.inputId() === '') {
@@ -111,14 +116,14 @@ export class UswdsTextInput {
   hintId = computed(() => (this.hint() ? `${this.inputId()}-hint` : null));
 
   // v8 ignore next
-  describedBy = computed(() => this.describedByFn());
-  describedByFn = () => {
+  computedAriaDescribedBy = computed(() => this.computedAriaDescribedByFn());
+  computedAriaDescribedByFn = () => {
     const ids = [];
     if (this.hint()) {
       ids.push(this.hintId());
     }
-    if (this.externalDescribedBy()) {
-      ids.push(this.externalDescribedBy());
+    if (this.ariaDescribedBy()) {
+      ids.push(this.ariaDescribedBy());
     }
     return ids.length ? ids.join(' ') : null;
   };

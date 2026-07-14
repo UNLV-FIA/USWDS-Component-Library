@@ -18,9 +18,10 @@
     [required]="required()"
     [disabled]="disabled()"
     [attr.aria-disabled]="ariaDisabled()"
-    [attr.aria-describedby]="describedBy()"
+    [attr.aria-describedby]="computedAriaDescribedBy()"
     [attr.maxlength]="maxLen()"
     [attr.type]="type()"
+    [attr.autocomplete]="autocomplete()"
   />
 }
 <!-- Multi-line text input -->
@@ -33,7 +34,8 @@
     [required]="required()"
     [disabled]="disabled()"
     [attr.aria-disabled]="ariaDisabled()"
-    [attr.aria-describedby]="describedBy()"
+    [attr.aria-describedby]="computedAriaDescribedBy()"
     [attr.maxlength]="maxLen()"
+    [attr.autocomplete]="autocomplete()"
   ></textarea>
 }

@@ -139,31 +139,41 @@
           </div>
           <div class="usa-footer__contact-links mobile-lg:grid-col-6">
             <div class="usa-footer__social-links grid-row grid-gap-1">
-              <div class="grid-col-auto">
-                <a class="usa-social-link" href="javascript:void(0);"
-                  ><img class="usa-social-link__icon" [src]="facebookIconPath()" alt="Facebook"
-                /></a>
-              </div>
-              <div class="grid-col-auto">
-                <a class="usa-social-link" href="javascript:void(0);"
-                  ><img class="usa-social-link__icon" [src]="twitterIconPath()" alt="Twitter"
-                /></a>
-              </div>
-              <div class="grid-col-auto">
-                <a class="usa-social-link" href="javascript:void(0);"
-                  ><img class="usa-social-link__icon" [src]="youtubeIconPath()" alt="YouTube"
-                /></a>
-              </div>
-              <div class="grid-col-auto">
-                <a class="usa-social-link" href="javascript:void(0);"
-                  ><img class="usa-social-link__icon" [src]="instagramIconPath()" alt="Instagram"
-                /></a>
-              </div>
-              <div class="grid-col-auto">
-                <a class="usa-social-link" href="javascript:void(0);"
-                  ><img class="usa-social-link__icon" [src]="rssFeedIconPath()" alt="RSS"
-                /></a>
-              </div>
+              @if (facebookLink()) {
+                <div class="grid-col-auto">
+                  <a class="usa-social-link" [href]="facebookLink()"
+                    ><img class="usa-social-link__icon" [src]="facebookIconPath()" alt="Facebook"
+                  /></a>
+                </div>
+              }
+              @if (twitterLink()) {
+                <div class="grid-col-auto">
+                  <a class="usa-social-link" [href]="twitterLink()"
+                    ><img class="usa-social-link__icon" [src]="twitterIconPath()" alt="Twitter"
+                  /></a>
+                </div>
+              }
+              @if (youtubeLink()) {
+                <div class="grid-col-auto">
+                  <a class="usa-social-link" [href]="youtubeLink()"
+                    ><img class="usa-social-link__icon" [src]="youtubeIconPath()" alt="YouTube"
+                  /></a>
+                </div>
+              }
+              @if (instagramLink()) {
+                <div class="grid-col-auto">
+                  <a class="usa-social-link" [href]="instagramLink()"
+                    ><img class="usa-social-link__icon" [src]="instagramIconPath()" alt="Instagram"
+                  /></a>
+                </div>
+              }
+              @if (rssLink()) {
+                <div class="grid-col-auto">
+                  <a class="usa-social-link" [href]="rssLink()"
+                    ><img class="usa-social-link__icon" [src]="rssFeedIconPath()" alt="RSS"
+                  /></a>
+                </div>
+              }
             </div>
             @if (agencyContactHeading()) {
               <p class="usa-footer__contact-heading">{{ agencyContactHeading() }}</p>

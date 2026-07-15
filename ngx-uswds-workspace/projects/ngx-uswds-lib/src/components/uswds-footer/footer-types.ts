@@ -12,14 +12,14 @@ export interface FooterLinkColumn {
   links: FooterLink[];
 }
 
-export interface SignUpForm {
+export interface FooterSignUpForm {
   heading?: string;
   label?: string;
   buttonStyle?: ButtonStyle;
   buttonText?: string;
 }
 
-export interface AgencyInfo {
+export interface FooterAgencyInfo {
   name?: string;
   logoImagePath?: string;
   contactHeading?: string;
@@ -28,7 +28,7 @@ export interface AgencyInfo {
   email?: string;
 }
 
-export interface SocialLinks {
+export interface FooterSocialLinks {
   facebook?: string;
   twitter?: string;
   youtube?: string;

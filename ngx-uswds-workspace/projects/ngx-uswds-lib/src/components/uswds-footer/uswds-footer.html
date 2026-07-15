@@ -33,9 +33,9 @@
           </div>
           <div class="tablet:grid-col-4">
             <div class="usa-sign-up">
-              <h3 class="usa-sign-up__heading">Sign up</h3>
+              <h3 class="usa-sign-up__heading">{{ signUpHeading() }}</h3>
               <form ngNativeValidate class="usa-form" (ngSubmit)="handleSubmit()">
-                <label class="usa-label" for="email" id="">Your email address</label>
+                <label class="usa-label" for="email" id="">{{ signUpLabel() }}</label>
                 <input
                   class="usa-input"
                   id="email"
@@ -44,7 +44,9 @@
                   autocomplete="email"
                   [(ngModel)]="userEmail"
                 />
-                <ngx-uswds-button type="submit">{{ btnText() }}</ngx-uswds-button>
+                <ngx-uswds-button [buttonStyle]="signUpButtonStyle()" type="submit">{{
+                  signUpButtonText()
+                }}</ngx-uswds-button>
               </form>
             </div>
           </div>

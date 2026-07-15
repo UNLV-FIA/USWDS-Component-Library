@@ -23,9 +23,6 @@ import { footer } from '@uswds/uswds/js';
  * @input {string} [iconsPath='/assets/img/usa-icons'] - Base path to the footer icon assets.
  *   Useful when icons are hosted in a different location.
  *
- * @input {FooterLinkColumn[]} [linkColumns=[]] - A list of columns of links to display in the 'big' footer.
- *   Each item requires a 'topic' and `links` for the column. Each link requires a 'label' and 'href'.
- *
  * @input {AgencyInfo} agencyInfo - An object that stores the agency's information to display in the footer.
  *   Fields include:
  *     - 'name': agency's name
@@ -34,6 +31,18 @@ import { footer } from '@uswds/uswds/js';
  *     - 'phone': agency's contact phone number
  *     - 'phoneLabel': optional label for the agency's phone number (e.g. (800) 555-GOVT)
  *     - 'email': agency's contact email
+ *   If any of the above fields are not provided, it will not render in the footer.
+ *
+ * @input {FooterLinkColumn[]} [linkColumns=[]] - A list of columns of links to display in the 'big' footer.
+ *   Each item requires a 'topic' and `links` for the column. Each link requires a 'label' and 'href'.
+ *
+ * @input {SignUpForm} signUpForm - An object that stores the form information to display in the 'big' footer.
+ *   Fields include:
+ *     - 'heading': heading shown above the form
+ *     - 'label': label for the text input
+ *     - 'buttonStyle': color style of the button
+ *     - 'buttonText': text within the button
+ *   If any of the above fields are not provided, it will default to hard-coded values.
  */
 @Component({
   selector: 'ngx-uswds-footer',
@@ -45,12 +54,12 @@ export class UswdsFooter {
   variant = input<FooterVariant>();
   iconsPath = input<string>('/assets/img/usa-icons');
   agencyInfo = input<AgencyInfo>();
-  signUpForm = input<SignUpForm>();
 
   // For the big variant footer
+  linkColumns = input<FooterLinkColumn[]>([]);
+  signUpForm = input<SignUpForm>();
   formSubmit = output<string>(); // the function you want ran
   userEmail = '';
-  linkColumns = input<FooterLinkColumn[]>([]); // for the big variant only
 
   ngOnInit() {
     footer.on();
@@ -85,7 +94,12 @@ export class UswdsFooter {
   agencyPhoneLabel = computed(() => this.agencyInfo()?.phoneLabel ?? this.agencyPhone());
   agencyEmail = computed(() => this.agencyInfo()?.email);
 
-  btnText = computed(() => this.signUpForm()?.buttonText ?? 'Sign Up');
+  // Footer items for the big footer
+  signUpHeading = computed(() => this.signUpForm()?.heading ?? 'Sign up');
+  // to do: add this as a text input component
+  signUpLabel = computed(() => this.signUpForm()?.label ?? 'Your email address');
+  signUpButtonText = computed(() => this.signUpForm()?.buttonText ?? 'Sign Up');
+  signUpButtonStyle = computed(() => this.signUpForm()?.buttonStyle ?? 'Default');
 
   // Compute icon paths for social media links
   facebookIconPath = computed(() => `${this.iconsPath()}/facebook.svg`);

@@ -55,8 +55,7 @@ import { NgClass } from '@angular/common';
  *
  * @input {boolean} [required=false] - When true, adds the required attribute to the text input.
  *
- * @input {boolean} [disabled=false] - When true, adds the disabled attribute to the text input and
- *   and sets 'aria-disabled' to true.
+ * @input {boolean} [ariaDisabled=false] - When true, sets 'aria-disabled' to true and disables typing within the text input.
  *
  * @input {string} ariaDescribedBy - Space-seperated list of element ids outside this component that describe this input.
  *   Placed into 'aria-describedby' alongside the hint id.
@@ -93,7 +92,7 @@ export class UswdsTextInput {
   // v8 ignore next
   required = input<boolean>(false);
   // v8 ignore next
-  disabled = input<boolean>(false);
+  ariaDisabled = input<boolean>(false);
   // v8 ignore next
   ariaDescribedBy = input<string>();
   // v8 ignore next
@@ -110,7 +109,7 @@ export class UswdsTextInput {
   }
 
   // v8 ignore next
-  ariaDisabled = computed(() => (this.disabled() ? true : null));
+  computedAriaDisabled = computed(() => (this.ariaDisabled() ? true : null));
 
   // v8 ignore next
   hintId = computed(() => (this.hint() ? `${this.inputId()}-hint` : null));
@@ -128,7 +127,7 @@ export class UswdsTextInput {
     return ids.length ? ids.join(' ') : null;
   };
 
-  // Adds the CSS classes for width, state, and character count to the text input
+  // Adds CSS classes to the text input
   // v8 ignore next
   inputClasses = computed(() => this.inputClassesFn());
   inputClassesFn = () => {
@@ -177,4 +176,11 @@ export class UswdsTextInput {
     }
     return classes;
   };
+
+  // Prevent keyboard interaction when the text input is disabled unless is keyboard navigation
+  onKeydown(event: KeyboardEvent): void {
+    if (this.ariaDisabled() && event.key != 'Tab') {
+      event.preventDefault();
+    }
+  }
 }

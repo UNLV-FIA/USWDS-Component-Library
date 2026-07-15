@@ -1,0 +1,43 @@
+@if (label()) {
+  <label class="usa-label" [attr.for]="inputId()">{{ label() }}</label>
+}
+@if (hint()) {
+  @if (hintEl() == 'div') {
+    <div class="usa-hint" [id]="hintId()">{{ hint() }}</div>
+  } @else {
+    <span class="usa-hint" [id]="hintId()">{{ hint() }}</span>
+  }
+}
+<!-- Single line text input -->
+@if (variant() == 'text') {
+  <input
+    class="usa-input"
+    [ngClass]="inputClasses()"
+    [class.invisible_caret]="computedAriaDisabled()"
+    [id]="inputId()"
+    [name]="inputId()"
+    [required]="required()"
+    [attr.aria-disabled]="computedAriaDisabled()"
+    (keydown)="onKeydown($event)"
+    [attr.aria-describedby]="computedAriaDescribedBy()"
+    [attr.maxlength]="maxLen()"
+    [attr.type]="type()"
+    [attr.autocomplete]="autocomplete()"
+  />
+}
+<!-- Multi-line text input -->
+@if (variant() == 'textarea') {
+  <textarea
+    class="usa-textarea"
+    [ngClass]="inputClasses()"
+    [class.invisible_caret]="computedAriaDisabled()"
+    [id]="inputId()"
+    [name]="inputId()"
+    [required]="required()"
+    [attr.aria-disabled]="computedAriaDisabled()"
+    (keydown)="onKeydown($event)"
+    [attr.aria-describedby]="computedAriaDescribedBy()"
+    [attr.maxlength]="maxLen()"
+    [attr.autocomplete]="autocomplete()"
+  ></textarea>
+}

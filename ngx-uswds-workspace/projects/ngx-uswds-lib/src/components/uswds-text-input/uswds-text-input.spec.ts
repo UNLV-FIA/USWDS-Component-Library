@@ -278,6 +278,16 @@ describe('UswdsTextInput', () => {
           expect(event?.defaultPrevented).toBeTruthy();
         });
 
+        it('should allow tab navigation when aria-disabled is true', () => {
+          fixture.componentRef.setInput('ariaDisabled', true);
+          fixture.detectChanges();
+          const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+          const event = new KeyboardEvent('keydown', { key: 'Tab', cancelable: true });
+          el.dispatchEvent(event);
+          fixture.detectChanges();
+          expect(event?.defaultPrevented).toBe(false);
+        });
+
         it('should toggle the invisible_caret class based on ariaDisabled', () => {
           fixture.componentRef.setInput('ariaDisabled', true);
           fixture.detectChanges();
@@ -565,6 +575,16 @@ describe('UswdsTextInput', () => {
           el.dispatchEvent(event);
           fixture.detectChanges();
           expect(event?.defaultPrevented).toBeTruthy();
+        });
+
+        it('should allow tab navigation when aria-disabled is true', () => {
+          fixture.componentRef.setInput('ariaDisabled', true);
+          fixture.detectChanges();
+          const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
+          const event = new KeyboardEvent('keydown', { key: 'Tab', cancelable: true });
+          el.dispatchEvent(event);
+          fixture.detectChanges();
+          expect(event?.defaultPrevented).toBe(false);
         });
 
         it('should toggle the invisible_caret class based on ariaDisabled', () => {

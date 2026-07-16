@@ -4,6 +4,7 @@ import { UswdsButton } from '../uswds-button/uswds-button';
 import { FormsModule } from '@angular/forms';
 import {
   FooterVariant,
+  FooterLink,
   FooterLinkColumn,
   FooterAgencyInfo,
   FooterSignUpForm,
@@ -39,8 +40,11 @@ import { footer } from '@uswds/uswds/js';
  *     - 'email': agency's contact email
  *   If any of the above fields are not provided, it will not render in the footer.
  *
- * @input {FooterLinkColumn[]} [linkColumns=[]] - A list of columns of links to display in the 'big' footer.
+ * @input {FooterLinkColumn[]} [linkColumns=[]] - A list of columns of links to display in the 'big' footer only.
  *   Each item requires a 'topic' and `links` for the column. Each link requires a 'label' and 'href'.
+ *
+ * @input {FooterLink[]} [links=[]] - A list of links to display in the 'medium' and 'slim' footer only.
+ *    Each item requires a 'label' and `href`.
  *
  * @input {FooterSignUpForm} signUpForm - An object that stores the form information to display in the 'big' footer.
  *   Fields include:
@@ -65,6 +69,7 @@ export class UswdsFooter {
   variant = input<FooterVariant>();
   agencyInfo = input<FooterAgencyInfo>();
   socials = input<FooterSocialLinks>();
+  links = input<FooterLink[]>([]);
 
   // For the big variant footer
   linkColumns = input<FooterLinkColumn[]>([]);

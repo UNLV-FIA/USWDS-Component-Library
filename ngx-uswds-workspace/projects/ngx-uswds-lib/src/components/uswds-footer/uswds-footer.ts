@@ -7,7 +7,7 @@ import {
   FooterLink,
   FooterLinkColumn,
   FooterAgencyInfo,
-  FooterSignUpForm,
+  FooterForm,
   FooterSocialLinks,
 } from './footer-types';
 import { footer } from '@uswds/uswds/js';
@@ -32,12 +32,13 @@ import { footer } from '@uswds/uswds/js';
  *
  * @input {FooterAgencyInfo} agencyInfo - An object that stores the agency's information to display in the footer.
  *   Fields include:
- *     - 'name': agency's name
- *     - 'logoImagePath': path to agency's logo
- *     - 'contactHeading': heading displayed above the agency's phone number and email
- *     - 'phone': agency's contact phone number
- *     - 'phoneLabel': optional label for the agency's phone number (e.g. (800) 555-GOVT)
- *     - 'email': agency's contact email
+ *     - 'name': Agency's name
+ *     - 'logoImagePath': Path to agency's logo
+ *     - 'logoAlt': The alternative text of the logo. Leave undefined if the logo is decorative.
+ *     - 'contactHeading': Heading displayed above the agency's phone number and email
+ *     - 'phone': Agency's contact phone number
+ *     - 'phoneLabel': Optional label for the agency's phone number (e.g. (800) 555-GOVT)
+ *     - 'email': Agency's contact email
  *   If any of the above fields are not provided, it will not render in the footer.
  *
  * @input {FooterLinkColumn[]} [linkColumns=[]] - A list of columns of links to display in the 'big' footer only.
@@ -46,12 +47,12 @@ import { footer } from '@uswds/uswds/js';
  * @input {FooterLink[]} [links=[]] - A list of links to display in the 'medium' and 'slim' footer only.
  *    Each item requires a 'label' and `href`.
  *
- * @input {FooterSignUpForm} signUpForm - An object that stores the form information to display in the 'big' footer.
+ * @input {FooterForm} signUpForm - An object that stores the form information to display in the 'big' footer.
  *   Fields include:
- *     - 'heading': heading shown above the form
- *     - 'label': label for the text input
- *     - 'buttonStyle': color style of the button
- *     - 'buttonText': text within the button
+ *     - 'heading': Heading shown above the form
+ *     - 'label': Label for the text input
+ *     - 'buttonStyle': Color style of the button
+ *     - 'buttonText': Text within the button
  *   If any of the above fields are not provided, it will default to hard-coded values.
  *
  * @input {FooterSocialLinks} socials - An object that stores links to the agency's social medias to display in the footer.
@@ -73,7 +74,7 @@ export class UswdsFooter {
 
   // For the big variant footer
   linkColumns = input<FooterLinkColumn[]>([]);
-  signUpForm = input<FooterSignUpForm>();
+  signUpForm = input<FooterForm>();
   formSubmit = output<string>(); // the function you want ran
   userEmail = '';
 
@@ -82,8 +83,8 @@ export class UswdsFooter {
   }
 
   // Footer variant selection function
-  footerVariantCSS = computed(() => this.footerVariantCSSFn());
-  footerVariantCSSFn = () => {
+  footerVariantCss = computed(() => this.footerVariantCssFn());
+  footerVariantCssFn = () => {
     const va = this.variant();
     switch (va) {
       case 'big':
@@ -105,6 +106,7 @@ export class UswdsFooter {
   // Display the footer item if defined
   agencyName = computed(() => this.agencyInfo()?.name);
   agencyLogoImagePath = computed(() => this.agencyInfo()?.logoImagePath);
+  agencyLogoAlt = computed(() => this.agencyInfo()?.logoAlt ?? '');
   agencyContactHeading = computed(() => this.agencyInfo()?.contactHeading);
   agencyPhone = computed(() => this.agencyInfo()?.phone);
   agencyPhoneLabel = computed(() => this.agencyInfo()?.phoneLabel ?? this.agencyPhone());

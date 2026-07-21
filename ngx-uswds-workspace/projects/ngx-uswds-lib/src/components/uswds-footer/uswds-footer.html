@@ -1,4 +1,4 @@
-<footer class="usa-footer" [ngClass]="footerVariantCSS()">
+<footer class="usa-footer" [ngClass]="footerVariantCss()">
   <div class="grid-container usa-footer__return-to-top">
     <a href="#">Return to top</a>
   </div>
@@ -106,7 +106,11 @@
           <div class="usa-footer__logo grid-row mobile-lg:grid-col-6 mobile-lg:grid-gap-2">
             @if (agencyLogoImagePath()) {
               <div class="mobile-lg:grid-col-auto">
-                <img class="usa-footer__logo-img" [src]="agencyLogoImagePath()" alt="" />
+                <img
+                  class="usa-footer__logo-img"
+                  [src]="agencyLogoImagePath()"
+                  [alt]="agencyLogoAlt()"
+                />
               </div>
             }
             @if (agencyName()) {
@@ -176,7 +180,11 @@
         <div class="usa-footer__logo grid-row grid-gap-2">
           <div class="grid-col-auto">
             @if (agencyLogoImagePath()) {
-              <img class="usa-footer__logo-img" [src]="agencyLogoImagePath()" alt="" />
+              <img
+                class="usa-footer__logo-img"
+                [src]="agencyLogoImagePath()"
+                [alt]="agencyLogoAlt()"
+              />
             }
           </div>
           @if (agencyContactHeading()) {

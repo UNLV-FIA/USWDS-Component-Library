@@ -12,7 +12,7 @@ export interface FooterLinkColumn {
   links: FooterLink[];
 }
 
-export interface FooterSignUpForm {
+export interface FooterForm {
   heading?: string;
   label?: string;
   buttonStyle?: ButtonStyle;
@@ -22,6 +22,7 @@ export interface FooterSignUpForm {
 export interface FooterAgencyInfo {
   name?: string;
   logoImagePath?: string;
+  logoAlt?: string;
   contactHeading?: string;
   phoneLabel?: string;
   phone?: string;

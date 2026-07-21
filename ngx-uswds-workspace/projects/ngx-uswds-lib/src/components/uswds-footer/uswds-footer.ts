@@ -1,4 +1,4 @@
-import { Component, input, output, computed } from '@angular/core';
+import { Component, AfterViewInit, input, output, computed } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { UswdsButton } from '../uswds-button/uswds-button';
 import { FormsModule } from '@angular/forms';
@@ -25,7 +25,7 @@ import { footer } from '@uswds/uswds/js';
  * <ngx-uswds-footer>INFO</ngx-uswds-footer>
  *
  * @input {FooterVariant} variant - The visual style of the footer.
- *   Accepts 'big', 'medium', or 'slim'.
+ *   Accepts 'big', 'medium', or 'slim'. Required.
  *
  * @input {string} [iconsPath='/assets/img/usa-icons'] - Base path to the footer icon assets.
  *   Useful when icons are hosted in a different location.
@@ -65,9 +65,9 @@ import { footer } from '@uswds/uswds/js';
   templateUrl: './uswds-footer.html',
   styleUrl: './uswds-footer.scss',
 })
-export class UswdsFooter {
+export class UswdsFooter implements AfterViewInit {
   iconsPath = input<string>('/assets/img/usa-icons');
-  variant = input<FooterVariant>();
+  variant = input.required<FooterVariant>();
   agencyInfo = input<FooterAgencyInfo>();
   socials = input<FooterSocialLinks>();
   links = input<FooterLink[]>([]);
@@ -78,8 +78,8 @@ export class UswdsFooter {
   formSubmit = output<string>(); // the function you want ran
   userEmail = '';
 
-  ngOnInit() {
-    footer.on();
+  ngAfterViewInit(): void {
+    footer?.on();
   }
 
   // Footer variant selection function

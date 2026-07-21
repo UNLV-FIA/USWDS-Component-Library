@@ -116,7 +116,7 @@ export class UswdsFooter implements AfterViewInit {
   signUpHeading = computed(() => this.signUpForm()?.heading ?? 'Sign up');
   // to do: add this as a text input component
   signUpLabel = computed(() => this.signUpForm()?.label ?? 'Your email address');
-  signUpButtonText = computed(() => this.signUpForm()?.buttonText ?? 'Sign Up');
+  signUpButtonText = computed(() => this.signUpForm()?.buttonText ?? 'Sign up');
   signUpButtonStyle = computed(() => this.signUpForm()?.buttonStyle ?? 'Default');
 
   // Display the social media link if defined

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UswdsFooter } from './uswds-footer';
-import { FooterLinkColumn } from './footer-types';
+import { FooterLinkColumn, FooterForm } from './footer-types';
 import { vi } from 'vitest';
 vi.hoisted(() => {
   Object.defineProperty(window, 'matchMedia', {
@@ -49,6 +49,13 @@ const SAMPLE_LINK_COLUMNS: FooterLinkColumn[] = [
     ],
   },
 ];
+
+const SAMPLE_FORM: FooterForm = {
+  heading: 'form heading',
+  label: 'form label',
+  buttonStyle: 'AccentWarm',
+  buttonText: 'form button',
+};
 
 describe('UswdsFooter', () => {
   let component: UswdsFooter;
@@ -203,6 +210,71 @@ describe('UswdsFooter', () => {
               const a = item.querySelector('a');
               expect(a?.getAttribute('href')).toBe(SAMPLE_LINK_COLUMNS[i].links[j].href);
             });
+          });
+        });
+      });
+
+      describe('Form', () => {
+        it('should render the sign up div', () => {
+          const div = el.querySelector('div.usa-sign-up');
+          expect(div).toBeTruthy();
+        });
+
+        it('should render the form', () => {
+          const form = el.querySelector('form.usa-form');
+          expect(form).toBeTruthy();
+        });
+
+        describe('Custom values', () => {
+          beforeEach(() => {
+            fixture.componentRef.setInput('signUpForm', SAMPLE_FORM);
+            fixture.detectChanges();
+          });
+
+          it('should render correct heading', () => {
+            const div = el.querySelector('div.usa-sign-up');
+            const heading = div?.querySelector('.usa-sign-up__heading');
+            expect(heading?.textContent).toBe(SAMPLE_FORM.heading);
+          });
+
+          it('should render correct label', () => {
+            const form = el.querySelector('form.usa-form');
+            const label = form?.querySelector('label');
+            expect(label?.textContent).toBe(SAMPLE_FORM.label);
+          });
+
+          it('should render correct button text', () => {
+            const form = el.querySelector('form.usa-form');
+            const button = form?.querySelector('button');
+            expect(button?.textContent).toBe(SAMPLE_FORM.buttonText);
+          });
+
+          it('should use correct button style', () => {
+            expect(component.signUpButtonStyle()).toBe(SAMPLE_FORM.buttonStyle);
+          });
+        });
+
+        describe('Fallback values', () => {
+          it('should render default heading', () => {
+            const div = el.querySelector('div.usa-sign-up');
+            const heading = div?.querySelector('.usa-sign-up__heading');
+            expect(heading?.textContent).toBe('Sign up');
+          });
+
+          it('should render default label', () => {
+            const form = el.querySelector('form.usa-form');
+            const label = form?.querySelector('label');
+            expect(label?.textContent).toBe('Your email address');
+          });
+
+          it('should render default button text', () => {
+            const form = el.querySelector('form.usa-form');
+            const button = form?.querySelector('button');
+            expect(button?.textContent).toBe('Sign up');
+          });
+
+          it('should use default button style', () => {
+            expect(component.signUpButtonStyle()).toBe('Default');
           });
         });
       });

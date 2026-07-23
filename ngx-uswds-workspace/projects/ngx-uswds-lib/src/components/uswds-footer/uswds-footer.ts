@@ -106,18 +106,47 @@ export class UswdsFooter implements AfterViewInit {
   // Display the footer item if defined
   agencyName = computed(() => this.agencyInfo()?.name);
   agencyLogoImagePath = computed(() => this.agencyInfo()?.logoImagePath);
-  agencyLogoAlt = computed(() => this.agencyInfo()?.logoAlt ?? '');
+  agencyLogoAlt = computed(() => this.agencyLogoAltFn());
+  agencyLogoAltFn = () => {
+    const logoAlt = this.agencyInfo()?.logoAlt;
+    if (logoAlt == null || logoAlt == undefined) return '';
+    return logoAlt;
+  };
   agencyContactHeading = computed(() => this.agencyInfo()?.contactHeading);
   agencyPhone = computed(() => this.agencyInfo()?.phone);
-  agencyPhoneLabel = computed(() => this.agencyInfo()?.phoneLabel ?? this.agencyPhone());
+  agencyPhoneLabel = computed(() => this.agencyPhoneLabelFn());
+  agencyPhoneLabelFn = () => {
+    const phoneLabel = this.agencyInfo()?.phoneLabel;
+    if (phoneLabel == null || phoneLabel == undefined) return this.agencyPhone();
+    return phoneLabel;
+  };
   agencyEmail = computed(() => this.agencyInfo()?.email);
-
   // Sign up form items for the big footer
-  signUpHeading = computed(() => this.signUpForm()?.heading ?? 'Sign up');
+  signUpHeading = computed(() => this.signUpHeadingFn());
+  signUpHeadingFn = () => {
+    const heading = this.signUpForm()?.heading;
+    if (heading == null || heading == undefined) return 'Sign up';
+    return heading;
+  };
   // to do: add this as a text input component
-  signUpLabel = computed(() => this.signUpForm()?.label ?? 'Your email address');
-  signUpButtonText = computed(() => this.signUpForm()?.buttonText ?? 'Sign up');
-  signUpButtonStyle = computed(() => this.signUpForm()?.buttonStyle ?? 'Default');
+  signUpLabel = computed(() => this.signUpLabelFn());
+  signUpLabelFn = () => {
+    const label = this.signUpForm()?.label;
+    if (label == null || label == undefined) return 'Your email address';
+    return label;
+  };
+  signUpButtonText = computed(() => this.signUpButtonTextFn());
+  signUpButtonTextFn = () => {
+    const btnText = this.signUpForm()?.buttonText;
+    if (btnText == null || btnText == undefined) return 'Sign up';
+    return btnText;
+  };
+  signUpButtonStyle = computed(() => this.signUpButtonStyleFn());
+  signUpButtonStyleFn = () => {
+    const btnStyle = this.signUpForm()?.buttonStyle;
+    if (btnStyle == null || btnStyle == undefined) return 'Default';
+    return btnStyle;
+  };
 
   // Display the social media link if defined
   facebookLink = computed(() => this.socials()?.facebook);

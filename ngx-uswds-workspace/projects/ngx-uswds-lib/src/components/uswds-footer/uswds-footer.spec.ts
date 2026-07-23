@@ -80,6 +80,22 @@ const SAMPLE_SOCIALS = {
   rss: '/rss',
 };
 
+const socialsTestCases = [
+  {
+    name: 'Facebook',
+    url: SAMPLE_SOCIALS.facebook,
+    iconPath: '/assets/img/usa-icons/facebook.svg',
+  },
+  { name: 'Twitter', url: SAMPLE_SOCIALS.twitter, iconPath: '/assets/img/usa-icons/twitter.svg' },
+  { name: 'YouTube', url: SAMPLE_SOCIALS.youtube, iconPath: '/assets/img/usa-icons/youtube.svg' },
+  {
+    name: 'Instagram',
+    url: SAMPLE_SOCIALS.instagram,
+    iconPath: '/assets/img/usa-icons/instagram.svg',
+  },
+  { name: 'RSS', url: SAMPLE_SOCIALS.rss, iconPath: '/assets/img/usa-icons/rss_feed.svg' },
+];
+
 describe('UswdsFooter', () => {
   let component: UswdsFooter;
   let fixture: ComponentFixture<UswdsFooter>;
@@ -115,9 +131,10 @@ describe('UswdsFooter', () => {
     });
 
     it('should have a return to top link', () => {
-      const parentDiv = el.querySelector('div.usa-footer__return-to-top');
-      const a = parentDiv?.querySelector('a');
+      const a = el.querySelector('div.usa-footer__return-to-top a');
+      expect(a).toBeTruthy();
       expect(a?.getAttribute('href')).toBe('#');
+      expect(a?.textContent).toBe('Return to top');
     });
 
     describe('Computed properties', () => {
@@ -126,23 +143,23 @@ describe('UswdsFooter', () => {
       });
 
       it('should generate correct facebook icon path', () => {
-        expect(component.facebookIconPath()).toBe('/assets/img/usa-icons/facebook.svg');
+        expect(component.facebookIconPath()).toBe(socialsTestCases[0].iconPath);
       });
 
       it('should generate correct twitter icon path', () => {
-        expect(component.twitterIconPath()).toBe('/assets/img/usa-icons/twitter.svg');
+        expect(component.twitterIconPath()).toBe(socialsTestCases[1].iconPath);
       });
 
       it('should generate correct youtube icon path', () => {
-        expect(component.youtubeIconPath()).toBe('/assets/img/usa-icons/youtube.svg');
+        expect(component.youtubeIconPath()).toBe(socialsTestCases[2].iconPath);
       });
 
       it('should generate correct instagram icon path', () => {
-        expect(component.instagramIconPath()).toBe('/assets/img/usa-icons/instagram.svg');
+        expect(component.instagramIconPath()).toBe(socialsTestCases[3].iconPath);
       });
 
       it('should generate correct rss feed icon path', () => {
-        expect(component.rssFeedIconPath()).toBe('/assets/img/usa-icons/rss_feed.svg');
+        expect(component.rssFeedIconPath()).toBe(socialsTestCases[4].iconPath);
       });
     });
 
@@ -179,8 +196,7 @@ describe('UswdsFooter', () => {
       it('should render nothing when links are empty', () => {
         fixture.componentRef.setInput('linkColumns', []);
         fixture.detectChanges();
-        const parentNav = el.querySelector('nav.usa-footer__nav');
-        const links = parentNav?.querySelectorAll('li.usa-footer__secondary-link');
+        const links = el.querySelectorAll('li.usa-footer__secondary-link a');
         expect(links?.length).toBe(0);
       });
 
@@ -210,7 +226,8 @@ describe('UswdsFooter', () => {
         it('should render the correct number of links for each column', () => {
           const cols = el.querySelectorAll('section.usa-footer__primary-content');
           cols.forEach((col, i) => {
-            const links = col.querySelectorAll('li.usa-footer__secondary-link');
+            const links = col.querySelectorAll('li.usa-footer__secondary-link a');
+            expect(links).toBeTruthy();
             expect(links.length).toBe(SAMPLE_LINK_COLUMNS[i].links.length);
           });
         });
@@ -218,10 +235,9 @@ describe('UswdsFooter', () => {
         it('should render the correct label of links', () => {
           const cols = el.querySelectorAll('section.usa-footer__primary-content');
           cols.forEach((col, i) => {
-            const listItems = col.querySelectorAll('li.usa-footer__secondary-link');
-            listItems.forEach((item, j) => {
-              const a = item.querySelector('a');
-              expect(a?.textContent).toBe(SAMPLE_LINK_COLUMNS[i].links[j].label);
+            const links = col.querySelectorAll('li.usa-footer__secondary-link a');
+            links.forEach((link, j) => {
+              expect(link?.textContent).toBe(SAMPLE_LINK_COLUMNS[i].links[j].label);
             });
           });
         });
@@ -229,10 +245,9 @@ describe('UswdsFooter', () => {
         it('should render the correct href of links', () => {
           const cols = el.querySelectorAll('section.usa-footer__primary-content');
           cols.forEach((col, i) => {
-            const listItems = col.querySelectorAll('li.usa-footer__secondary-link');
-            listItems.forEach((item, j) => {
-              const a = item.querySelector('a');
-              expect(a?.getAttribute('href')).toBe(SAMPLE_LINK_COLUMNS[i].links[j].href);
+            const links = col.querySelectorAll('li.usa-footer__secondary-link a');
+            links.forEach((link, j) => {
+              expect(link?.getAttribute('href')).toBe(SAMPLE_LINK_COLUMNS[i].links[j].href);
             });
           });
         });
@@ -256,20 +271,17 @@ describe('UswdsFooter', () => {
           });
 
           it('should render correct heading', () => {
-            const div = el.querySelector('div.usa-sign-up');
-            const heading = div?.querySelector('.usa-sign-up__heading');
+            const heading = el.querySelector('.usa-sign-up__heading');
             expect(heading?.textContent).toBe(SAMPLE_FORM.heading);
           });
 
           it('should render correct label', () => {
-            const form = el.querySelector('form.usa-form');
-            const label = form?.querySelector('label');
+            const label = el.querySelector('form.usa-form label');
             expect(label?.textContent).toBe(SAMPLE_FORM.label);
           });
 
           it('should render correct button text', () => {
-            const form = el.querySelector('form.usa-form');
-            const button = form?.querySelector('button');
+            const button = el.querySelector('form.usa-form button');
             expect(button?.textContent).toBe(SAMPLE_FORM.buttonText);
           });
 
@@ -280,20 +292,17 @@ describe('UswdsFooter', () => {
 
         describe('Fallback values', () => {
           it('should render default heading', () => {
-            const div = el.querySelector('div.usa-sign-up');
-            const heading = div?.querySelector('.usa-sign-up__heading');
+            const heading = el.querySelector('.usa-sign-up__heading');
             expect(heading?.textContent).toBe('Sign up');
           });
 
           it('should render default label', () => {
-            const form = el.querySelector('form.usa-form');
-            const label = form?.querySelector('label');
+            const label = el.querySelector('form.usa-form label');
             expect(label?.textContent).toBe('Your email address');
           });
 
           it('should render default button text', () => {
-            const form = el.querySelector('form.usa-form');
-            const button = form?.querySelector('button');
+            const button = el.querySelector('form.usa-form button');
             expect(button?.textContent).toBe('Sign up');
           });
 
@@ -319,15 +328,14 @@ describe('UswdsFooter', () => {
 
     describe('Primary section', () => {
       it('should render a nav element', () => {
-        const nav = el.querySelector('nav');
+        const nav = el.querySelector('nav.usa-footer__nav');
         expect(nav).toBeTruthy();
       });
 
       it('should render nothing when links are empty', () => {
         fixture.componentRef.setInput('links', []);
         fixture.detectChanges();
-        const parentNav = el.querySelector('nav.usa-footer__nav');
-        const links = parentNav?.querySelectorAll('li.usa-footer__primary-link');
+        const links = el.querySelectorAll('a.usa-footer__primary-link');
         expect(links?.length).toBe(0);
       });
 
@@ -367,7 +375,7 @@ describe('UswdsFooter', () => {
 
     describe('Default DOM', () => {
       it('should not render agency name', () => {
-        const name = el.querySelector('p.usa-footer__logo-heading');
+        const name = el.querySelector('.usa-footer__logo-heading');
         expect(name).toBeNull();
       });
 
@@ -377,35 +385,23 @@ describe('UswdsFooter', () => {
       });
 
       it('should not render contact heading', () => {
-        const heading = el.querySelector('p.usa-footer__contact-heading');
+        const heading = el.querySelector('.usa-footer__contact-heading');
         expect(heading).toBeNull();
       });
 
       it('should not render phone number', () => {
-        const parentDiv = el.querySelector('div.usa-footer__contact-info');
-        const a = parentDiv?.querySelector('a[href^="tel:"]');
+        const a = el.querySelector('address.usa-footer__address a[href^="tel:"]');
         expect(a).toBeNull();
       });
 
       it('should not render email', () => {
-        const parentDiv = el.querySelector('div.usa-footer__contact-info');
-        const a = parentDiv?.querySelector('a[href^="mailto:"]');
+        const a = el.querySelector('address.usa-footer__address a[href^="mailto:"]');
         expect(a).toBeNull();
       });
 
-      const socialsTestCases = [
-        { social: 'Facebook', url: SAMPLE_SOCIALS.facebook },
-        { social: 'Twitter', url: SAMPLE_SOCIALS.twitter },
-        { social: 'YouTube', url: SAMPLE_SOCIALS.youtube },
-        { social: 'Instagram', url: SAMPLE_SOCIALS.instagram },
-        { social: 'RSS', url: SAMPLE_SOCIALS.rss },
-      ];
-
-      socialsTestCases.forEach((platform) => {
-        it(`should not render ${platform.social}`, () => {
-          const socialIcon = el.querySelector(
-            `img.usa-social-link__icon[alt="${platform.social}"]`,
-          );
+      socialsTestCases.forEach((social) => {
+        it(`should not render ${social.name}`, () => {
+          const socialIcon = el.querySelector(`img.usa-social-link__icon[alt="${social.name}"]`);
           const parentLink = socialIcon?.parentElement;
           expect(socialIcon).toBeFalsy();
           expect(parentLink).toBeFalsy();
@@ -419,33 +415,31 @@ describe('UswdsFooter', () => {
         });
 
         it('should render agency name with the passed text', () => {
-          const name = el.querySelector('p.usa-footer__logo-heading');
+          const name = el.querySelector('.usa-footer__logo-heading');
           expect(name).toBeTruthy();
           expect(name?.textContent).toBe(SAMPLE_AGENCY.name);
         });
 
-        it('should render agency logo with correct href', () => {
+        it('should render agency logo with correct src', () => {
           const logo = el.querySelector('img.usa-footer__logo-img');
           expect(logo).toBeTruthy();
           expect(logo?.getAttribute('src')).toBe(SAMPLE_AGENCY.logoImagePath);
         });
 
         it('should render contact heading with the passed text', () => {
-          const heading = el.querySelector('p.usa-footer__contact-heading');
+          const heading = el.querySelector('.usa-footer__contact-heading');
           expect(heading).toBeTruthy();
           expect(heading?.textContent).toBe(SAMPLE_AGENCY.contactHeading);
         });
 
         it('should render phone number with correct href', () => {
-          const parentDiv = el.querySelector('div.usa-footer__contact-info');
-          const a = parentDiv?.querySelector('a[href^="tel:"]');
+          const a = el.querySelector('address.usa-footer__address a[href^="tel:"]');
           expect(a).toBeTruthy();
           expect(a?.getAttribute('href')).toBe(`tel:${SAMPLE_AGENCY.phone}`);
         });
 
         it('should use phone number as label by default', () => {
-          const parentDiv = el.querySelector('div.usa-footer__contact-info');
-          const a = parentDiv?.querySelector('a[href^="tel:"]');
+          const a = el.querySelector('address.usa-footer__address a[href^="tel:"]');
           expect(a?.textContent).toBe(SAMPLE_AGENCY.phone);
         });
 
@@ -456,14 +450,12 @@ describe('UswdsFooter', () => {
           };
           fixture.componentRef.setInput('agencyInfo', SAMPLE_PHONE_LABEL);
           fixture.detectChanges();
-          const parentDiv = el.querySelector('div.usa-footer__contact-info');
-          const a = parentDiv?.querySelector('a[href^="tel:"]');
+          const a = el.querySelector('address.usa-footer__address a[href^="tel:"]');
           expect(a?.textContent).toBe('<(800) 555-GOVT>');
         });
 
         it('should render email with correct href', () => {
-          const parentDiv = el.querySelector('div.usa-footer__contact-info');
-          const a = parentDiv?.querySelector('a[href^="mailto:"]');
+          const a = el.querySelector('address.usa-footer__address a[href^="mailto:"]');
           expect(a).toBeTruthy();
           expect(a?.getAttribute('href')).toBe(`mailto:${SAMPLE_AGENCY.email}`);
         });
@@ -474,24 +466,110 @@ describe('UswdsFooter', () => {
             fixture.detectChanges();
           });
 
-          socialsTestCases.forEach((platform) => {
-            it(`should render ${platform.social}'s icon`, () => {
-              const socialIcon = el.querySelector(`img[alt="${platform.social}"]`);
+          socialsTestCases.forEach((social) => {
+            it(`should render ${social.name}'s icon`, () => {
+              const socialIcon = el.querySelector(`img[alt="${social.name}"]`);
               expect(socialIcon).toBeTruthy();
               expect(socialIcon?.classList.contains('usa-social-link__icon')).toBeTruthy();
+              expect(socialIcon?.getAttribute('src')).toBe(social.iconPath);
             });
 
-            it(`should render ${platform.social} link`, () => {
+            it(`should render ${social.name} link`, () => {
               const socialIcon = el.querySelector(
-                `img.usa-social-link__icon[alt="${platform.social}"]`,
+                `img.usa-social-link__icon[alt="${social.name}"]`,
               );
               const parentLink = socialIcon?.parentElement;
               expect(parentLink).toBeTruthy();
               expect(parentLink?.classList.contains('usa-social-link')).toBeTruthy();
-              expect(parentLink?.getAttribute('href')).toBe(platform.url);
+              expect(parentLink?.getAttribute('href')).toBe(social.url);
             });
           });
+
+          it('should use custom icons path', () => {
+            fixture.componentRef.setInput('iconsPath', '/custom/path');
+            fixture.detectChanges();
+            expect(component.facebookIconPath()).toBe('/custom/path/facebook.svg');
+            expect(component.twitterIconPath()).toBe('/custom/path/twitter.svg');
+            expect(component.youtubeIconPath()).toBe('/custom/path/youtube.svg');
+            expect(component.instagramIconPath()).toBe('/custom/path/instagram.svg');
+            expect(component.rssFeedIconPath()).toBe('/custom/path/rss_feed.svg');
+          });
         });
+      });
+    });
+  });
+
+  describe('Slim variant', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('variant', 'slim');
+      fixture.detectChanges();
+    });
+
+    it('should have the base footer class', () => {
+      const footer = el.querySelector('footer');
+      expect(footer?.classList.contains('usa-footer')).toBeTruthy();
+    });
+
+    it('should have the slim footer class', () => {
+      const footer = el.querySelector('footer');
+      expect(footer?.classList.contains('usa-footer--slim')).toBeTruthy();
+    });
+
+    describe('Primary section', () => {
+      it('should render a nav element', () => {
+        const nav = el.querySelector('nav.usa-footer__nav');
+        expect(nav).toBeTruthy();
+      });
+
+      it('should render nothing when links are empty', () => {
+        fixture.componentRef.setInput('links', []);
+        fixture.detectChanges();
+        const links = el.querySelectorAll('a.usa-footer__primary-link');
+        expect(links?.length).toBe(0);
+      });
+
+      it('should not render phone number by default', () => {
+        const a = el.querySelector('address.usa-footer__address a[href^="tel:"]');
+        expect(a).toBeNull();
+      });
+
+      it('should not render email by default', () => {
+        const a = el.querySelector('address.usa-footer__address a[href^="mailto:"]');
+        expect(a).toBeNull();
+      });
+
+      it('should render phone number with correct href', () => {
+        fixture.componentRef.setInput('agencyInfo', SAMPLE_AGENCY);
+        fixture.detectChanges();
+        const a = el.querySelector('address.usa-footer__address a[href^="tel:"]');
+        expect(a).toBeTruthy();
+        expect(a?.getAttribute('href')).toBe(`tel:${SAMPLE_AGENCY.phone}`);
+      });
+
+      it('should use phone number as label by default', () => {
+        fixture.componentRef.setInput('agencyInfo', SAMPLE_AGENCY);
+        fixture.detectChanges();
+        const a = el.querySelector('address.usa-footer__address a[href^="tel:"]');
+        expect(a?.textContent).toBe(SAMPLE_AGENCY.phone);
+      });
+
+      it('should use phone number label as label when provided', () => {
+        const SAMPLE_PHONE_LABEL: FooterAgencyInfo = {
+          phone: '123-456-789',
+          phoneLabel: '<(800) 555-GOVT>',
+        };
+        fixture.componentRef.setInput('agencyInfo', SAMPLE_PHONE_LABEL);
+        fixture.detectChanges();
+        const a = el.querySelector('address.usa-footer__address a[href^="tel:"]');
+        expect(a?.textContent).toBe('<(800) 555-GOVT>');
+      });
+
+      it('should render email with correct href', () => {
+        fixture.componentRef.setInput('agencyInfo', SAMPLE_AGENCY);
+        fixture.detectChanges();
+        const a = el.querySelector('address.usa-footer__address a[href^="mailto:"]');
+        expect(a).toBeTruthy();
+        expect(a?.getAttribute('href')).toBe(`mailto:${SAMPLE_AGENCY.email}`);
       });
     });
   });

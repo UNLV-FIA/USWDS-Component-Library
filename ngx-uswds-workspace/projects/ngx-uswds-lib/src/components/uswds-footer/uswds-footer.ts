@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, input, output, computed } from '@angular/core';
+import { Component, AfterViewInit, input, computed } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { UswdsButton } from '../uswds-button/uswds-button';
 import { FormsModule } from '@angular/forms';
@@ -75,8 +75,6 @@ export class UswdsFooter implements AfterViewInit {
   // For the big variant footer
   linkColumns = input<FooterLinkColumn[]>([]);
   signUpForm = input<FooterForm>();
-  formSubmit = output<string>(); // the function you want ran
-  userEmail = '';
 
   ngAfterViewInit(): void {
     footer?.on();
@@ -98,11 +96,6 @@ export class UswdsFooter implements AfterViewInit {
     }
   };
 
-  handleSubmit() {
-    if (!this.userEmail) return;
-    this.formSubmit.emit(this.userEmail);
-  }
-
   // Display the footer item if defined
   agencyName = computed(() => this.agencyInfo()?.name);
   agencyLogoImagePath = computed(() => this.agencyInfo()?.logoImagePath);
@@ -121,6 +114,7 @@ export class UswdsFooter implements AfterViewInit {
     return phoneLabel;
   };
   agencyEmail = computed(() => this.agencyInfo()?.email);
+
   // Sign up form items for the big footer
   signUpHeading = computed(() => this.signUpHeadingFn());
   signUpHeadingFn = () => {

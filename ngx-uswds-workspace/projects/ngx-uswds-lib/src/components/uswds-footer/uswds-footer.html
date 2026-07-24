@@ -8,7 +8,7 @@
       <div class="grid-container">
         <div class="grid-row grid-gap">
           <div class="tablet:grid-col-8">
-            <nav class="usa-footer__nav" aria-label="Footer navigation,,">
+            <nav class="usa-footer__nav" aria-label="Footer navigation">
               <div class="grid-row grid-gap-4">
                 <!-- Load in link columns -->
                 @for (col of linkColumns(); track col.topic) {
@@ -34,15 +34,14 @@
           <div class="tablet:grid-col-4">
             <div class="usa-sign-up">
               <h3 class="usa-sign-up__heading">{{ signUpHeading() }}</h3>
-              <form ngNativeValidate class="usa-form" (ngSubmit)="handleSubmit()">
-                <label class="usa-label" for="email" id="">{{ signUpLabel() }}</label>
+              <form class="usa-form">
+                <label class="usa-label" for="email">{{ signUpLabel() }}</label>
                 <input
                   class="usa-input"
                   id="email"
                   name="email"
                   type="email"
                   autocomplete="email"
-                  [(ngModel)]="userEmail"
                 />
                 <ngx-uswds-button [buttonStyle]="signUpButtonStyle()" type="submit">{{
                   signUpButtonText()
@@ -65,7 +64,7 @@
     } @else if (variant() == 'slim') {
       <div class="usa-footer__primary-container grid-row">
         <div class="mobile-lg:grid-col-8">
-          <nav class="usa-footer__nav" aria-label="Footer navigation,">
+          <nav class="usa-footer__nav" aria-label="Footer navigation">
             <ul class="grid-row grid-gap">
               @for (link of links(); track link.href) {
                 <li class="mobile-lg:grid-col-6 desktop:grid-col-auto usa-footer__primary-content">
@@ -187,9 +186,9 @@
               />
             }
           </div>
-          @if (agencyContactHeading()) {
+          @if (agencyName()) {
             <div class="grid-col-auto">
-              <p class="usa-footer__logo-heading">{{ agencyContactHeading() }}</p>
+              <p class="usa-footer__logo-heading">{{ agencyName() }}</p>
             </div>
           }
         </div>

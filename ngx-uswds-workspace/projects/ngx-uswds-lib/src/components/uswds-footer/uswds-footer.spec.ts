@@ -142,23 +142,23 @@ describe('UswdsFooter', () => {
         expect(component.iconsPath()).toBe('/assets/img/usa-icons');
       });
 
-      it('should generate correct facebook icon path', () => {
+      it('should generate correct Facebook icon path', () => {
         expect(component.facebookIconPath()).toBe(socialsTestCases[0].iconPath);
       });
 
-      it('should generate correct twitter icon path', () => {
+      it('should generate correct Twitter icon path', () => {
         expect(component.twitterIconPath()).toBe(socialsTestCases[1].iconPath);
       });
 
-      it('should generate correct youtube icon path', () => {
+      it('should generate correct YouTube icon path', () => {
         expect(component.youtubeIconPath()).toBe(socialsTestCases[2].iconPath);
       });
 
-      it('should generate correct instagram icon path', () => {
+      it('should generate correct Instagram icon path', () => {
         expect(component.instagramIconPath()).toBe(socialsTestCases[3].iconPath);
       });
 
-      it('should generate correct rss feed icon path', () => {
+      it('should generate correct RSS feed icon path', () => {
         expect(component.rssFeedIconPath()).toBe(socialsTestCases[4].iconPath);
       });
     });
@@ -171,7 +171,7 @@ describe('UswdsFooter', () => {
     });
   });
 
-  describe('Big variant', () => {
+  describe('Big footer', () => {
     beforeEach(() => {
       fixture.componentRef.setInput('variant', 'big');
       fixture.detectChanges();
@@ -211,12 +211,12 @@ describe('UswdsFooter', () => {
           expect(cols.length).toBe(4);
         });
 
-        it('should render the correct number of link topics', () => {
+        it('should render the correct number of topics', () => {
           const topics = el.querySelectorAll('h4.usa-footer__primary-link');
           expect(topics.length).toBe(4);
         });
 
-        it('should render the correct text of links` topics', () => {
+        it('should render the correct text of topics', () => {
           const topics = el.querySelectorAll('h4.usa-footer__primary-link');
           topics.forEach((topic, i) => {
             expect(topic.textContent).toBe(SAMPLE_LINK_COLUMNS[i].topic);
@@ -254,14 +254,24 @@ describe('UswdsFooter', () => {
       });
 
       describe('Form', () => {
-        it('should render the sign up div', () => {
-          const div = el.querySelector('div.usa-sign-up');
-          expect(div).toBeTruthy();
-        });
-
         it('should render the form', () => {
           const form = el.querySelector('form.usa-form');
           expect(form).toBeTruthy();
+        });
+
+        it('should render the heading', () => {
+          const heading = el.querySelector('.usa-sign-up__heading');
+          expect(heading).toBeTruthy();
+        });
+
+        it('should render the input', () => {
+          const input = el.querySelector('form.usa-form input');
+          expect(input).toBeTruthy();
+        });
+
+        it('should render the button', () => {
+          const button = el.querySelector('form.usa-form button');
+          expect(button).toBeTruthy();
         });
 
         describe('Custom values', () => {
@@ -312,9 +322,21 @@ describe('UswdsFooter', () => {
         });
       });
     });
+
+    describe('Accessibility', () => {
+      it('should have an aria-label on nav', () => {
+        const nav = el.querySelector('nav.usa-footer__nav');
+        expect(nav?.getAttribute('aria-label')).toBe('Footer navigation');
+      });
+
+      it('should have an autocomplete="email" on input', () => {
+        const input = el.querySelector('input.usa-input');
+        expect(input?.getAttribute('autocomplete')).toBe('email');
+      });
+    });
   });
 
-  describe('Medium variant', () => {
+  describe('Medium footer', () => {
     beforeEach(() => {
       fixture.componentRef.setInput('variant', 'medium');
       fixture.detectChanges();
@@ -365,6 +387,13 @@ describe('UswdsFooter', () => {
         });
       });
     });
+
+    describe('Accessibility', () => {
+      it('should have an aria-label on nav', () => {
+        const nav = el.querySelector('nav.usa-footer__nav');
+        expect(nav?.getAttribute('aria-label')).toBe('Footer navigation');
+      });
+    });
   });
 
   describe('Big and medium variant`s secondary section', () => {
@@ -373,133 +402,160 @@ describe('UswdsFooter', () => {
       fixture.detectChanges();
     });
 
-    describe('Default DOM', () => {
-      it('should not render agency name', () => {
+    it('should not render agency name', () => {
+      const name = el.querySelector('.usa-footer__logo-heading');
+      expect(name).toBeNull();
+    });
+
+    it('should not render agency logo', () => {
+      const logo = el.querySelector('img.usa-footer__logo-img');
+      expect(logo).toBeNull();
+    });
+
+    it('should not render contact heading', () => {
+      const heading = el.querySelector('.usa-footer__contact-heading');
+      expect(heading).toBeNull();
+    });
+
+    it('should not render phone number', () => {
+      const a = el.querySelector('address.usa-footer__address a[href^="tel:"]');
+      expect(a).toBeNull();
+    });
+
+    it('should not render email', () => {
+      const a = el.querySelector('address.usa-footer__address a[href^="mailto:"]');
+      expect(a).toBeNull();
+    });
+
+    socialsTestCases.forEach((social) => {
+      it(`should not render ${social.name}`, () => {
+        const socialIcon = el.querySelector(`img.usa-social-link__icon[alt="${social.name}"]`);
+        const parentLink = socialIcon?.parentElement;
+        expect(socialIcon).toBeFalsy();
+        expect(parentLink).toBeFalsy();
+      });
+    });
+
+    describe('Agency informaton', () => {
+      beforeEach(() => {
+        fixture.componentRef.setInput('agencyInfo', SAMPLE_AGENCY);
+        fixture.detectChanges();
+      });
+
+      it('should render agency name with the passed text', () => {
         const name = el.querySelector('.usa-footer__logo-heading');
-        expect(name).toBeNull();
+        expect(name).toBeTruthy();
+        expect(name?.textContent).toBe(SAMPLE_AGENCY.name);
       });
 
-      it('should not render agency logo', () => {
+      it('should render agency logo with correct src', () => {
         const logo = el.querySelector('img.usa-footer__logo-img');
-        expect(logo).toBeNull();
+        expect(logo).toBeTruthy();
+        expect(logo?.getAttribute('src')).toBe(SAMPLE_AGENCY.logoImagePath);
       });
 
-      it('should not render contact heading', () => {
+      it('should render contact heading with the passed text', () => {
         const heading = el.querySelector('.usa-footer__contact-heading');
-        expect(heading).toBeNull();
+        expect(heading).toBeTruthy();
+        expect(heading?.textContent).toBe(SAMPLE_AGENCY.contactHeading);
       });
 
-      it('should not render phone number', () => {
+      it('should render phone number with correct href', () => {
         const a = el.querySelector('address.usa-footer__address a[href^="tel:"]');
-        expect(a).toBeNull();
+        expect(a).toBeTruthy();
+        expect(a?.getAttribute('href')).toBe(`tel:${SAMPLE_AGENCY.phone}`);
       });
 
-      it('should not render email', () => {
+      it('should use phone number as label by default', () => {
+        const a = el.querySelector('address.usa-footer__address a[href^="tel:"]');
+        expect(a?.textContent).toBe(SAMPLE_AGENCY.phone);
+      });
+
+      it('should use phone number label as label when provided', () => {
+        const SAMPLE_PHONE_LABEL: FooterAgencyInfo = {
+          phone: '123-456-789',
+          phoneLabel: '<(800) 555-GOVT>',
+        };
+        fixture.componentRef.setInput('agencyInfo', SAMPLE_PHONE_LABEL);
+        fixture.detectChanges();
+        const a = el.querySelector('address.usa-footer__address a[href^="tel:"]');
+        expect(a?.textContent).toBe('<(800) 555-GOVT>');
+      });
+
+      it('should render email with correct href', () => {
         const a = el.querySelector('address.usa-footer__address a[href^="mailto:"]');
-        expect(a).toBeNull();
+        expect(a).toBeTruthy();
+        expect(a?.getAttribute('href')).toBe(`mailto:${SAMPLE_AGENCY.email}`);
+      });
+    });
+
+    describe('Social media links', () => {
+      beforeEach(() => {
+        fixture.componentRef.setInput('socials', SAMPLE_SOCIALS);
+        fixture.detectChanges();
       });
 
-      socialsTestCases.forEach((social) => {
-        it(`should not render ${social.name}`, () => {
-          const socialIcon = el.querySelector(`img.usa-social-link__icon[alt="${social.name}"]`);
-          const parentLink = socialIcon?.parentElement;
-          expect(socialIcon).toBeFalsy();
-          expect(parentLink).toBeFalsy();
+      socialsTestCases.forEach((social, i) => {
+        it(`should render ${social.name} icon`, () => {
+          const icons = el.querySelectorAll('img.usa-social-link__icon');
+          expect(icons[i]).toBeTruthy();
+          expect(icons[i]?.classList.contains('usa-social-link__icon')).toBeTruthy();
+          expect(icons[i].getAttribute('src')).toBe(social.iconPath);
+        });
+
+        it(`should render ${social.name} link`, () => {
+          const icons = el.querySelectorAll('img.usa-social-link__icon');
+          const parentLink = icons[i]?.parentElement;
+          expect(parentLink).toBeTruthy();
+          expect(parentLink?.classList.contains('usa-social-link')).toBeTruthy();
+          expect(parentLink?.getAttribute('href')).toBe(social.url);
         });
       });
 
-      describe('Agency informaton', () => {
-        beforeEach(() => {
-          fixture.componentRef.setInput('agencyInfo', SAMPLE_AGENCY);
-          fixture.detectChanges();
+      it('should use custom icons path', () => {
+        fixture.componentRef.setInput('iconsPath', '/custom/path');
+        fixture.detectChanges();
+        expect(component.facebookIconPath()).toBe('/custom/path/facebook.svg');
+        expect(component.twitterIconPath()).toBe('/custom/path/twitter.svg');
+        expect(component.youtubeIconPath()).toBe('/custom/path/youtube.svg');
+        expect(component.instagramIconPath()).toBe('/custom/path/instagram.svg');
+        expect(component.rssFeedIconPath()).toBe('/custom/path/rss_feed.svg');
+      });
+    });
+
+    describe('Accessibility', () => {
+      beforeEach(() => {
+        fixture.componentRef.setInput('socials', SAMPLE_SOCIALS);
+        fixture.componentRef.setInput('agencyInfo', SAMPLE_AGENCY);
+        fixture.detectChanges();
+      });
+
+      socialsTestCases.forEach((social, i) => {
+        it(`should have alt text for ${social.name} icon`, () => {
+          const icons = el.querySelectorAll('img.usa-social-link__icon');
+          expect(icons[i].getAttribute('alt')).toBe(social.name);
         });
+      });
 
-        it('should render agency name with the passed text', () => {
-          const name = el.querySelector('.usa-footer__logo-heading');
-          expect(name).toBeTruthy();
-          expect(name?.textContent).toBe(SAMPLE_AGENCY.name);
-        });
+      it('should have an empty alt for the logo by default', () => {
+        const logo = el.querySelector('img.usa-footer__logo-img');
+        expect(logo?.getAttribute('alt')).toBe('');
+      });
 
-        it('should render agency logo with correct src', () => {
-          const logo = el.querySelector('img.usa-footer__logo-img');
-          expect(logo).toBeTruthy();
-          expect(logo?.getAttribute('src')).toBe(SAMPLE_AGENCY.logoImagePath);
-        });
-
-        it('should render contact heading with the passed text', () => {
-          const heading = el.querySelector('.usa-footer__contact-heading');
-          expect(heading).toBeTruthy();
-          expect(heading?.textContent).toBe(SAMPLE_AGENCY.contactHeading);
-        });
-
-        it('should render phone number with correct href', () => {
-          const a = el.querySelector('address.usa-footer__address a[href^="tel:"]');
-          expect(a).toBeTruthy();
-          expect(a?.getAttribute('href')).toBe(`tel:${SAMPLE_AGENCY.phone}`);
-        });
-
-        it('should use phone number as label by default', () => {
-          const a = el.querySelector('address.usa-footer__address a[href^="tel:"]');
-          expect(a?.textContent).toBe(SAMPLE_AGENCY.phone);
-        });
-
-        it('should use phone number label as label when provided', () => {
-          const SAMPLE_PHONE_LABEL: FooterAgencyInfo = {
-            phone: '123-456-789',
-            phoneLabel: '<(800) 555-GOVT>',
-          };
-          fixture.componentRef.setInput('agencyInfo', SAMPLE_PHONE_LABEL);
-          fixture.detectChanges();
-          const a = el.querySelector('address.usa-footer__address a[href^="tel:"]');
-          expect(a?.textContent).toBe('<(800) 555-GOVT>');
-        });
-
-        it('should render email with correct href', () => {
-          const a = el.querySelector('address.usa-footer__address a[href^="mailto:"]');
-          expect(a).toBeTruthy();
-          expect(a?.getAttribute('href')).toBe(`mailto:${SAMPLE_AGENCY.email}`);
-        });
-
-        describe('Social media links', () => {
-          beforeEach(() => {
-            fixture.componentRef.setInput('socials', SAMPLE_SOCIALS);
-            fixture.detectChanges();
-          });
-
-          socialsTestCases.forEach((social) => {
-            it(`should render ${social.name}'s icon`, () => {
-              const socialIcon = el.querySelector(`img[alt="${social.name}"]`);
-              expect(socialIcon).toBeTruthy();
-              expect(socialIcon?.classList.contains('usa-social-link__icon')).toBeTruthy();
-              expect(socialIcon?.getAttribute('src')).toBe(social.iconPath);
-            });
-
-            it(`should render ${social.name} link`, () => {
-              const socialIcon = el.querySelector(
-                `img.usa-social-link__icon[alt="${social.name}"]`,
-              );
-              const parentLink = socialIcon?.parentElement;
-              expect(parentLink).toBeTruthy();
-              expect(parentLink?.classList.contains('usa-social-link')).toBeTruthy();
-              expect(parentLink?.getAttribute('href')).toBe(social.url);
-            });
-          });
-
-          it('should use custom icons path', () => {
-            fixture.componentRef.setInput('iconsPath', '/custom/path');
-            fixture.detectChanges();
-            expect(component.facebookIconPath()).toBe('/custom/path/facebook.svg');
-            expect(component.twitterIconPath()).toBe('/custom/path/twitter.svg');
-            expect(component.youtubeIconPath()).toBe('/custom/path/youtube.svg');
-            expect(component.instagramIconPath()).toBe('/custom/path/instagram.svg');
-            expect(component.rssFeedIconPath()).toBe('/custom/path/rss_feed.svg');
-          });
-        });
+      it('should use alt for the logo when provided', () => {
+        const SAMPLE_ALT: FooterAgencyInfo = {
+          logoImagePath: '/path',
+          logoAlt: 'logo alternative text',
+        };
+        fixture.componentRef.setInput('agencyInfo', SAMPLE_ALT);
+        fixture.detectChanges();
+        const logo = el.querySelector('img.usa-footer__logo-img');
+        expect(logo?.getAttribute('alt')).toBe('logo alternative text');
       });
     });
   });
 
-  describe('Slim variant', () => {
+  describe('Slim footer', () => {
     beforeEach(() => {
       fixture.componentRef.setInput('variant', 'slim');
       fixture.detectChanges();
@@ -538,38 +594,122 @@ describe('UswdsFooter', () => {
         expect(a).toBeNull();
       });
 
-      it('should render phone number with correct href', () => {
-        fixture.componentRef.setInput('agencyInfo', SAMPLE_AGENCY);
-        fixture.detectChanges();
-        const a = el.querySelector('address.usa-footer__address a[href^="tel:"]');
-        expect(a).toBeTruthy();
-        expect(a?.getAttribute('href')).toBe(`tel:${SAMPLE_AGENCY.phone}`);
+      describe('Links', () => {
+        beforeEach(() => {
+          fixture.componentRef.setInput('links', SAMPLE_LINKS);
+          fixture.detectChanges();
+        });
+
+        it('should render the correct number of links', () => {
+          const links = el.querySelectorAll('a.usa-footer__primary-link');
+          expect(links.length).toBe(4);
+        });
+
+        it('should render the correct label of links', () => {
+          const links = el.querySelectorAll('a.usa-footer__primary-link');
+          links.forEach((link, i) => {
+            expect(link?.textContent).toBe(SAMPLE_LINKS[i].label);
+          });
+        });
+
+        it('should render the correct href of links', () => {
+          const links = el.querySelectorAll('a.usa-footer__primary-link');
+          links.forEach((link, i) => {
+            expect(link?.getAttribute('href')).toBe(SAMPLE_LINKS[i].href);
+          });
+        });
       });
 
-      it('should use phone number as label by default', () => {
-        fixture.componentRef.setInput('agencyInfo', SAMPLE_AGENCY);
-        fixture.detectChanges();
-        const a = el.querySelector('address.usa-footer__address a[href^="tel:"]');
-        expect(a?.textContent).toBe(SAMPLE_AGENCY.phone);
+      describe('Agency Information', () => {
+        it('should render phone number with correct href', () => {
+          fixture.componentRef.setInput('agencyInfo', SAMPLE_AGENCY);
+          fixture.detectChanges();
+          const a = el.querySelector('address.usa-footer__address a[href^="tel:"]');
+          expect(a).toBeTruthy();
+          expect(a?.getAttribute('href')).toBe(`tel:${SAMPLE_AGENCY.phone}`);
+        });
+
+        it('should use phone number as label by default', () => {
+          fixture.componentRef.setInput('agencyInfo', SAMPLE_AGENCY);
+          fixture.detectChanges();
+          const a = el.querySelector('address.usa-footer__address a[href^="tel:"]');
+          expect(a?.textContent).toBe(SAMPLE_AGENCY.phone);
+        });
+
+        it('should use phone number label as label when provided', () => {
+          const SAMPLE_PHONE_LABEL: FooterAgencyInfo = {
+            phone: '123-456-789',
+            phoneLabel: '<(800) 555-GOVT>',
+          };
+          fixture.componentRef.setInput('agencyInfo', SAMPLE_PHONE_LABEL);
+          fixture.detectChanges();
+          const a = el.querySelector('address.usa-footer__address a[href^="tel:"]');
+          expect(a?.textContent).toBe('<(800) 555-GOVT>');
+        });
+
+        it('should render email with correct href', () => {
+          fixture.componentRef.setInput('agencyInfo', SAMPLE_AGENCY);
+          fixture.detectChanges();
+          const a = el.querySelector('address.usa-footer__address a[href^="mailto:"]');
+          expect(a).toBeTruthy();
+          expect(a?.getAttribute('href')).toBe(`mailto:${SAMPLE_AGENCY.email}`);
+        });
+      });
+    });
+
+    describe('Secondary section', () => {
+      it('should not render agency name', () => {
+        const name = el.querySelector('.usa-footer__logo-heading');
+        expect(name).toBeNull();
       });
 
-      it('should use phone number label as label when provided', () => {
-        const SAMPLE_PHONE_LABEL: FooterAgencyInfo = {
-          phone: '123-456-789',
-          phoneLabel: '<(800) 555-GOVT>',
+      it('should not render agency logo', () => {
+        const logo = el.querySelector('img.usa-footer__logo-img');
+        expect(logo).toBeNull();
+      });
+
+      describe('Agency information', () => {
+        beforeEach(() => {
+          fixture.componentRef.setInput('agencyInfo', SAMPLE_AGENCY);
+          fixture.detectChanges();
+        });
+
+        it('should render agency name with the passed text', () => {
+          const name = el.querySelector('.usa-footer__logo-heading');
+          expect(name).toBeTruthy();
+          expect(name?.textContent).toBe(SAMPLE_AGENCY.name);
+        });
+
+        it('should render agency logo with correct src', () => {
+          const logo = el.querySelector('img.usa-footer__logo-img');
+          expect(logo).toBeTruthy();
+          expect(logo?.getAttribute('src')).toBe(SAMPLE_AGENCY.logoImagePath);
+        });
+      });
+    });
+
+    describe('Accessibility', () => {
+      it('should have an aria-label on nav', () => {
+        const nav = el.querySelector('nav.usa-footer__nav');
+        expect(nav?.getAttribute('aria-label')).toBe('Footer navigation');
+      });
+
+      it('should have an empty alt for the logo by default', () => {
+        fixture.componentRef.setInput('agencyInfo', SAMPLE_AGENCY);
+        fixture.detectChanges();
+        const logo = el.querySelector('img.usa-footer__logo-img');
+        expect(logo?.getAttribute('alt')).toBe('');
+      });
+
+      it('should use alt for the logo when provided', () => {
+        const SAMPLE_ALT: FooterAgencyInfo = {
+          logoImagePath: '/path',
+          logoAlt: 'logo alternative text',
         };
-        fixture.componentRef.setInput('agencyInfo', SAMPLE_PHONE_LABEL);
+        fixture.componentRef.setInput('agencyInfo', SAMPLE_ALT);
         fixture.detectChanges();
-        const a = el.querySelector('address.usa-footer__address a[href^="tel:"]');
-        expect(a?.textContent).toBe('<(800) 555-GOVT>');
-      });
-
-      it('should render email with correct href', () => {
-        fixture.componentRef.setInput('agencyInfo', SAMPLE_AGENCY);
-        fixture.detectChanges();
-        const a = el.querySelector('address.usa-footer__address a[href^="mailto:"]');
-        expect(a).toBeTruthy();
-        expect(a?.getAttribute('href')).toBe(`mailto:${SAMPLE_AGENCY.email}`);
+        const logo = el.querySelector('img.usa-footer__logo-img');
+        expect(logo?.getAttribute('alt')).toBe('logo alternative text');
       });
     });
   });

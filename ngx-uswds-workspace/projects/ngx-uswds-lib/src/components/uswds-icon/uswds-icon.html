@@ -1,10 +1,13 @@
-<svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
-  <use href="/assets/img/sprite.svg#accessibility_new"></use>
+<svg
+  class="usa-icon"
+  role="img"
+  [ngClass]="iconSizeCss()"
+  [attr.aria-hidden]="ariaHidden()"
+  [attr.focusable]="focusable()"
+  [attr.aria-labelledby]="ariaLabelledBy()"
+>
+  @if (title()) {
+    <title [id]="computedTitleId()">{{ title() }}</title>
+  }
+  <use [attr.href]="iconPath()"></use>
 </svg>
-
-<a href="https://twitter.com/uswds">
-  <svg class="usa-icon" aria-labelledby="twitter-title" role="img">
-    <title id="twitter-title">USWDS' Twitter account</title>
-    <use href="/assets/img/sprite.svg#twitter"></use>
-  </svg>
-</a>

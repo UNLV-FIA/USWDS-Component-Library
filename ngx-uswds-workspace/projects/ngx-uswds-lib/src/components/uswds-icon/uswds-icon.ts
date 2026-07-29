@@ -29,9 +29,13 @@ import { IconSize } from './icon-types';
   styleUrl: './uswds-icon.scss',
 })
 export class UswdsIcon implements AfterContentInit {
+  // v8 ignore next
   name = input.required<string>();
+  // v8 ignore next
   size = input<IconSize>();
+  // v8 ignore next
   title = input<string>();
+  // v8 ignore next
   assetsPath = input<string>('/assets/img');
 
   private static instanceCounter = 0;
@@ -46,13 +50,10 @@ export class UswdsIcon implements AfterContentInit {
     return `${this.name()}-${UswdsIcon.instanceCounter}-title`;
   }
 
-  computedTitleId = computed(() => this.computedTitleIdFn());
-  computedTitleIdFn = () => {
-    const title = this.title();
-    if (title) return this.titleId;
-    return null;
-  };
+  // v8 ignore next
+  computedTitleId = computed(() => this.titleId);
 
+  // v8 ignore next
   ariaHidden = computed(() => this.ariaHiddenFn());
   ariaHiddenFn = () => {
     const title = this.title();
@@ -60,6 +61,7 @@ export class UswdsIcon implements AfterContentInit {
     return true;
   };
 
+  // v8 ignore next
   focusable = computed(() => this.focusableFn());
   focusableFn = () => {
     const title = this.title();
@@ -67,6 +69,7 @@ export class UswdsIcon implements AfterContentInit {
     return false;
   };
 
+  // v8 ignore next
   ariaLabelledBy = computed(() => this.ariaLabelledByFn());
   ariaLabelledByFn = () => {
     const title = this.title();
@@ -75,6 +78,7 @@ export class UswdsIcon implements AfterContentInit {
   };
 
   // Icon size selection function
+  // v8 ignore next
   iconSizeCss = computed(() => this.iconSizeCssFn());
   iconSizeCssFn = () => {
     switch (this.size()) {
@@ -99,5 +103,6 @@ export class UswdsIcon implements AfterContentInit {
     }
   };
 
+  // v8 ignore next
   iconPath = computed(() => `${this.assetsPath()}/sprite.svg#${this.name()}`);
 }

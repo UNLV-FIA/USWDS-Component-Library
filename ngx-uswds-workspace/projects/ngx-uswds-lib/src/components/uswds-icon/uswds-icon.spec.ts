@@ -72,6 +72,14 @@ describe('UswdsIcon', () => {
       const use = el.querySelector('use');
       expect(use?.getAttribute('href')).toBe('/assets/img/sprite.svg#home');
     });
+
+    it('should use the custom assets path', () => {
+      fixture.componentRef.setInput('assetsPath', '/custom/path');
+      fixture.detectChanges();
+      expect(component.iconPath()).toBe('/custom/path/sprite.svg#home');
+      const use = el.querySelector('use');
+      expect(use?.getAttribute('href')).toBe('/custom/path/sprite.svg#home');
+    });
   });
 
   describe('Sizes', () => {

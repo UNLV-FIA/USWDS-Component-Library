@@ -142,23 +142,11 @@ describe('UswdsFooter', () => {
         expect(component.iconsPath()).toBe('/assets/img/usa-icons');
       });
 
-      it('should generate correct Facebook icon path', () => {
+      it('should generate correct social media icon paths', () => {
         expect(component.facebookIconPath()).toBe(socialsTestCases[0].iconPath);
-      });
-
-      it('should generate correct Twitter icon path', () => {
         expect(component.twitterIconPath()).toBe(socialsTestCases[1].iconPath);
-      });
-
-      it('should generate correct YouTube icon path', () => {
         expect(component.youtubeIconPath()).toBe(socialsTestCases[2].iconPath);
-      });
-
-      it('should generate correct Instagram icon path', () => {
         expect(component.instagramIconPath()).toBe(socialsTestCases[3].iconPath);
-      });
-
-      it('should generate correct RSS feed icon path', () => {
         expect(component.rssFeedIconPath()).toBe(socialsTestCases[4].iconPath);
       });
     });
@@ -427,8 +415,8 @@ describe('UswdsFooter', () => {
       expect(a).toBeNull();
     });
 
-    socialsTestCases.forEach((social) => {
-      it(`should not render ${social.name}`, () => {
+    it('should not render social media icons and links', () => {
+      socialsTestCases.forEach((social) => {
         const socialIcon = el.querySelector(`img.usa-social-link__icon[alt="${social.name}"]`);
         const parentLink = socialIcon?.parentElement;
         expect(socialIcon).toBeFalsy();
@@ -495,15 +483,17 @@ describe('UswdsFooter', () => {
         fixture.detectChanges();
       });
 
-      socialsTestCases.forEach((social, i) => {
-        it(`should render ${social.name} icon`, () => {
+      it('should render social media icons', () => {
+        socialsTestCases.forEach((social, i) => {
           const icons = el.querySelectorAll('img.usa-social-link__icon');
           expect(icons[i]).toBeTruthy();
           expect(icons[i]?.classList.contains('usa-social-link__icon')).toBeTruthy();
           expect(icons[i].getAttribute('src')).toBe(social.iconPath);
         });
+      });
 
-        it(`should render ${social.name} link`, () => {
+      it('should render social media links', () => {
+        socialsTestCases.forEach((social, i) => {
           const icons = el.querySelectorAll('img.usa-social-link__icon');
           const parentLink = icons[i]?.parentElement;
           expect(parentLink).toBeTruthy();

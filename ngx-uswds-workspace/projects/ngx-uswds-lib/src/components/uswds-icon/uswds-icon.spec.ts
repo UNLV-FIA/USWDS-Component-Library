@@ -25,7 +25,7 @@ class DecorativeHost {}
     </a>
   `,
 })
-class AccessibleHost {}
+class DescriptiveHost {}
 
 // Test Suite
 
@@ -186,16 +186,16 @@ describe('UswdsIcon', () => {
     });
   });
 
-  describe('Accessible icon', () => {
-    let fixture: ComponentFixture<AccessibleHost>;
+  describe('Descriptive icon', () => {
+    let fixture: ComponentFixture<DescriptiveHost>;
     let el: HTMLElement;
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [AccessibleHost],
+        imports: [DescriptiveHost],
       }).compileComponents();
 
-      fixture = TestBed.createComponent(AccessibleHost);
+      fixture = TestBed.createComponent(DescriptiveHost);
       el = fixture.nativeElement;
 
       await fixture.whenStable();
@@ -227,9 +227,18 @@ describe('UswdsIcon', () => {
       expect(titleId).toEqual(svgAriaLabel);
     });
 
-    it('should render the text alternative', () => {
+    it('should render the descriptive text', () => {
       const title = el.querySelector('title');
       expect(title?.textContent).toEqual("USWDS' Twitter account");
+    });
+
+    it('should error if the descriptive text is empty', () => {
+      const f = TestBed.createComponent(UswdsIcon);
+      f.componentRef.setInput('name', 'home');
+      f.componentRef.setInput('title', '');
+      expect(() => {
+        f.detectChanges();
+      }).toThrowError('Propery "title" cannot be an empty string');
     });
   });
 });

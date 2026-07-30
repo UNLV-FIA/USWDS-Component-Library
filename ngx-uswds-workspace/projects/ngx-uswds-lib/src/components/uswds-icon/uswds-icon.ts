@@ -1,4 +1,4 @@
-import { Component, input, computed, AfterContentInit } from '@angular/core';
+import { Component, input, computed, signal, AfterContentInit } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { IconSize } from './icon-types';
 
@@ -6,21 +6,36 @@ import { IconSize } from './icon-types';
  * @class UswdsIcon
  * @description
  * An Angular standalone component that renders a U.S. Web Design System (USWDS) icon.
- * Icons...
+ * Icons are simple symbols that help communicate meaning, actions, status or feedback.
+ * They should be combined with text to improve clarity or be within another interactive component.
+ *
+ * Note: Change the icon's color by applying one of the USWDS text color classes on its direct parent.
+ * The title's ID is auto-generated to avoid ID collisions between multiple descriptive icons on the same page.
  *
  * @selector ngx-uswds-icon
  *
  * @example
- * <!-- Using an icon -->
+ * <!-- Using a decorative icon -->
+ * <a href="/uswds">
+ *  <ngx-uswds-icon name="twitter" [size]="3"></ngx-uswds-icon>
+ *  USWDS' Twitter account
+ * </a>
  *
  * @example
- * <!-- Using an accessible icon -->
+ * <!-- Using a descriptive icon -->
+ * <a href="/uswds">
+ *  <ngx-uswds-icon name="twitter" title="USWDS' Twitter account"></ngx-uswds-icon>
+ * </a>
  *
- * @input {string} name - Sets the variant style of the tag.
- *    It's 'default' variant automatically. 'big' sets the tag to big variant.
+ * @input {string} name - Sets the visual icon. Refer to USWDS's list of icons to help choose an icon. Required.
  *
- * @input {string} size - Sets the variant style of the tag.
- *    It's 'default' variant automatically. 'big' sets the tag to big variant.
+ * @input {IconSize} size - The size of the icon in n x n units. Accepts 3-9. Optional.
+ *
+ * @input {string} title - The descriptive text rendered in the icon's <title>. Should be provided when the icon has
+ *   no accompanying text to make the icon perceivable to screen readers. Optional.
+ *
+ * @input {string} [assetsPath='/assets/img'] - Base path to the icon image assets.
+ *   Useful when assets are hosted in a different location. Optional.
  */
 @Component({
   selector: 'ngx-uswds-icon',
@@ -37,12 +52,19 @@ export class UswdsIcon implements AfterContentInit {
   title = input<string>();
   // v8 ignore next
   assetsPath = input<string>('/assets/img');
+  // v8 ignore next
+  titleId = signal<string>('');
 
   private static instanceCounter = 0;
-  private titleId = '';
+
+  ngOnInit(): void {
+    if (this.title() === '') {
+      throw new Error('Propery "title" cannot be an empty string');
+    }
+  }
 
   ngAfterContentInit(): void {
-    this.titleId = this.generateUniqueTitleId();
+    this.titleId.set(this.generateUniqueTitleId());
   }
 
   private generateUniqueTitleId(): string {
@@ -51,7 +73,7 @@ export class UswdsIcon implements AfterContentInit {
   }
 
   // v8 ignore next
-  computedTitleId = computed(() => this.titleId);
+  computedTitleId = computed(() => this.titleId());
 
   // v8 ignore next
   ariaHidden = computed(() => this.ariaHiddenFn());
@@ -73,7 +95,7 @@ export class UswdsIcon implements AfterContentInit {
   ariaLabelledBy = computed(() => this.ariaLabelledByFn());
   ariaLabelledByFn = () => {
     const title = this.title();
-    if (title) return this.titleId;
+    if (title) return this.titleId();
     return null;
   };
 

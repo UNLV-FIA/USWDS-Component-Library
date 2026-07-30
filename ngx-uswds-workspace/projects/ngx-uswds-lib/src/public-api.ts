@@ -30,3 +30,6 @@ export * from "./components/uswds-tag/uswds-tag";
 
 // Footer Component
 export * from './components/uswds-footer/uswds-footer';
+
+// Text Input Component
+export * from './components/uswds-text-input/uswds-text-input';

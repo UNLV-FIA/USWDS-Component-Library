@@ -30,3 +30,6 @@ export * from "./components/uswds-tag/uswds-tag";
 
 // Icon Component
 export * from "./components/uswds-icon/uswds-icon";
+
+// Text Input Component
+export * from './components/uswds-text-input/uswds-text-input';

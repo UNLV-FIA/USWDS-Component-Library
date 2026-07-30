@@ -104,7 +104,7 @@ export class UswdsTextInput {
 
   ngOnInit(): void {
     if (this.inputId() === '') {
-      throw new Error('Propery "inputId" is required and cannot be an empty string');
+      throw new Error('Property "inputId" is required and cannot be an empty string');
     }
   }
 

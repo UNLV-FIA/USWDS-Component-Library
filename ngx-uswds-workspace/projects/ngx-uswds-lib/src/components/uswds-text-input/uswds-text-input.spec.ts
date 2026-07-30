@@ -162,7 +162,7 @@ describe('UswdsTextInput', () => {
       fixture.componentRef.setInput('inputId', '');
       expect(() => {
         fixture.detectChanges();
-      }).toThrowError('Propery "inputId" is required and cannot be an empty string');
+      }).toThrowError('Property "inputId" is required and cannot be an empty string');
     });
 
     it('should throw an error if invalid width is provided', () => {
@@ -313,6 +313,14 @@ describe('UswdsTextInput', () => {
           fixture.detectChanges();
           const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
           expect(el?.getAttribute('aria-describedby')).toContain('additional-id');
+        });
+
+        it('should combine hint id and ariaDescribedBy in the aria-describedby attribute', () => {
+          fixture.componentRef.setInput('hint', 'This is hint text.');
+          fixture.componentRef.setInput('ariaDescribedBy', 'additional-id');
+          fixture.detectChanges();
+          const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+          expect(el?.getAttribute('aria-describedby')).toBe(`${component.hintId()} additional-id`);
         });
       });
 
@@ -612,6 +620,14 @@ describe('UswdsTextInput', () => {
           fixture.detectChanges();
           const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
           expect(el?.getAttribute('aria-describedby')).toContain('additional-id');
+        });
+
+        it('should combine hint id and ariaDescribedBy in the aria-describedby attribute', () => {
+          fixture.componentRef.setInput('hint', 'This is hint text.');
+          fixture.componentRef.setInput('ariaDescribedBy', 'additional-id');
+          fixture.detectChanges();
+          const el: HTMLInputElement = fixture.nativeElement.querySelector('textarea');
+          expect(el?.getAttribute('aria-describedby')).toBe(`${component.hintId()} additional-id`);
         });
       });
 

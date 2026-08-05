@@ -1,4 +1,11 @@
-import { Component, input, computed } from '@angular/core';
+import {
+  Component,
+  input,
+  computed,
+  signal,
+  forwardRef,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   TextInputVariant,
   TextInputWidth,
@@ -8,6 +15,7 @@ import {
   TextInputAutocomplete,
 } from './text-input-types';
 import { NgClass } from '@angular/common';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 /**
  * @class UswdsTextInput
@@ -15,6 +23,9 @@ import { NgClass } from '@angular/common';
  * An Angular component that renders a U.S. Web Design System (USWDS) text input.
  * Text input allows users to enter letters, numbers, or symbols useful for unpredicatable responses and pasted content.
  * Text input boxes can be single or multiple lines.
+ *
+ * For forms, implements `ControlValueAccessor` for use with `[formControl]` (standalone)
+ * or `formControlName` (inside a `FormGroup`). Text input's value is also publicly readable via the `value` signal.
  *
  * @selector ngx-uswds-text-input
  *
@@ -71,8 +82,17 @@ import { NgClass } from '@angular/common';
   imports: [NgClass],
   templateUrl: './uswds-text-input.html',
   styleUrl: './uswds-text-input.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      // v8 ignore next
+      useExisting: forwardRef(() => UswdsTextInput),
+      multi: true,
+    },
+  ],
 })
-export class UswdsTextInput {
+export class UswdsTextInput implements ControlValueAccessor {
   // v8 ignore next
   label = input<string>();
   // v8 ignore next
@@ -102,6 +122,13 @@ export class UswdsTextInput {
   // v8 ignore next
   autocomplete = input<TextInputAutocomplete>();
 
+  // ControlValueAccessor variables
+  // v8 ignore next
+  private _value = signal<string>('');
+  readonly value = this._value.asReadonly();
+  // v8 ignore next
+  private disabledState = signal<boolean>(false);
+
   ngOnInit(): void {
     if (this.inputId() === '') {
       throw new Error('Property "inputId" is required and cannot be an empty string');
@@ -109,7 +136,13 @@ export class UswdsTextInput {
   }
 
   // v8 ignore next
-  computedAriaDisabled = computed(() => (this.ariaDisabled() ? true : null));
+  computedDisabled = computed(() => this.computedDisabledFn());
+  computedDisabledFn = () => {
+    if (this.ariaDisabled() || this.disabledState()) {
+      return true;
+    }
+    return null;
+  };
 
   // v8 ignore next
   hintId = computed(() => (this.hint() ? `${this.inputId()}-hint` : null));
@@ -179,8 +212,43 @@ export class UswdsTextInput {
 
   // Prevent keyboard interaction when the text input is disabled unless is keyboard navigation
   onKeydown(event: KeyboardEvent): void {
-    if (this.ariaDisabled() && event.key != 'Tab') {
+    if (this.computedDisabled() && event.key != 'Tab') {
       event.preventDefault();
     }
+  }
+
+  // Callbacks provided by Angular Forms
+  // v8 ignore start
+  private onChange: (val: string) => void = () => {};
+  private onTouch: () => void = () => {};
+  // v8 ignore stop
+
+  // ControlValueAccessor functions
+  writeValue(val: string): void {
+    this._value.set(val ?? '');
+  }
+
+  registerOnChange(fn: (val: string) => void): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouch = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabledState.set(isDisabled);
+  }
+
+  // Updates the value signal and notifies Angular forms of the change
+  handleChange(event: Event): void {
+    const inputVal = (event.target as HTMLInputElement | HTMLTextAreaElement).value;
+    this._value.set(inputVal);
+    this.onChange(inputVal);
+  }
+
+  // Notifies Angular forms that the text input has been touched
+  handleTouch(): void {
+    this.onTouch();
   }
 }

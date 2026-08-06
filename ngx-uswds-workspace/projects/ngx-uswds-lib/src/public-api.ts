@@ -28,6 +28,9 @@ export type { CheckboxVariant } from './components/uswds-checkbox/checkbox-types
 // Tag Component
 export * from "./components/uswds-tag/uswds-tag";
 
+// Text Input Component
+export * from './components/uswds-text-input/uswds-text-input';
+
 // Icon Component
 export * from "./components/uswds-icon/uswds-icon";
 export type { IconSize } from "./components/uswds-icon/icon-types.ts";

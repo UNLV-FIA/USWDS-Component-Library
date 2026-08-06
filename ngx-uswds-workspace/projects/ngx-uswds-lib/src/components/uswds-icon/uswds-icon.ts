@@ -1,4 +1,4 @@
-import { Component, input, computed, signal, AfterContentInit } from '@angular/core';
+import { Component, input, computed, signal, OnInit, AfterContentInit } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { IconSize } from './icon-types';
 
@@ -43,7 +43,7 @@ import { IconSize } from './icon-types';
   templateUrl: './uswds-icon.html',
   styleUrl: './uswds-icon.scss',
 })
-export class UswdsIcon implements AfterContentInit {
+export class UswdsIcon implements OnInit, AfterContentInit {
   // v8 ignore next
   name = input.required<string>();
   // v8 ignore next
@@ -59,7 +59,7 @@ export class UswdsIcon implements AfterContentInit {
 
   ngOnInit(): void {
     if (this.title() === '') {
-      throw new Error('Propery "title" cannot be an empty string');
+      throw new Error('Property "title" cannot be an empty string');
     }
   }
 

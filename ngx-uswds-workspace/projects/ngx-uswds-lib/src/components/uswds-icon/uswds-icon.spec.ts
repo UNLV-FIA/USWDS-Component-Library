@@ -70,7 +70,7 @@ describe('UswdsIcon', () => {
     it('should use the correct icon path', () => {
       expect(component.iconPath()).toBe('/assets/img/sprite.svg#home');
       const use = el.querySelector('use');
-      expect(use?.getAttribute('href')).toBe('/assets/img/sprite.svg#home');
+      expect(use!.getAttribute('href')).toBe('/assets/img/sprite.svg#home');
     });
 
     it('should use the custom assets path', () => {
@@ -78,7 +78,7 @@ describe('UswdsIcon', () => {
       fixture.detectChanges();
       expect(component.iconPath()).toBe('/custom/path/sprite.svg#home');
       const use = el.querySelector('use');
-      expect(use?.getAttribute('href')).toBe('/custom/path/sprite.svg#home');
+      expect(use!.getAttribute('href')).toBe('/custom/path/sprite.svg#home');
     });
   });
 
@@ -105,49 +105,49 @@ describe('UswdsIcon', () => {
       fixture.componentRef.setInput('size', 3);
       fixture.detectChanges();
       const svg = el.querySelector('svg');
-      expect(svg?.classList.contains('usa-icon--size-3')).toBeTruthy();
+      expect(svg!.classList.contains('usa-icon--size-3')).toBeTruthy();
     });
 
     it('should change size to 4', () => {
       fixture.componentRef.setInput('size', 4);
       fixture.detectChanges();
       const svg = el.querySelector('svg');
-      expect(svg?.classList.contains('usa-icon--size-4')).toBeTruthy();
+      expect(svg!.classList.contains('usa-icon--size-4')).toBeTruthy();
     });
 
     it('should change size to 5', () => {
       fixture.componentRef.setInput('size', 5);
       fixture.detectChanges();
       const svg = el.querySelector('svg');
-      expect(svg?.classList.contains('usa-icon--size-5')).toBeTruthy();
+      expect(svg!.classList.contains('usa-icon--size-5')).toBeTruthy();
     });
 
     it('should change size to 6', () => {
       fixture.componentRef.setInput('size', 6);
       fixture.detectChanges();
       const svg = el.querySelector('svg');
-      expect(svg?.classList.contains('usa-icon--size-6')).toBeTruthy();
+      expect(svg!.classList.contains('usa-icon--size-6')).toBeTruthy();
     });
 
     it('should change size to 7', () => {
       fixture.componentRef.setInput('size', 7);
       fixture.detectChanges();
       const svg = el.querySelector('svg');
-      expect(svg?.classList.contains('usa-icon--size-7')).toBeTruthy();
+      expect(svg!.classList.contains('usa-icon--size-7')).toBeTruthy();
     });
 
     it('should change size to 8', () => {
       fixture.componentRef.setInput('size', 8);
       fixture.detectChanges();
       const svg = el.querySelector('svg');
-      expect(svg?.classList.contains('usa-icon--size-8')).toBeTruthy();
+      expect(svg!.classList.contains('usa-icon--size-8')).toBeTruthy();
     });
 
     it('should change size to 9', () => {
       fixture.componentRef.setInput('size', 9);
       fixture.detectChanges();
       const svg = el.querySelector('svg');
-      expect(svg?.classList.contains('usa-icon--size-9')).toBeTruthy();
+      expect(svg!.classList.contains('usa-icon--size-9')).toBeTruthy();
     });
 
     it('should throw an error if invalid size is provided', () => {
@@ -169,28 +169,29 @@ describe('UswdsIcon', () => {
 
       fixture = TestBed.createComponent(DecorativeHost);
       el = fixture.nativeElement;
+      fixture.detectChanges();
 
       await fixture.whenStable();
     });
 
     it('should have aria-hidden="true"', () => {
       const svg = el.querySelector('svg');
-      expect(svg?.getAttribute('aria-hidden'))?.toBe('true');
+      expect(svg!.getAttribute('aria-hidden')).toBe('true');
     });
 
     it('should have role="img"', () => {
       const svg = el.querySelector('svg');
-      expect(svg?.getAttribute('role'))?.toBe('img');
+      expect(svg!.getAttribute('role')).toBe('img');
     });
 
     it('should have focusable="false"', () => {
       const svg = el.querySelector('svg');
-      expect(svg?.getAttribute('focusable'))?.toBe('false');
+      expect(svg!.getAttribute('focusable')).toBe('false');
     });
 
     it('should render accompanied text', () => {
       const a = el.querySelector('a');
-      expect(a?.textContent.trim()).toBe("USWDS' Twitter account");
+      expect(a!.textContent.trim()).toBe("USWDS' Twitter account");
     });
   });
 
@@ -205,19 +206,20 @@ describe('UswdsIcon', () => {
 
       fixture = TestBed.createComponent(DescriptiveHost);
       el = fixture.nativeElement;
+      fixture.detectChanges();
 
       await fixture.whenStable();
     });
 
     it('should have role="img"', () => {
       const svg = el.querySelector('svg');
-      expect(svg?.getAttribute('role'))?.toBe('img');
+      expect(svg!.getAttribute('role')).toBe('img');
     });
 
     it('should not have any decorative icon markup', () => {
       const svg = el.querySelector('svg');
-      expect(svg?.getAttribute('aria-hidden'))?.toBeNull();
-      expect(svg?.getAttribute('focusable'))?.toBeNull();
+      expect(svg!.getAttribute('aria-hidden')).toBeNull();
+      expect(svg!.getAttribute('focusable')).toBeNull();
     });
 
     it('should have a title element', () => {
@@ -225,19 +227,19 @@ describe('UswdsIcon', () => {
     });
 
     it('should generate a unique ID for title', () => {
-      const id = el.querySelector('title')?.getAttribute('id');
+      const id = el.querySelector('title')!.getAttribute('id');
       expect(id).toMatch(/^[a-z_]+-\d+-title$/);
     });
 
     it('should link the title`s id to the svg`s aria-labelledby', () => {
-      const titleId = el.querySelector('title')?.getAttribute('id');
-      const svgAriaLabel = el.querySelector('svg')?.getAttribute('aria-labelledby');
+      const titleId = el.querySelector('title')!.getAttribute('id');
+      const svgAriaLabel = el.querySelector('svg')!.getAttribute('aria-labelledby');
       expect(titleId).toEqual(svgAriaLabel);
     });
 
     it('should render the descriptive text', () => {
       const title = el.querySelector('title');
-      expect(title?.textContent).toEqual("USWDS' Twitter account");
+      expect(title!.textContent).toEqual("USWDS' Twitter account");
     });
 
     it('should error if the descriptive text is empty', () => {
@@ -246,7 +248,7 @@ describe('UswdsIcon', () => {
       f.componentRef.setInput('title', '');
       expect(() => {
         f.detectChanges();
-      }).toThrowError('Propery "title" cannot be an empty string');
+      }).toThrowError('Property "title" cannot be an empty string');
     });
   });
 });

@@ -1,11 +1,4 @@
-import {
-  Component,
-  input,
-  computed,
-  signal,
-  forwardRef,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, input, computed, model } from '@angular/core';
 import {
   TextInputVariant,
   TextInputWidth,
@@ -15,7 +8,7 @@ import {
   TextInputAutocomplete,
 } from './text-input-types';
 import { NgClass } from '@angular/common';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormValueControl } from '@angular/forms/signals';
 
 /**
  * @class UswdsTextInput
@@ -24,17 +17,17 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
  * Text input allows users to enter letters, numbers, or symbols useful for unpredicatable responses and pasted content.
  * Text input boxes can be single or multiple lines.
  *
- * For forms, implements `ControlValueAccessor` for use with `[formControl]` (standalone)
- * or `formControlName` (inside a `FormGroup`). Text input's value is also publicly readable via the `value` signal.
+ * Implements `FormValueControl` for use with Signal Forms and supports two-way binding via the `value` model signal.
  *
  * @selector ngx-uswds-text-input
  *
  * @example
- * <!-- Using a single-line text input -->
+ * <!-- Using a single-line text input with Signal Forms -->
  * <ngx-uswds-text-input
  *   label="Text input label"
  *   variant="text"
  *   inputId="input-type-text"
+ *   [formField]="form.email"
  * ></ngx-uswds-text-input>
  *
  * @example
@@ -64,14 +57,21 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
  *
  * @input {HintEl} [hintEl='span'] - The element used to display the hint. Accepts 'span' and 'div'.
  *
- * @input {boolean} [required=false] - When true, adds the required attribute to the text input.
+ * @model {string} [value=''] - The text in the text input. Can be set by Signal Forms or two-way bound manually.
  *
- * @input {boolean} [ariaDisabled=false] - When true, sets 'aria-disabled' to true and disables typing within the text input.
+ * @model {boolean} [touched=false] - Keeps track of whether user has interacted with the field. Updated on blur and synced with Signal Forms.
+ *
+ * @input {boolean} [required=false] - When true, adds the required attribute to the text input.
+ *   Can be set by Signal Forms as a validator or set manually.
+ *
+ * @input {boolean} [disabled=false] - When true, sets 'aria-disabled' to true and disables typing within the text input.
+ *   Can be set by Signal Forms state or set manually.
  *
  * @input {string} ariaDescribedBy - Space-seperated list of element ids outside this component that describe this input.
  *   Placed into 'aria-describedby' alongside the hint id.
  *
- * @input {number} maxLen - Defines the maximum number of characters that the user can enter in a text input.
+ * @input {number} maxLength - Defines the maximum number of characters that the user can enter in a text input.
+ *   Can be set by Signal Forms as a validator or set manually.
  *
  * @input {InputType} type - Defines the value for the type attribute of the input element. Only for the 'text' variant.
  *
@@ -82,17 +82,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   imports: [NgClass],
   templateUrl: './uswds-text-input.html',
   styleUrl: './uswds-text-input.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      // v8 ignore next
-      useExisting: forwardRef(() => UswdsTextInput),
-      multi: true,
-    },
-  ],
 })
-export class UswdsTextInput implements ControlValueAccessor {
+export class UswdsTextInput implements FormValueControl<string> {
   // v8 ignore next
   label = input<string>();
   // v8 ignore next
@@ -108,26 +99,23 @@ export class UswdsTextInput implements ControlValueAccessor {
   // v8 ignore next
   hintEl = input<HintEl>('span');
 
+  // FormValueControl state signals
+  value = model<string>('');
+  touched = model<boolean>(false);
+
   // Text input attributes
   // v8 ignore next
   required = input<boolean>(false);
   // v8 ignore next
-  ariaDisabled = input<boolean>(false);
+  disabled = input<boolean>(false);
   // v8 ignore next
   ariaDescribedBy = input<string>();
   // v8 ignore next
-  maxLen = input<number>();
+  maxLength = input<number>();
   // v8 ignore next
   type = input<InputType>();
   // v8 ignore next
   autocomplete = input<TextInputAutocomplete>();
-
-  // ControlValueAccessor variables
-  // v8 ignore next
-  private _value = signal<string>('');
-  readonly value = this._value.asReadonly();
-  // v8 ignore next
-  private disabledState = signal<boolean>(false);
 
   ngOnInit(): void {
     if (this.inputId() === '') {
@@ -138,7 +126,7 @@ export class UswdsTextInput implements ControlValueAccessor {
   // v8 ignore next
   computedDisabled = computed(() => this.computedDisabledFn());
   computedDisabledFn = () => {
-    if (this.ariaDisabled() || this.disabledState()) {
+    if (this.disabled()) {
       return true;
     }
     return null;
@@ -169,7 +157,7 @@ export class UswdsTextInput implements ControlValueAccessor {
     const st = this.state();
 
     // If a max length is defined, add the character count class
-    if (this.maxLen()) {
+    if (this.maxLength()) {
       classes.push('usa-character-count__field');
     }
 
@@ -210,45 +198,21 @@ export class UswdsTextInput implements ControlValueAccessor {
     return classes;
   };
 
-  // Prevent keyboard interaction when the text input is disabled unless is keyboard navigation
+  // Prevents keyboard interaction when the text input is disabled unless is keyboard navigation
   onKeydown(event: KeyboardEvent): void {
     if (this.computedDisabled() && event.key != 'Tab') {
       event.preventDefault();
     }
   }
 
-  // Callbacks provided by Angular Forms
-  // v8 ignore start
-  private onChange: (val: string) => void = () => {};
-  private onTouch: () => void = () => {};
-  // v8 ignore stop
-
-  // ControlValueAccessor functions
-  writeValue(val: string): void {
-    this._value.set(val ?? '');
-  }
-
-  registerOnChange(fn: (val: string) => void): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: () => void): void {
-    this.onTouch = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabledState.set(isDisabled);
-  }
-
-  // Updates the value signal and notifies Angular forms of the change
-  handleChange(event: Event): void {
-    const inputVal = (event.target as HTMLInputElement | HTMLTextAreaElement).value;
-    this._value.set(inputVal);
-    this.onChange(inputVal);
+  // Updates the value model signal as user types
+  handleInput(event: Event): void {
+    const val = (event.target as HTMLInputElement | HTMLTextAreaElement).value;
+    this.value.set(val);
   }
 
   // Notifies Angular forms that the text input has been touched
-  handleTouch(): void {
-    this.onTouch();
+  handleTouched(): void {
+    this.touched.set(true);
   }
 }

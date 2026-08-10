@@ -20,10 +20,10 @@
     [attr.aria-disabled]="computedDisabled()"
     (keydown)="onKeydown($event)"
     [value]="value()"
-    (input)="handleChange($event)"
-    (blur)="handleTouch()"
+    (input)="handleInput($event)"
     [attr.aria-describedby]="computedAriaDescribedBy()"
-    [attr.maxlength]="maxLen()"
+    (blur)="handleTouched()"
+    [attr.maxlength]="maxLength()"
     [attr.type]="type()"
     [attr.autocomplete]="autocomplete()"
   />
@@ -40,10 +40,10 @@
     [attr.aria-disabled]="computedDisabled()"
     (keydown)="onKeydown($event)"
     [value]="value()"
-    (input)="handleChange($event)"
-    (blur)="handleTouch()"
+    (input)="handleInput($event)"
+    (blur)="handleTouched()"
     [attr.aria-describedby]="computedAriaDescribedBy()"
-    [attr.maxlength]="maxLen()"
+    [attr.maxlength]="maxLength()"
     [attr.autocomplete]="autocomplete()"
   ></textarea>
 }

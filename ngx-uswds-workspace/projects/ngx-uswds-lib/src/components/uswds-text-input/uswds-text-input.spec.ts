@@ -1,27 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UswdsTextInput } from './uswds-text-input';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { form, FormField } from '@angular/forms/signals';
 
 // Test Host Component
 
 @Component({
   standalone: true,
-  imports: [UswdsTextInput, ReactiveFormsModule],
+  imports: [UswdsTextInput, FormField],
   template: `
-    <form [formGroup]="form">
+    <form>
       <ngx-uswds-text-input
-        formControlName="username"
         label="Username:"
         inputId="username"
+        [formField]="testForm.username"
       ></ngx-uswds-text-input>
     </form>
   `,
 })
-class FormHost {
-  form = new FormGroup({
-    username: new FormControl(''),
+class SignalFormHost {
+  testModel = signal({
+    username: '',
   });
+  testForm = form(this.testModel);
 }
 
 describe('UswdsTextInput', () => {
@@ -39,6 +40,7 @@ describe('UswdsTextInput', () => {
 
       // Provide required prop
       fixture.componentRef.setInput('inputId', 'input-type-text');
+      fixture.detectChanges();
 
       await fixture.whenStable();
     });
@@ -49,6 +51,14 @@ describe('UswdsTextInput', () => {
         expect(component).toBeTruthy();
       });
 
+      it('should default to empty string for value', () => {
+        expect(component.value()).toBe('');
+      });
+
+      it('should default to false for touched', () => {
+        expect(component.touched()).toBe(false);
+      });
+
       it('should default to text for variant', () => {
         expect(component.variant()).toBe('text');
       });
@@ -57,8 +67,8 @@ describe('UswdsTextInput', () => {
         expect(component.required()).toBe(false);
       });
 
-      it('should default to false for aria-disabled', () => {
-        expect(component.ariaDisabled()).toBe(false);
+      it('should default to false for disabled', () => {
+        expect(component.disabled()).toBe(false);
       });
 
       it('should default to span for hint`s element', () => {
@@ -276,16 +286,16 @@ describe('UswdsTextInput', () => {
           expect(el?.required).toBeTruthy();
         });
 
-        describe('aria-disabled', () => {
-          it('should set aria-disabled to true when requested', () => {
-            fixture.componentRef.setInput('ariaDisabled', true);
+        describe('disabled', () => {
+          it('should set aria-disabled to true when disabled is true', () => {
+            fixture.componentRef.setInput('disabled', true);
             fixture.detectChanges();
             const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
             expect(el?.hasAttribute('aria-disabled')).toBeTruthy();
           });
 
-          it('should allow typing when aria-disabled is false', () => {
-            fixture.componentRef.setInput('ariaDisabled', false);
+          it('should allow typing when disabled is false', () => {
+            fixture.componentRef.setInput('disabled', false);
             fixture.detectChanges();
             const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
             const event = new KeyboardEvent('keydown', { key: 'i', cancelable: true });
@@ -294,8 +304,8 @@ describe('UswdsTextInput', () => {
             expect(event?.defaultPrevented).toBe(false);
           });
 
-          it('should disallow typing when aria-disabled is true', () => {
-            fixture.componentRef.setInput('ariaDisabled', true);
+          it('should disallow typing when disabled is true', () => {
+            fixture.componentRef.setInput('disabled', true);
             fixture.detectChanges();
             const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
             const event = new KeyboardEvent('keydown', { key: 'i', cancelable: true });
@@ -304,8 +314,8 @@ describe('UswdsTextInput', () => {
             expect(event?.defaultPrevented).toBeTruthy();
           });
 
-          it('should allow tab navigation when aria-disabled is true', () => {
-            fixture.componentRef.setInput('ariaDisabled', true);
+          it('should allow tab navigation when disabled is true', () => {
+            fixture.componentRef.setInput('disabled', true);
             fixture.detectChanges();
             const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
             const event = new KeyboardEvent('keydown', { key: 'Tab', cancelable: true });
@@ -314,13 +324,13 @@ describe('UswdsTextInput', () => {
             expect(event?.defaultPrevented).toBe(false);
           });
 
-          it('should toggle the invisible_caret class based on ariaDisabled', () => {
-            fixture.componentRef.setInput('ariaDisabled', true);
+          it('should toggle the invisible_caret class based on disabled', () => {
+            fixture.componentRef.setInput('disabled', true);
             fixture.detectChanges();
             const el: HTMLElement = fixture.nativeElement.querySelector('input');
             expect(el?.classList.contains('invisible_caret')).toBeTruthy();
 
-            fixture.componentRef.setInput('ariaDisabled', false);
+            fixture.componentRef.setInput('disabled', false);
             fixture.detectChanges();
             expect(el?.classList.contains('invisible_caret')).toBe(false);
           });
@@ -354,14 +364,14 @@ describe('UswdsTextInput', () => {
 
         describe('maxlength', () => {
           it('should add the maxlength attribute when requested', () => {
-            fixture.componentRef.setInput('maxLen', 5);
+            fixture.componentRef.setInput('maxLength', 5);
             fixture.detectChanges();
             const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
             expect(el?.getAttribute('maxlength')).toBe('5');
           });
 
           it('should add the character count class when there`s a maxlength', () => {
-            fixture.componentRef.setInput('maxLen', 5);
+            fixture.componentRef.setInput('maxLength', 5);
             fixture.detectChanges();
             const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
             expect(el?.classList.contains('usa-character-count__field')).toBeTruthy();
@@ -512,48 +522,26 @@ describe('UswdsTextInput', () => {
         });
       });
 
-      // Test text input 'text's ControlValueAccessor
-      describe('ControlValueAccessor', () => {
-        it('should change the value when writeValue() is called', () => {
-          component.writeValue('test');
-          fixture.detectChanges();
+      // Test text input 'text's event binding
+      describe('events', () => {
+        it('should set value when an input event triggers handleInput()', () => {
           const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
-          expect(component.value()).toBe('test');
-          expect(el.value).toBe('test');
-        });
-
-        it('should set the disabled state when setDisabledState() is called', () => {
-          component.setDisabledState(true);
-          fixture.detectChanges();
-          const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
-          expect(el?.hasAttribute('aria-disabled')).toBeTruthy();
-        });
-
-        it('should call registerOnChange()`s callback when an input event triggers handleChange()', () => {
-          const callback = vi.fn();
-          component.registerOnChange(callback);
-
-          const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
-          el.value = 'test';
           const event = new Event('input');
+          el.value = 'test';
           el.dispatchEvent(event);
           fixture.detectChanges();
 
-          expect(callback).toHaveBeenCalledWith('test');
           expect(component.value()).toBe('test');
           expect(el.value).toBe('test');
         });
 
-        it('should call registerOnTouched()`s callback when a blur event triggers handleTouch()', () => {
-          const callback = vi.fn();
-          component.registerOnTouched(callback);
-
+        it('should set touched to true when a blur event triggers handleTouched()', () => {
           const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
           const event = new Event('blur');
           el.dispatchEvent(event);
           fixture.detectChanges();
 
-          expect(callback).toHaveBeenCalled();
+          expect(component.touched()).toBe(true);
         });
       });
     });
@@ -632,15 +620,15 @@ describe('UswdsTextInput', () => {
           expect(el?.required).toBeTruthy();
         });
 
-        describe('aria-disabled', () => {
-          it('should set aria-disabled to true when requested', () => {
-            fixture.componentRef.setInput('ariaDisabled', true);
+        describe('disabled', () => {
+          it('should set aria-disabled to true when disabled is true', () => {
+            fixture.componentRef.setInput('disabled', true);
             fixture.detectChanges();
             const el: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
             expect(el?.hasAttribute('aria-disabled')).toBeTruthy();
           });
 
-          it('should allow typing when aria-disabled is false', () => {
+          it('should allow typing when disabled is false', () => {
             const el: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
             const event = new KeyboardEvent('keydown', { key: 'i', cancelable: true });
             el.dispatchEvent(event);
@@ -648,8 +636,8 @@ describe('UswdsTextInput', () => {
             expect(event?.defaultPrevented).toBe(false);
           });
 
-          it('should disallow typing when aria-disabled is true', () => {
-            fixture.componentRef.setInput('ariaDisabled', true);
+          it('should disallow typing when disabled is true', () => {
+            fixture.componentRef.setInput('disabled', true);
             fixture.detectChanges();
             const el: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
             const event = new KeyboardEvent('keydown', { key: 'i', cancelable: true });
@@ -658,8 +646,8 @@ describe('UswdsTextInput', () => {
             expect(event?.defaultPrevented).toBeTruthy();
           });
 
-          it('should allow tab navigation when aria-disabled is true', () => {
-            fixture.componentRef.setInput('ariaDisabled', true);
+          it('should allow tab navigation when disabled is true', () => {
+            fixture.componentRef.setInput('disabled', true);
             fixture.detectChanges();
             const el: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
             const event = new KeyboardEvent('keydown', { key: 'Tab', cancelable: true });
@@ -668,13 +656,13 @@ describe('UswdsTextInput', () => {
             expect(event?.defaultPrevented).toBe(false);
           });
 
-          it('should toggle the invisible_caret class based on ariaDisabled', () => {
-            fixture.componentRef.setInput('ariaDisabled', true);
+          it('should toggle the invisible_caret class based on disabled', () => {
+            fixture.componentRef.setInput('disabled', true);
             fixture.detectChanges();
             const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
             expect(el?.classList.contains('invisible_caret')).toBeTruthy();
 
-            fixture.componentRef.setInput('ariaDisabled', false);
+            fixture.componentRef.setInput('disabled', false);
             fixture.detectChanges();
             expect(el?.classList.contains('invisible_caret')).toBe(false);
           });
@@ -708,14 +696,14 @@ describe('UswdsTextInput', () => {
 
         describe('maxlength', () => {
           it('should add the maxlength attribute when requested', () => {
-            fixture.componentRef.setInput('maxLen', 5);
+            fixture.componentRef.setInput('maxLength', 5);
             fixture.detectChanges();
             const el: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
             expect(el?.getAttribute('maxlength')).toBe('5');
           });
 
           it('should add the character count class when there`s a maxlength', () => {
-            fixture.componentRef.setInput('maxLen', 5);
+            fixture.componentRef.setInput('maxLength', 5);
             fixture.detectChanges();
             const el: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
             expect(el?.classList.contains('usa-character-count__field')).toBeTruthy();
@@ -829,116 +817,62 @@ describe('UswdsTextInput', () => {
         });
       });
 
-      // Test text input 'textarea's ControlValueAccessor
-      describe('ControlValueAccessor', () => {
-        it('should change the value when writeValue() is called', () => {
-          component.writeValue('test');
-          fixture.detectChanges();
+      // Test text input 'textarea's  event binding
+      describe('events', () => {
+        it('should set value when an input event triggers handleInput()', () => {
           const el: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
-          expect(component.value()).toBe('test');
-          expect(el.value).toBe('test');
-        });
-
-        it('should set the disabled state when setDisabledState() is called', () => {
-          component.setDisabledState(true);
-          fixture.detectChanges();
-          const el: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
-          expect(el?.hasAttribute('aria-disabled')).toBeTruthy();
-        });
-
-        it('should call registerOnChange()`s callback when an input event triggers handleChange()', () => {
-          const callback = vi.fn();
-          component.registerOnChange(callback);
-
-          const el: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
-          el.value = 'test';
           const event = new Event('input');
+          el.value = 'test';
           el.dispatchEvent(event);
           fixture.detectChanges();
 
-          expect(callback).toHaveBeenCalledWith('test');
           expect(component.value()).toBe('test');
           expect(el.value).toBe('test');
         });
 
-        it('should call registerOnTouched()`s callback when a blur event triggers handleTouch()', () => {
-          const callback = vi.fn();
-          component.registerOnTouched(callback);
-
+        it('should set touched to true when a blur event triggers handleTouched()', () => {
           const el: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
           const event = new Event('blur');
           el.dispatchEvent(event);
           fixture.detectChanges();
 
-          expect(callback).toHaveBeenCalled();
+          expect(component.touched()).toBe(true);
         });
       });
     });
   });
 
   // Form Integration
-  describe('Form', () => {
-    let fixture: ComponentFixture<FormHost>;
-    let host: FormHost;
+  describe('Signal Form', () => {
+    let fixture: ComponentFixture<SignalFormHost>;
+    let host: SignalFormHost;
 
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        imports: [FormHost],
+        imports: [SignalFormHost],
       }).compileComponents();
-      fixture = TestBed.createComponent(FormHost);
+      fixture = TestBed.createComponent(SignalFormHost);
       host = fixture.componentInstance;
+      fixture.detectChanges();
       await fixture.whenStable();
     });
 
-    it('should update its value in a form', () => {
+    // View-to-model data flow
+    it('should update the value of the input field', () => {
       const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
-      el.value = 'test';
       const event = new Event('input');
+      el.value = 'test';
       el.dispatchEvent(event);
       fixture.detectChanges();
-      expect(host.form.value.username).toBe('test');
+      expect(host.testForm.username().value()).toBe('test');
     });
 
-    it('should clear its value in a form reset', () => {
-      const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
-      el.value = 'test';
-      const event = new Event('input');
-      el.dispatchEvent(event);
-      fixture.detectChanges();
-
-      host.form.reset();
-      fixture.detectChanges();
-
-      expect(host.form.value.username).toBe(null);
-      // Assigned '' from writeValue()'s fallback
-      expect(el.value).toBe('');
-    });
-
-    it('should toggle between a form disable and enable', () => {
-      host.form.disable();
+    // Model-to-view data flow
+    it('should update the value in the control', () => {
+      host.testForm.username().value.set('test');
       fixture.detectChanges();
       const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
-      expect(el?.hasAttribute('aria-disabled')).toBeTruthy();
-
-      host.form.enable();
-      fixture.detectChanges();
-      expect(el?.hasAttribute('aria-disabled')).toBeFalsy();
-    });
-
-    it('should disallow typing but allow tab navigation when qform disabled', () => {
-      host.form.disable();
-      fixture.detectChanges();
-      const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
-
-      const keyEvent = new KeyboardEvent('keydown', { key: 'i', cancelable: true });
-      el.dispatchEvent(keyEvent);
-      fixture.detectChanges();
-      expect(keyEvent?.defaultPrevented).toBeTruthy();
-
-      const tabEvent = new KeyboardEvent('keydown', { key: 'Tab', cancelable: true });
-      el.dispatchEvent(tabEvent);
-      fixture.detectChanges();
-      expect(tabEvent?.defaultPrevented).toBe(false);
+      expect(el.value).toBe('test');
     });
   });
 });

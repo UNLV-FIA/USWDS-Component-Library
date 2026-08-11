@@ -33,4 +33,4 @@ export * from './components/uswds-text-input/uswds-text-input';
 
 // Icon Component
 export * from "./components/uswds-icon/uswds-icon";
-export type { IconSize } from "./components/uswds-icon/icon-types.ts";
+export type { IconSize } from "./components/uswds-icon/icon-types";

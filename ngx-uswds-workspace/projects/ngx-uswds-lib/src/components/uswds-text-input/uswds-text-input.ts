@@ -1,4 +1,4 @@
-import { Component, input, computed, model } from '@angular/core';
+import { Component, input, computed, model, viewChild, ElementRef } from '@angular/core';
 import {
   TextInputVariant,
   TextInputWidth,
@@ -102,6 +102,8 @@ export class UswdsTextInput implements FormValueControl<string> {
   // FormValueControl state signals
   value = model<string>('');
   touched = model<boolean>(false);
+  readonly inputControl =
+    viewChild.required<ElementRef<HTMLInputElement | HTMLTextAreaElement>>('inputEl');
 
   // Text input attributes
   // v8 ignore next
@@ -214,5 +216,10 @@ export class UswdsTextInput implements FormValueControl<string> {
   // Notifies Angular forms that the text input has been touched
   handleTouched(): void {
     this.touched.set(true);
+  }
+
+  // Used by Angular forms to focus on the text input
+  focus(): void {
+    this.inputControl().nativeElement.focus();
   }
 }

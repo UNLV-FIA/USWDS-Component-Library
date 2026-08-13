@@ -11,6 +11,7 @@
 <!-- Single line text input -->
 @if (variant() == 'text') {
   <input
+    #inputEl
     class="usa-input"
     [ngClass]="inputClasses()"
     [class.invisible_caret]="computedDisabled()"
@@ -31,6 +32,7 @@
 <!-- Multi-line text input -->
 @if (variant() == 'textarea') {
   <textarea
+    #inputEl
     class="usa-textarea"
     [ngClass]="inputClasses()"
     [class.invisible_caret]="computedDisabled()"

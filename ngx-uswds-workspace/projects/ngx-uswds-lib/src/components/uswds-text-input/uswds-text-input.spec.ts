@@ -544,6 +544,13 @@ describe('UswdsTextInput', () => {
           expect(component.touched()).toBe(true);
         });
       });
+
+      it('should receive focus when calling focus()', () => {
+        const el: HTMLElement = fixture.nativeElement.querySelector('input');
+        component.focus();
+        fixture.detectChanges();
+        expect(document.activeElement).toBe(el);
+      });
     });
 
     // Test text input's 'textarea' variant
@@ -839,6 +846,13 @@ describe('UswdsTextInput', () => {
           expect(component.touched()).toBe(true);
         });
       });
+
+      it('should receive focus when calling focus()', () => {
+        const el: HTMLElement = fixture.nativeElement.querySelector('textarea');
+        component.focus();
+        fixture.detectChanges();
+        expect(document.activeElement).toBe(el);
+      });
     });
   });
 
@@ -873,6 +887,13 @@ describe('UswdsTextInput', () => {
       fixture.detectChanges();
       const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
       expect(el.value).toBe('test');
+    });
+
+    it('should move focus to the control when focusBoundControl() is called', () => {
+      const el: HTMLElement = fixture.nativeElement.querySelector('input');
+      host.testForm.username().focusBoundControl();
+      fixture.detectChanges();
+      expect(document.activeElement).toBe(el);
     });
   });
 });

@@ -34,15 +34,39 @@
           <div class="tablet:grid-col-4">
             <div class="usa-sign-up">
               <h3 class="usa-sign-up__heading">{{ signUpHeading() }}</h3>
-              <form class="usa-form">
-                <label class="usa-label" for="email">{{ signUpLabel() }}</label>
-                <input
-                  class="usa-input"
-                  id="email"
-                  name="email"
-                  type="email"
-                  autocomplete="email"
-                />
+              <form class="usa-form" (submit)="onSubmit($event)" novalidate>
+                <div
+                  id="sign-up-container-error-footer"
+                  [class.usa-form-group--error]="showError()"
+                >
+                  <label
+                    class="usa-label"
+                    [attr.for]="signUpInputId()"
+                    [class.usa-label--error]="showError()"
+                    >{{ signUpInputLabel() }}</label
+                  >
+                  <ngx-uswds-text-input
+                    [inputId]="signUpInputId()"
+                    [state]="inputState()"
+                    [hint]="signUpInputHint()"
+                    [width]="signUpInputWidth()"
+                    type="email"
+                    autocomplete="email"
+                    ariaDescribedBy="sign-up-input-desc-footer"
+                    [formField]="signUpForm.email"
+                  >
+                  </ngx-uswds-text-input>
+                </div>
+                <div id="sign-up-input-desc-footer">
+                  @if (showError()) {
+                    @for (error of formErrors(); track error.kind) {
+                      <span class="usa-error-message">{{ error.message }}</span>
+                    }
+                  } @else if (formState() == 'success') {
+                    <span class="footer_form_success text-bold">{{ signUpSuccessMsg() }}</span>
+                  }
+                </div>
+                <span class="usa-sr-only" aria-live="polite">{{ formAnnouncement() }}</span>
                 <ngx-uswds-button [buttonStyle]="signUpButtonStyle()" type="submit">{{
                   signUpButtonText()
                 }}</ngx-uswds-button>
@@ -99,7 +123,7 @@
   </div>
   <div class="usa-footer__secondary-section">
     <div class="grid-container">
-      <!-- Render secondary section according to variant-->
+      <!-- Render secondary section according to variant -->
       @if (variant() == 'big' || variant() == 'medium') {
         <div class="grid-row grid-gap">
           <div class="usa-footer__logo grid-row mobile-lg:grid-col-6 mobile-lg:grid-gap-2">

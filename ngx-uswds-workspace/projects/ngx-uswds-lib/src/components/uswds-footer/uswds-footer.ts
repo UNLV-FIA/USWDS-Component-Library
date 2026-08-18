@@ -1,9 +1,11 @@
-import { Component, AfterViewInit, input, computed } from '@angular/core';
+import { Component, AfterViewInit, input, computed, output, signal } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { UswdsButton } from '../uswds-button/uswds-button';
-import { FormsModule } from '@angular/forms';
+import { UswdsTextInput } from '../uswds-text-input/uswds-text-input';
+import { TextInputState } from '../uswds-text-input/text-input-types';
 import {
   FooterVariant,
+  FooterFormState,
   FooterLink,
   FooterLinkColumn,
   FooterAgencyInfo,
@@ -11,6 +13,7 @@ import {
   FooterSocialLinks,
 } from './footer-types';
 import { footer } from '@uswds/uswds/js';
+import { FormField, form, email, ValidationError } from '@angular/forms/signals';
 
 /**
  * @class UswdsFooter
@@ -21,6 +24,7 @@ import { footer } from '@uswds/uswds/js';
  * They also include the agency's name and logo and may optionally have a newsletter signup and social media links.
  *
  * They support a big, medium, and slim visual variant.
+ * The big variant contains a Signal Form intended for email input only.
  *
  * @selector ngx-uswds-footer
  *
@@ -64,21 +68,29 @@ import { footer } from '@uswds/uswds/js';
  * @input {FooterLink[]} [links=[]] - A list of links to display in the 'medium' and 'slim' footer only.
  *    Each item requires a 'label' and `href`.
  *
- * @input {FooterForm} signUpForm - An object that stores the form information to display in the 'big' footer.
+ * @input {FooterForm} signUpFormInfo - An object that stores the form information to display in the 'big' footer.
  *   Fields include:
  *     - 'heading': Heading shown above the form
  *     - 'label': Label for the text input
+ *     - 'inputId': ID of the text input
+ *     - 'inputWidth': Width of the text input
+ *     - 'inputHint': Optional text between the label and text input
  *     - 'buttonStyle': Color style of the button
  *     - 'buttonText': Text within the button
- *   If any of the above fields are not provided, it will default to hard-coded values.
+ *     - 'successMessage': Message displayed when form is successfully sent
+ *     - 'errorMessage': Message displayed when the email address is in an invalid format
+ *   If any of the above fields are not provided, it will default to hard-coded values. The exceptions are
+ *   `inputWidth` and `inputHint` which are not applied to the text input when omitted.
  *
  * @input {FooterSocialLinks} socials - An object that stores links to the agency's social medias to display in
  *   the 'big' and 'medium' footer. Fields include 'facebook', 'twitter', 'youtube', 'instagram', and 'rss'.
  *   If any of the fields are not provided, it will not render in the footer.
+ *
+ * @output {string} formSubmit - Emits the email whenever the form is submitted in the 'big' footer.
  */
 @Component({
   selector: 'ngx-uswds-footer',
-  imports: [NgClass, UswdsButton, FormsModule],
+  imports: [NgClass, UswdsButton, UswdsTextInput, FormField],
   templateUrl: './uswds-footer.html',
   styleUrl: './uswds-footer.scss',
 })
@@ -98,18 +110,69 @@ export class UswdsFooter implements AfterViewInit {
   // v8 ignore next
   linkColumns = input<FooterLinkColumn[]>([]);
   // v8 ignore next
-  signUpForm = input<FooterForm>();
+  signUpFormInfo = input<FooterForm>();
+  // Below are internally managed for the form
+  formSubmit = output<string>();
+  formState = signal<FooterFormState>('default');
+  formErrors = signal<ValidationError[]>([]);
+  formAnnouncement = signal<string>('');
+  signUpModel = signal({ email: '' });
+  signUpForm = form(this.signUpModel, (schemaPath) => {
+    email(schemaPath.email, { message: "Email address is missing an '@' sign." });
+  });
 
   ngAfterViewInit(): void {
     footer?.on();
+  }
+
+  /* Form submission - sets form's state, passes email to parent, and resets email field */
+  onSubmit(event: Event) {
+    event.preventDefault();
+
+    const email = this.signUpForm.email().value();
+    const customErrorMsg = this.signUpFormInfo()?.errorMessage;
+
+    // Error for empty field
+    if (email == '') {
+      this.formState.set('error');
+      this.formErrors.set([{ kind: 'empty', message: 'Email field cannot be empty.' }]);
+      this.signUpForm.email().focusBoundControl();
+      return;
+    }
+
+    // Error for invalid email
+    if (this.signUpForm().invalid()) {
+      this.formState.set('error');
+
+      // Use custom error if provided; otherwise, use hard-coded email error
+      if (customErrorMsg) {
+        this.formErrors.set([{ kind: 'email', message: customErrorMsg }]);
+      } else {
+        this.formErrors.set(this.signUpForm.email().errors());
+      }
+
+      this.signUpForm.email().focusBoundControl();
+      return;
+    }
+
+    // Otherwise, set success state
+    this.formSubmit.emit(email);
+    this.formState.set('success');
+    this.signUpForm.email().value.set('');
+    this.formErrors.set([]);
+
+    // Clear then set the message again so screen readers
+    // re-announce even if the message is unchanged
+    this.formAnnouncement.set('');
+    setTimeout(() => this.formAnnouncement.set(this.signUpSuccessMsg()), 150);
   }
 
   /* Footer variant selection function */
   // v8 ignore next
   footerVariantCss = computed(() => this.footerVariantCssFn());
   footerVariantCssFn = () => {
-    const va = this.variant();
-    switch (va) {
+    const variant = this.variant();
+    switch (variant) {
       case 'big':
         return 'usa-footer--big';
       case 'medium':
@@ -130,7 +193,7 @@ export class UswdsFooter implements AfterViewInit {
   agencyLogoAlt = computed(() => this.agencyLogoAltFn());
   agencyLogoAltFn = () => {
     const logoAlt = this.agencyInfo()?.logoAlt;
-    if (logoAlt == null || logoAlt == undefined) return '';
+    if (!logoAlt) return '';
     return logoAlt;
   };
   // v8 ignore next
@@ -141,7 +204,7 @@ export class UswdsFooter implements AfterViewInit {
   agencyPhoneLabel = computed(() => this.agencyPhoneLabelFn());
   agencyPhoneLabelFn = () => {
     const phoneLabel = this.agencyInfo()?.phoneLabel;
-    if (phoneLabel == null || phoneLabel == undefined) return this.agencyPhone();
+    if (!phoneLabel) return this.agencyPhone();
     return phoneLabel;
   };
   // v8 ignore next
@@ -151,31 +214,68 @@ export class UswdsFooter implements AfterViewInit {
   // v8 ignore next
   signUpHeading = computed(() => this.signUpHeadingFn());
   signUpHeadingFn = () => {
-    const heading = this.signUpForm()?.heading;
-    if (heading == null || heading == undefined) return 'Sign up';
+    const heading = this.signUpFormInfo()?.heading;
+    if (!heading) return 'Sign up';
     return heading;
   };
-  // to do: add this as a text input component
   // v8 ignore next
-  signUpLabel = computed(() => this.signUpLabelFn());
-  signUpLabelFn = () => {
-    const label = this.signUpForm()?.label;
-    if (label == null || label == undefined) return 'Your email address';
+  signUpInputLabel = computed(() => this.signUpInputLabelFn());
+  signUpInputLabelFn = () => {
+    const label = this.signUpFormInfo()?.label;
+    if (!label) return 'Your email address';
     return label;
   };
   // v8 ignore next
+  signUpInputId = computed(() => this.signUpInputIdFn());
+  signUpInputIdFn = () => {
+    const id = this.signUpFormInfo()?.inputId;
+    if (!id) return 'sign-up-input-footer';
+    return id;
+  };
+  // v8 ignore next
+  signUpInputWidth = computed(() => this.signUpFormInfo()?.inputWidth);
+  // v8 ignore next
+  signUpInputHint = computed(() => this.signUpFormInfo()?.inputHint);
+  // v8 ignore next
   signUpButtonText = computed(() => this.signUpButtonTextFn());
   signUpButtonTextFn = () => {
-    const btnText = this.signUpForm()?.buttonText;
-    if (btnText == null || btnText == undefined) return 'Sign up';
+    const btnText = this.signUpFormInfo()?.buttonText;
+    if (!btnText) return 'Sign up';
     return btnText;
   };
   // v8 ignore next
   signUpButtonStyle = computed(() => this.signUpButtonStyleFn());
   signUpButtonStyleFn = () => {
-    const btnStyle = this.signUpForm()?.buttonStyle;
-    if (btnStyle == null || btnStyle == undefined) return 'Default';
+    const btnStyle = this.signUpFormInfo()?.buttonStyle;
+    if (!btnStyle) return 'Default';
     return btnStyle;
+  };
+  // v8 ignore next
+  signUpSuccessMsg = computed(() => this.signUpSuccessMsgFn());
+  signUpSuccessMsgFn = () => {
+    const msg = this.signUpFormInfo()?.successMessage;
+    if (!msg) return "Sent! You're signed up for newsletters.";
+    return msg;
+  };
+  // Toggle error container, label, and message when email field is invalid/valid
+  // v8 ignore next
+  showError = computed(() => this.showErrorFn());
+  showErrorFn = () => {
+    if (this.formState() === 'error') return true;
+    return false;
+  };
+
+  // Toggle text input error/success state when email field is invalid/valid
+  // v8 ignore next
+  inputState = computed(() => this.inputStateFn());
+  inputStateFn = (): TextInputState | undefined => {
+    const state = this.formState();
+    if (state == 'success') {
+      return 'success';
+    } else if (state == 'error') {
+      return 'error';
+    }
+    return undefined;
   };
 
   /* Display the social media link if defined */

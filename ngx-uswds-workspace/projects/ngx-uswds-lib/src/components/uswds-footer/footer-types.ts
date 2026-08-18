@@ -1,6 +1,9 @@
 import { ButtonStyle } from '../uswds-button/uswds-button.types';
+import { TextInputWidth } from '../uswds-text-input/text-input-types';
 
 export type FooterVariant = 'big' | 'medium' | 'slim';
+
+export type FooterFormState = 'success' | 'error' | 'default';
 
 export interface FooterLink {
   label: string;
@@ -15,8 +18,13 @@ export interface FooterLinkColumn {
 export interface FooterForm {
   heading?: string;
   label?: string;
+  inputId?: string;
+  inputWidth?: TextInputWidth;
+  inputHint?: string;
   buttonStyle?: ButtonStyle;
   buttonText?: string;
+  successMessage?: string;
+  errorMessage?: string;
 }
 
 export interface FooterAgencyInfo {

@@ -30,3 +30,7 @@ export * from "./components/uswds-tag/uswds-tag";
 
 // Text Input Component
 export * from './components/uswds-text-input/uswds-text-input';
+
+// Process List Component
+export * from './components/uswds-process-list/uswds-process-list';
+export * from './components/uswds-process-list-item/uswds-process-list-item';

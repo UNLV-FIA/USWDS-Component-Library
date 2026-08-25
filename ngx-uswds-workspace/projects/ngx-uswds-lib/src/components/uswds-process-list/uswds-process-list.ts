@@ -43,7 +43,6 @@ export class UswdsProcessList {
   // v8 ignore next
   headingClasses = input<string>();
 
-  // v8 ignore next 2
   @ContentChildren(UswdsProcessListItem)
   itemList!: QueryList<UswdsProcessListItem>;
 }

@@ -9,7 +9,7 @@ import { UswdsProcessList } from '../uswds-process-list/uswds-process-list';
  * It is recommended to only use three to ten steps per process list to minimize confusion and complexity.
  *
  * This item's heading level and classes are inherited from the parent process list component.
- * Apply the `class` attribute directly to this component to add item-specific styles such as padding.
+ * Apply the `class` attribute directly to this component to add list item-specific styles such as padding.
  *
  * @selector li[ngx-uswds-process-list-item]
  *
@@ -40,6 +40,8 @@ export class UswdsProcessListItem implements OnInit {
       throw new Error("Property 'heading' cannot be an empty string");
   }
 
+  // v8 ignore next
   resolvedHeadingLevel = computed(() => this.processList.headingLevel());
+  // v8 ignore next
   resolvedHeadingClasses = computed(() => this.processList.headingClasses());
 }

@@ -31,6 +31,10 @@ export * from "./components/uswds-tag/uswds-tag";
 // Text Input Component
 export * from './components/uswds-text-input/uswds-text-input';
 
+// Icon Component
+export * from "./components/uswds-icon/uswds-icon";
+export type { IconSize } from "./components/uswds-icon/icon-types";
+
 // Process List Component
 export * from './components/uswds-process-list/uswds-process-list';
 export * from './components/uswds-process-list-item/uswds-process-list-item';

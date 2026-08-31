@@ -1,20 +1,18 @@
-@if (heading()) {
-  @switch (resolvedHeadingLevel()) {
-    @case (2) {
-      <h2 class="usa-process-list__heading" [class]="resolvedHeadingClasses()">{{ heading() }}</h2>
-    }
-    @case (3) {
-      <h3 class="usa-process-list__heading" [class]="resolvedHeadingClasses()">{{ heading() }}</h3>
-    }
-    @case (5) {
-      <h5 class="usa-process-list__heading" [class]="resolvedHeadingClasses()">{{ heading() }}</h5>
-    }
-    @case (6) {
-      <h6 class="usa-process-list__heading" [class]="resolvedHeadingClasses()">{{ heading() }}</h6>
-    }
-    @default {
-      <h4 class="usa-process-list__heading" [class]="resolvedHeadingClasses()">{{ heading() }}</h4>
-    }
+@switch (resolvedHeadingLevel()) {
+  @case (2) {
+    <h2 class="usa-process-list__heading" [class]="resolvedHeadingClasses()">{{ heading() }}</h2>
+  }
+  @case (3) {
+    <h3 class="usa-process-list__heading" [class]="resolvedHeadingClasses()">{{ heading() }}</h3>
+  }
+  @case (5) {
+    <h5 class="usa-process-list__heading" [class]="resolvedHeadingClasses()">{{ heading() }}</h5>
+  }
+  @case (6) {
+    <h6 class="usa-process-list__heading" [class]="resolvedHeadingClasses()">{{ heading() }}</h6>
+  }
+  @default {
+    <h4 class="usa-process-list__heading" [class]="resolvedHeadingClasses()">{{ heading() }}</h4>
   }
 }
 <ng-content></ng-content>

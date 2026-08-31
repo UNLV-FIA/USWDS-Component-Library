@@ -1,4 +1,4 @@
-import { Component, input, inject, computed, OnInit } from '@angular/core';
+import { Component, input, inject, computed } from '@angular/core';
 import { UswdsProcessList } from '../uswds-process-list/uswds-process-list';
 
 /**
@@ -19,8 +19,7 @@ import { UswdsProcessList } from '../uswds-process-list/uswds-process-list';
  *   <img src="example.jpg" alt="Example image">
  * </li>
  *
- * @input {string} heading - The heading text displayed next to the counter. Can be omitted
- *   when no heading is needed but must not be a whitespace only string when provided.
+ * @input {string} heading - The heading text displayed next to the counter. Required.
  */
 @Component({
   selector: 'li[ngx-uswds-process-list-item]',
@@ -30,15 +29,10 @@ import { UswdsProcessList } from '../uswds-process-list/uswds-process-list';
     class: 'usa-process-list__item',
   },
 })
-export class UswdsProcessListItem implements OnInit {
+export class UswdsProcessListItem {
   // v8 ignore next
-  heading = input<string>();
+  heading = input.required<string>();
   private processList = inject(UswdsProcessList);
-
-  ngOnInit(): void {
-    if (this.heading()?.trim() === '')
-      throw new Error("Property 'heading' cannot be an empty string");
-  }
 
   // v8 ignore next
   resolvedHeadingLevel = computed(() => this.processList.headingLevel());

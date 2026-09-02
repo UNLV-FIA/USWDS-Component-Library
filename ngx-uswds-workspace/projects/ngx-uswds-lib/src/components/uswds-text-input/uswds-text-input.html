@@ -26,7 +26,7 @@
     (blur)="handleTouched()"
     [attr.maxlength]="maxLength()"
     [attr.type]="type()"
-    [attr.autocomplete]="autocomplete()"
+    [attr.autocomplete]="computedAutocomplete()"
   />
 }
 <!-- Multi-line text input -->
@@ -46,6 +46,6 @@
     (blur)="handleTouched()"
     [attr.aria-describedby]="computedAriaDescribedBy()"
     [attr.maxlength]="maxLength()"
-    [attr.autocomplete]="autocomplete()"
+    [attr.autocomplete]="computedAutocomplete()"
   ></textarea>
 }

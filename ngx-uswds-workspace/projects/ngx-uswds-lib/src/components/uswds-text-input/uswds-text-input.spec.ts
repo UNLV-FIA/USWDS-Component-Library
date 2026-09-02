@@ -358,6 +358,29 @@ describe('UswdsTextInput', () => {
             fixture.detectChanges();
             expect(el?.classList.contains('invisible_caret')).toBe(false);
           });
+
+          it("should prevent modifications to text input's value", () => {
+            fixture.componentRef.setInput('disabled', true);
+            fixture.detectChanges();
+
+            const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+            component.value.set('original value');
+            fixture.detectChanges();
+            expect(el.value).toBe('original value');
+
+            const event = new Event('input');
+            el.value = 'new value';
+            el.dispatchEvent(event);
+            fixture.detectChanges();
+
+            expect(el.value).toBe('original value');
+          });
+
+          it('should add autocomplete to "off"', () => {
+            fixture.componentRef.setInput('disabled', true);
+            fixture.detectChanges();
+            expect(component.computedAutocomplete()).toBe('off');
+          });
         });
 
         describe('aria-describedby', () => {
@@ -696,6 +719,29 @@ describe('UswdsTextInput', () => {
             fixture.componentRef.setInput('disabled', false);
             fixture.detectChanges();
             expect(el?.classList.contains('invisible_caret')).toBe(false);
+          });
+
+          it("should prevent modifications to text area's value", () => {
+            fixture.componentRef.setInput('disabled', true);
+            fixture.detectChanges();
+
+            const el: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
+            component.value.set('original value');
+            fixture.detectChanges();
+            expect(el.value).toBe('original value');
+
+            const event = new Event('input');
+            el.value = 'new value';
+            el.dispatchEvent(event);
+            fixture.detectChanges();
+
+            expect(el.value).toBe('original value');
+          });
+
+          it('should add autocomplete to "off"', () => {
+            fixture.componentRef.setInput('disabled', true);
+            fixture.detectChanges();
+            expect(component.computedAutocomplete()).toBe('off');
           });
         });
 

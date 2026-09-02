@@ -75,7 +75,8 @@ import { FormValueControl } from '@angular/forms/signals';
  *
  * @input {InputType} type - Defines the value for the type attribute of the input element. Only for the 'text' variant.
  *
- * @input {TextInputAutocomplete} autocomplete - Defines the value for the autocomplete attribute of the text input.
+ * @input {TextInputAutocomplete} autocomplete - Defines the value for the autocomplete attribute of the text input. Sets to 'off' when
+ *   text input is disabled.
  */
 @Component({
   selector: 'ngx-uswds-text-input',
@@ -150,6 +151,15 @@ export class UswdsTextInput implements FormValueControl<string> {
     return ids.length ? ids.join(' ') : null;
   };
 
+  // v8 ignore next
+  computedAutocomplete = computed(() => this.computedAutocompleteFn());
+  computedAutocompleteFn = () => {
+    if (this.disabled()) {
+      return 'off';
+    }
+    return this.autocomplete();
+  };
+
   // Adds CSS classes to the text input
   // v8 ignore next
   inputClasses = computed(() => this.inputClassesFn());
@@ -207,8 +217,16 @@ export class UswdsTextInput implements FormValueControl<string> {
     }
   }
 
-  // Updates the value model signal as user types
+  // Updates the value model signal as user types if the text input is not disabled
   handleInput(event: Event): void {
+    // Revert the DOM value to the current model value if disabled
+    if (this.computedDisabled()) {
+      const el = event.target as HTMLInputElement | HTMLTextAreaElement;
+      el.value = this.value();
+      return;
+    }
+
+    // Otherwise, update the model value to match the DOM value
     const val = (event.target as HTMLInputElement | HTMLTextAreaElement).value;
     this.value.set(val);
   }

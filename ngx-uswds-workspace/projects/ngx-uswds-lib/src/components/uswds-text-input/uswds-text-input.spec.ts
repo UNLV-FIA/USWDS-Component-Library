@@ -1,9 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UswdsTextInput } from './uswds-text-input';
-import { form, FormField } from '@angular/forms/signals';
+import { disabled, maxLength, form, FormField } from '@angular/forms/signals';
 
-// Test Host Component
+// Test Host Components
 
 @Component({
   standalone: true,
@@ -23,6 +23,30 @@ class SignalFormHost {
     username: '',
   });
   testForm = form(this.testModel);
+}
+
+@Component({
+  standalone: true,
+  imports: [UswdsTextInput, FormField],
+  template: `
+    <form>
+      <ngx-uswds-text-input
+        label="Username:"
+        inputId="username"
+        [formField]="testForm.username"
+      ></ngx-uswds-text-input>
+    </form>
+  `,
+})
+class SignalFormSchemaHost {
+  testModel = signal({
+    username: '',
+  });
+  testForm = form(this.testModel, (schemaPath) => {
+    disabled(schemaPath.username);
+    maxLength(schemaPath.username, 5);
+  });
+  @ViewChild(UswdsTextInput) textInput!: UswdsTextInput;
 }
 
 describe('UswdsTextInput', () => {
@@ -858,42 +882,67 @@ describe('UswdsTextInput', () => {
 
   // Form Integration
   describe('Signal Form', () => {
-    let fixture: ComponentFixture<SignalFormHost>;
-    let host: SignalFormHost;
+    describe('form control integration', () => {
+      let fixture: ComponentFixture<SignalFormHost>;
+      let host: SignalFormHost;
 
-    beforeEach(async () => {
-      await TestBed.configureTestingModule({
-        imports: [SignalFormHost],
-      }).compileComponents();
-      fixture = TestBed.createComponent(SignalFormHost);
-      host = fixture.componentInstance;
-      fixture.detectChanges();
-      await fixture.whenStable();
+      beforeEach(async () => {
+        await TestBed.configureTestingModule({
+          imports: [SignalFormHost],
+        }).compileComponents();
+        fixture = TestBed.createComponent(SignalFormHost);
+        host = fixture.componentInstance;
+        fixture.detectChanges();
+        await fixture.whenStable();
+      });
+
+      // View-to-model data flow
+      it('should update the value of the input field', () => {
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+        const event = new Event('input');
+        el.value = 'test';
+        el.dispatchEvent(event);
+        fixture.detectChanges();
+        expect(host.testForm.username().value()).toBe('test');
+      });
+
+      // Model-to-view data flow
+      it('should update the value in the control', () => {
+        host.testForm.username().value.set('test');
+        fixture.detectChanges();
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+        expect(el.value).toBe('test');
+      });
+
+      it('should move focus to the control when focusBoundControl() is called', () => {
+        const el: HTMLElement = fixture.nativeElement.querySelector('input');
+        host.testForm.username().focusBoundControl();
+        fixture.detectChanges();
+        expect(document.activeElement).toBe(el);
+      });
     });
 
-    // View-to-model data flow
-    it('should update the value of the input field', () => {
-      const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
-      const event = new Event('input');
-      el.value = 'test';
-      el.dispatchEvent(event);
-      fixture.detectChanges();
-      expect(host.testForm.username().value()).toBe('test');
-    });
+    describe('form schema integration', () => {
+      let fixture: ComponentFixture<SignalFormSchemaHost>;
+      let host: SignalFormSchemaHost;
 
-    // Model-to-view data flow
-    it('should update the value in the control', () => {
-      host.testForm.username().value.set('test');
-      fixture.detectChanges();
-      const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
-      expect(el.value).toBe('test');
-    });
+      beforeEach(async () => {
+        await TestBed.configureTestingModule({
+          imports: [SignalFormSchemaHost],
+        }).compileComponents();
+        fixture = TestBed.createComponent(SignalFormSchemaHost);
+        host = fixture.componentInstance;
+        fixture.detectChanges();
+        await fixture.whenStable();
+      });
 
-    it('should move focus to the control when focusBoundControl() is called', () => {
-      const el: HTMLElement = fixture.nativeElement.querySelector('input');
-      host.testForm.username().focusBoundControl();
-      fixture.detectChanges();
-      expect(document.activeElement).toBe(el);
+      it('should disable the input field through the schema function', () => {
+        expect(host.textInput.disabled()).toBe(true);
+      });
+
+      it('should add a maxlength to the input field through the schema function', () => {
+        expect(host.textInput.maxLength()).toBe(5);
+      });
     });
   });
 });

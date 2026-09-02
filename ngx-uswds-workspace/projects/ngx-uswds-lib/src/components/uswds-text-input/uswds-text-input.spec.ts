@@ -914,6 +914,14 @@ describe('UswdsTextInput', () => {
         expect(el.value).toBe('test');
       });
 
+      it('should update touched from the input field', () => {
+        const el: HTMLInputElement = fixture.nativeElement.querySelector('input');
+        const event = new Event('blur');
+        el.dispatchEvent(event);
+        fixture.detectChanges();
+        expect(host.testForm.username().touched()).toBe(true);
+      });
+
       it('should move focus to the control when focusBoundControl() is called', () => {
         const el: HTMLElement = fixture.nativeElement.querySelector('input');
         host.testForm.username().focusBoundControl();

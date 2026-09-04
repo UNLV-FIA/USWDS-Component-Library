@@ -40,7 +40,7 @@ class EmptyHost {
 }
 
 describe('UswdsProcessList', () => {
-  describe('Default rendering', () => {
+  describe('Creation', () => {
     let fixture: ComponentFixture<ThreeItemHost>;
     let host: ThreeItemHost;
 
@@ -51,6 +51,8 @@ describe('UswdsProcessList', () => {
 
       fixture = TestBed.createComponent(ThreeItemHost);
       host = fixture.componentInstance;
+
+      fixture.detectChanges();
       await fixture.whenStable();
     });
 
@@ -64,6 +66,10 @@ describe('UswdsProcessList', () => {
 
     it('should default heading level to 4', () => {
       expect(host.processList.headingLevel()).toBe(4);
+    });
+
+    it('should default useHeadingEl to true', () => {
+      expect(host.processList.useHeadingEl()).toBe(true);
     });
 
     it('should discover three content children', () => {
@@ -82,10 +88,12 @@ describe('UswdsProcessList', () => {
 
       fixture = TestBed.createComponent(EmptyHost);
       host = fixture.componentInstance;
+
+      fixture.detectChanges();
       await fixture.whenStable();
     });
 
-    it('should render nothing when no items are projected', async () => {
+    it('should render nothing when no items are projected', () => {
       const items = fixture.nativeElement.querySelectorAll('li.usa-process-list__item');
       expect(items.length).toBe(0);
     });

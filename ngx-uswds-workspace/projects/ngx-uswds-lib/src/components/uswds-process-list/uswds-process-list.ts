@@ -31,6 +31,10 @@ import { UswdsProcessListItem } from '../uswds-process-list-item/uswds-process-l
  *
  * @input {string} headingClasses - A space-separated list of classes to be applied
  *   to all the headings in the proccess list such as text styles.
+ *
+ * @input {boolean} [useHeadingEl=true] - When true, all the heading text are rendered in heading elements.
+ *   When false, all the heading text are rendered in paragraph elements. Use this when no process list items
+ *   contain content. The heading classes are also applied to the paragraph elements.
  */
 @Component({
   selector: 'ngx-uswds-process-list',
@@ -42,6 +46,8 @@ export class UswdsProcessList {
   headingLevel = input<ProcessListHeadingLevel>(4);
   // v8 ignore next
   headingClasses = input<string>();
+  // v8 ignore next
+  useHeadingEl = input<boolean>(true);
 
   @ContentChildren(UswdsProcessListItem)
   itemList!: QueryList<UswdsProcessListItem>;

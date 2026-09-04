@@ -38,4 +38,6 @@ export class UswdsProcessListItem {
   resolvedHeadingLevel = computed(() => this.processList.headingLevel());
   // v8 ignore next
   resolvedHeadingClasses = computed(() => this.processList.headingClasses());
+  // v8 ignore next
+  resolvedUseHeadingEl = computed(() => this.processList.useHeadingEl());
 }

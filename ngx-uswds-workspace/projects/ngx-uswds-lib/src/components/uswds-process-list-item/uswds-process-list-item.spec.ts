@@ -10,7 +10,7 @@ import { ProcessListHeadingLevel } from '../uswds-process-list/process-list-type
   standalone: true,
   imports: [UswdsProcessList, UswdsProcessListItem],
   template: `
-    <ngx-uswds-process-list>
+    <ngx-uswds-process-list [useHeadingEl]="useHeadingEl">
       <li ngx-uswds-process-list-item heading="Start a process" class="padding-bottom-4">
         <p class="margin-top-05">Content 1</p>
         <ul>
@@ -26,13 +26,18 @@ import { ProcessListHeadingLevel } from '../uswds-process-list/process-list-type
 class RichContentHost {
   @ViewChild(UswdsProcessList) processList!: UswdsProcessList;
   @ViewChildren(UswdsProcessListItem) processListItems!: QueryList<UswdsProcessListItem>;
+  useHeadingEl: boolean = true;
 }
 
 @Component({
   standalone: true,
   imports: [UswdsProcessList, UswdsProcessListItem],
   template: `
-    <ngx-uswds-process-list [headingLevel]="headingLevel" [headingClasses]="headingClasses">
+    <ngx-uswds-process-list
+      [headingLevel]="headingLevel"
+      [headingClasses]="headingClasses"
+      [useHeadingEl]="useHeadingEl"
+    >
       <li ngx-uswds-process-list-item heading="Process List Heading">
         <p class="margin-top-05">Content 1</p>
       </li>
@@ -42,6 +47,7 @@ class RichContentHost {
 class OneItemHost {
   headingLevel: ProcessListHeadingLevel = 4;
   headingClasses: string = '';
+  useHeadingEl: boolean = true;
 }
 
 describe('UswdsProcessListItem', () => {
@@ -56,6 +62,8 @@ describe('UswdsProcessListItem', () => {
 
       fixture = TestBed.createComponent(RichContentHost);
       host = fixture.componentInstance;
+
+      fixture.detectChanges();
       await fixture.whenStable();
     });
 
@@ -104,6 +112,7 @@ describe('UswdsProcessListItem', () => {
       }).compileComponents();
       const fixture = TestBed.createComponent(RichContentHost);
       fixture.detectChanges();
+      await fixture.whenStable();
 
       const headings = fixture.nativeElement.querySelectorAll('h4.usa-process-list__heading');
       expect(headings.length).toBe(2);
@@ -115,6 +124,7 @@ describe('UswdsProcessListItem', () => {
       }).compileComponents();
       const fixture = TestBed.createComponent(OneItemHost);
       fixture.detectChanges();
+      await fixture.whenStable();
 
       const heading: HTMLElement = fixture.nativeElement.querySelector(
         'h4.usa-process-list__heading',
@@ -131,6 +141,7 @@ describe('UswdsProcessListItem', () => {
 
       host.headingClasses = 'font-sans-xl line-height-sans-1';
       fixture.detectChanges();
+      await fixture.whenStable();
 
       const heading: HTMLElement = fixture.nativeElement.querySelector(
         'h4.usa-process-list__heading',
@@ -139,6 +150,61 @@ describe('UswdsProcessListItem', () => {
       expect(heading.classList.contains('font-sans-xl')).toBe(true);
       expect(heading.classList.contains('line-height-sans-1')).toBe(true);
       expect(heading.classList.contains('usa-process-list__heading')).toBe(true);
+    });
+
+    describe('Use heading element is false', () => {
+      it('should render p with the base class by default', async () => {
+        await TestBed.configureTestingModule({
+          imports: [RichContentHost],
+        }).compileComponents();
+        const fixture = TestBed.createComponent(RichContentHost);
+        const host = fixture.componentInstance;
+
+        host.useHeadingEl = false;
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const headings = fixture.nativeElement.querySelectorAll('p.usa-process-list__heading');
+        expect(headings.length).toBe(2);
+      });
+
+      it("should render the heading's text", async () => {
+        await TestBed.configureTestingModule({
+          imports: [OneItemHost],
+        }).compileComponents();
+        const fixture = TestBed.createComponent(OneItemHost);
+        const host = fixture.componentInstance;
+
+        host.useHeadingEl = false;
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const heading: HTMLElement = fixture.nativeElement.querySelector(
+          'p.usa-process-list__heading',
+        );
+        expect(heading.textContent).toBe('Process List Heading');
+      });
+
+      it('should use headingClasses from the parent', async () => {
+        await TestBed.configureTestingModule({
+          imports: [OneItemHost],
+        }).compileComponents();
+        const fixture = TestBed.createComponent(OneItemHost);
+        const host = fixture.componentInstance;
+
+        host.useHeadingEl = false;
+        host.headingClasses = 'font-sans-xl line-height-sans-1';
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const heading: HTMLElement = fixture.nativeElement.querySelector(
+          'p.usa-process-list__heading',
+        );
+        expect(heading.classList.length).toBe(3);
+        expect(heading.classList.contains('font-sans-xl')).toBe(true);
+        expect(heading.classList.contains('line-height-sans-1')).toBe(true);
+        expect(heading.classList.contains('usa-process-list__heading')).toBe(true);
+      });
     });
   });
 

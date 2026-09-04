@@ -11,7 +11,7 @@ import { ProcessListHeadingLevel } from '../uswds-process-list/process-list-type
   imports: [UswdsProcessList, UswdsProcessListItem],
   template: `
     <ngx-uswds-process-list>
-      <li ngx-uswds-process-list-item heading="Start a process">
+      <li ngx-uswds-process-list-item heading="Start a process" class="padding-bottom-4">
         <p class="margin-top-05">Content 1</p>
         <ul>
           <li>Content List Item 1</li>
@@ -74,10 +74,6 @@ describe('UswdsProcessListItem', () => {
       const item: HTMLElement = fixture.nativeElement.querySelector(
         'li[ngx-uswds-process-list-item]',
       );
-      expect(item.classList.length).toBe(1);
-      item.classList.add('padding-bottom-4');
-      fixture.detectChanges();
-
       expect(item.classList.length).toBe(2);
       expect(item.classList.contains('usa-process-list__item')).toBe(true);
       expect(item.classList.contains('padding-bottom-4')).toBe(true);

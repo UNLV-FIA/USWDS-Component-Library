@@ -57,6 +57,7 @@
                   >
                   </ngx-uswds-text-input>
                 </div>
+                <!-- Form feedback displayed after submission -->
                 <div id="sign-up-input-desc-footer">
                   @if (showError()) {
                     @for (error of formErrors(); track error.kind) {
@@ -66,6 +67,7 @@
                     <span class="footer_form_success text-bold">{{ signUpSuccessMsg() }}</span>
                   }
                 </div>
+                <!-- Re-announces the success message to screen readers on repeated submissions -->
                 <span class="usa-sr-only" aria-live="polite">{{ formAnnouncement() }}</span>
                 <ngx-uswds-button [buttonStyle]="signUpButtonStyle()" type="submit">{{
                   signUpButtonText()

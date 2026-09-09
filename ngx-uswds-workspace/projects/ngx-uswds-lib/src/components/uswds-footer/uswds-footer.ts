@@ -161,8 +161,8 @@ export class UswdsFooter implements AfterViewInit {
     this.signUpForm.email().value.set('');
     this.formErrors.set([]);
 
-    // Clear then set the message again so screen readers
-    // re-announce even if the message is unchanged
+    // Clear then set the message again so screen readers re-announce
+    // even if the message is unchanged
     this.formAnnouncement.set('');
     setTimeout(() => this.formAnnouncement.set(this.signUpSuccessMsg()), 150);
   }

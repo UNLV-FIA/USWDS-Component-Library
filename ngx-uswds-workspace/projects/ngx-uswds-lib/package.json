@@ -4,6 +4,7 @@
   "peerDependencies": {
     "@angular/common": "^21.0.0",
     "@angular/core": "^21.0.0",
+    "@angular/forms": "^21.0.0",
     "@uswds/uswds": "^3.13.0"
   },
   "dependencies": {

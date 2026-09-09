@@ -1,4 +1,4 @@
-import { Component, input, computed } from '@angular/core';
+import { Component, input, computed, model, viewChild, ElementRef } from '@angular/core';
 import {
   TextInputVariant,
   TextInputWidth,
@@ -8,6 +8,7 @@ import {
   TextInputAutocomplete,
 } from './text-input-types';
 import { NgClass } from '@angular/common';
+import { FormValueControl } from '@angular/forms/signals';
 
 /**
  * @class UswdsTextInput
@@ -16,14 +17,17 @@ import { NgClass } from '@angular/common';
  * Text input allows users to enter letters, numbers, or symbols useful for unpredicatable responses and pasted content.
  * Text input boxes can be single or multiple lines.
  *
+ * Implements `FormValueControl` for use with Signal Forms and supports two-way binding via the `value` model signal.
+ *
  * @selector ngx-uswds-text-input
  *
  * @example
- * <!-- Using a single-line text input -->
+ * <!-- Using a single-line text input with Signal Forms -->
  * <ngx-uswds-text-input
  *   label="Text input label"
  *   variant="text"
  *   inputId="input-type-text"
+ *   [formField]="form.email"
  * ></ngx-uswds-text-input>
  *
  * @example
@@ -53,18 +57,26 @@ import { NgClass } from '@angular/common';
  *
  * @input {HintEl} [hintEl='span'] - The element used to display the hint. Accepts 'span' and 'div'.
  *
- * @input {boolean} [required=false] - When true, adds the required attribute to the text input.
+ * @model {string} [value=''] - The text in the text input. Can be set by Signal Forms or two-way bound manually.
  *
- * @input {boolean} [ariaDisabled=false] - When true, sets 'aria-disabled' to true and disables typing within the text input.
+ * @model {boolean} [touched=false] - Keeps track of whether user has interacted with the field. Updated on blur and synced with Signal Forms.
+ *
+ * @input {boolean} [required=false] - When true, adds the required attribute to the text input.
+ *   Can be set by Signal Forms as a validator or set manually.
+ *
+ * @input {boolean} [disabled=false] - When true, sets 'aria-disabled' to true and disables typing within the text input.
+ *   Can be set by Signal Forms state or set manually.
  *
  * @input {string} ariaDescribedBy - Space-seperated list of element ids outside this component that describe this input.
  *   Placed into 'aria-describedby' alongside the hint id.
  *
- * @input {number} maxLen - Defines the maximum number of characters that the user can enter in a text input.
+ * @input {number} maxLength - Defines the maximum number of characters that the user can enter in a text input.
+ *   Can be set by Signal Forms as a validator or set manually.
  *
  * @input {InputType} type - Defines the value for the type attribute of the input element. Only for the 'text' variant.
  *
- * @input {TextInputAutocomplete} autocomplete - Defines the value for the autocomplete attribute of the text input.
+ * @input {TextInputAutocomplete} autocomplete - Defines the value for the autocomplete attribute of the text input. Sets to 'off' when
+ *   text input is disabled.
  */
 @Component({
   selector: 'ngx-uswds-text-input',
@@ -72,7 +84,7 @@ import { NgClass } from '@angular/common';
   templateUrl: './uswds-text-input.html',
   styleUrl: './uswds-text-input.scss',
 })
-export class UswdsTextInput {
+export class UswdsTextInput implements FormValueControl<string> {
   // v8 ignore next
   label = input<string>();
   // v8 ignore next
@@ -88,15 +100,21 @@ export class UswdsTextInput {
   // v8 ignore next
   hintEl = input<HintEl>('span');
 
+  // FormValueControl state signals
+  value = model<string>('');
+  touched = model<boolean>(false);
+  readonly inputControl =
+    viewChild.required<ElementRef<HTMLInputElement | HTMLTextAreaElement>>('inputEl');
+
   // Text input attributes
   // v8 ignore next
   required = input<boolean>(false);
   // v8 ignore next
-  ariaDisabled = input<boolean>(false);
+  disabled = input<boolean>(false);
   // v8 ignore next
   ariaDescribedBy = input<string>();
   // v8 ignore next
-  maxLen = input<number>();
+  maxLength = input<number>();
   // v8 ignore next
   type = input<InputType>();
   // v8 ignore next
@@ -109,7 +127,13 @@ export class UswdsTextInput {
   }
 
   // v8 ignore next
-  computedAriaDisabled = computed(() => (this.ariaDisabled() ? true : null));
+  computedDisabled = computed(() => this.computedDisabledFn());
+  computedDisabledFn = () => {
+    if (this.disabled()) {
+      return true;
+    }
+    return null;
+  };
 
   // v8 ignore next
   hintId = computed(() => (this.hint() ? `${this.inputId()}-hint` : null));
@@ -127,6 +151,15 @@ export class UswdsTextInput {
     return ids.length ? ids.join(' ') : null;
   };
 
+  // v8 ignore next
+  computedAutocomplete = computed(() => this.computedAutocompleteFn());
+  computedAutocompleteFn = () => {
+    if (this.disabled()) {
+      return 'off';
+    }
+    return this.autocomplete();
+  };
+
   // Adds CSS classes to the text input
   // v8 ignore next
   inputClasses = computed(() => this.inputClassesFn());
@@ -136,7 +169,7 @@ export class UswdsTextInput {
     const st = this.state();
 
     // If a max length is defined, add the character count class
-    if (this.maxLen()) {
+    if (this.maxLength()) {
       classes.push('usa-character-count__field');
     }
 
@@ -177,10 +210,34 @@ export class UswdsTextInput {
     return classes;
   };
 
-  // Prevent keyboard interaction when the text input is disabled unless is keyboard navigation
+  // Prevents keyboard interaction when the text input is disabled unless is keyboard navigation
   onKeydown(event: KeyboardEvent): void {
-    if (this.ariaDisabled() && event.key != 'Tab') {
+    if (this.computedDisabled() && event.key != 'Tab') {
       event.preventDefault();
     }
+  }
+
+  // Updates the value model signal as user types if the text input is not disabled
+  handleInput(event: Event): void {
+    // Revert the DOM value to the current model value if disabled
+    if (this.computedDisabled()) {
+      const el = event.target as HTMLInputElement | HTMLTextAreaElement;
+      el.value = this.value();
+      return;
+    }
+
+    // Otherwise, update the model value to match the DOM value
+    const val = (event.target as HTMLInputElement | HTMLTextAreaElement).value;
+    this.value.set(val);
+  }
+
+  // Notifies Angular forms that the text input has been touched
+  handleTouched(): void {
+    this.touched.set(true);
+  }
+
+  // Used by Angular forms to focus on the text input
+  focus(): void {
+    this.inputControl().nativeElement.focus();
   }
 }

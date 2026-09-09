@@ -30,6 +30,7 @@ export * from "./components/uswds-tag/uswds-tag";
 
 // Footer Component
 export * from './components/uswds-footer/uswds-footer';
+export type { FooterVariant, FooterLink, FooterLinkColumn, FooterForm, FooterAgencyInfo, FooterSocialLinks } from './components/uswds-footer/footer-types';
 
 // Text Input Component
 export * from './components/uswds-text-input/uswds-text-input';

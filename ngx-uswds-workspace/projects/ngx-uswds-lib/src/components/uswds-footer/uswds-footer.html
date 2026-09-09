@@ -1,0 +1,224 @@
+<footer class="usa-footer" [ngClass]="footerVariantCss()">
+  <div class="grid-container usa-footer__return-to-top">
+    <a href="#">Return to top</a>
+  </div>
+  <div class="usa-footer__primary-section">
+    <!-- Render primary section according to variant -->
+    @if (variant() == 'big') {
+      <div class="grid-container">
+        <div class="grid-row grid-gap">
+          <div class="tablet:grid-col-8">
+            <nav class="usa-footer__nav" aria-label="Footer navigation">
+              <div class="grid-row grid-gap-4">
+                <!-- Load in link columns -->
+                @for (col of linkColumns(); track col.topic) {
+                  <div class="mobile-lg:grid-col-6 desktop:grid-col-3">
+                    <section
+                      class="usa-footer__primary-content usa-footer__primary-content--collapsible"
+                    >
+                      <h4 class="usa-footer__primary-link">{{ col.topic }}</h4>
+                      <ul class="usa-list usa-list--unstyled">
+                        <!-- Load in each link -->
+                        @for (link of col.links; track link.href) {
+                          <li class="usa-footer__secondary-link">
+                            <a [href]="link.href">{{ link.label }}</a>
+                          </li>
+                        }
+                      </ul>
+                    </section>
+                  </div>
+                }
+              </div>
+            </nav>
+          </div>
+          <div class="tablet:grid-col-4">
+            <div class="usa-sign-up">
+              <h3 class="usa-sign-up__heading">{{ signUpHeading() }}</h3>
+              <form class="usa-form" (submit)="onSubmit($event)" novalidate>
+                <div
+                  id="sign-up-container-error-footer"
+                  [class.usa-form-group--error]="showError()"
+                >
+                  <label
+                    class="usa-label"
+                    [attr.for]="signUpInputId()"
+                    [class.usa-label--error]="showError()"
+                    >{{ signUpInputLabel() }}</label
+                  >
+                  <ngx-uswds-text-input
+                    [inputId]="signUpInputId()"
+                    [state]="inputState()"
+                    [hint]="signUpInputHint()"
+                    [width]="signUpInputWidth()"
+                    type="email"
+                    autocomplete="email"
+                    ariaDescribedBy="sign-up-input-desc-footer"
+                    [formField]="signUpForm.email"
+                  >
+                  </ngx-uswds-text-input>
+                </div>
+                <!-- Form feedback displayed after submission -->
+                <div id="sign-up-input-desc-footer">
+                  @if (showError()) {
+                    @for (error of formErrors(); track error.kind) {
+                      <span class="usa-error-message">{{ error.message }}</span>
+                    }
+                  } @else if (formState() == 'success') {
+                    <span class="footer_form_success text-bold">{{ signUpSuccessMsg() }}</span>
+                  }
+                </div>
+                <!-- Re-announces the success message to screen readers on repeated submissions -->
+                <span class="usa-sr-only" aria-live="polite">{{ formAnnouncement() }}</span>
+                <ngx-uswds-button [buttonStyle]="signUpButtonStyle()" type="submit">{{
+                  signUpButtonText()
+                }}</ngx-uswds-button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    } @else if (variant() == 'medium') {
+      <nav class="usa-footer__nav" aria-label="Footer navigation">
+        <ul class="grid-row grid-gap">
+          @for (link of links(); track link.href) {
+            <li class="mobile-lg:grid-col-4 desktop:grid-col-auto usa-footer__primary-content">
+              <a class="usa-footer__primary-link" [href]="link.href">{{ link.label }}</a>
+            </li>
+          }
+        </ul>
+      </nav>
+    } @else if (variant() == 'slim') {
+      <div class="usa-footer__primary-container grid-row">
+        <div class="mobile-lg:grid-col-8">
+          <nav class="usa-footer__nav" aria-label="Footer navigation">
+            <ul class="grid-row grid-gap">
+              @for (link of links(); track link.href) {
+                <li class="mobile-lg:grid-col-6 desktop:grid-col-auto usa-footer__primary-content">
+                  <a class="usa-footer__primary-link" [href]="link.href">{{ link.label }}</a>
+                </li>
+              }
+            </ul>
+          </nav>
+        </div>
+        <div class="mobile-lg:grid-col-4">
+          <address class="usa-footer__address">
+            <div class="grid-row grid-gap">
+              <div class="grid-col-auto mobile-lg:grid-col-12 desktop:grid-col-auto">
+                @if (agencyPhone()) {
+                  <div class="usa-footer__contact-info">
+                    <a [href]="`tel:${agencyPhone()}`">{{ agencyPhoneLabel() }}</a>
+                  </div>
+                }
+              </div>
+              <div class="grid-col-auto mobile-lg:grid-col-12 desktop:grid-col-auto">
+                @if (agencyEmail()) {
+                  <div class="usa-footer__contact-info">
+                    <a [href]="`mailto:${agencyEmail()}`">{{ agencyEmail() }}</a>
+                  </div>
+                }
+              </div>
+            </div>
+          </address>
+        </div>
+      </div>
+    }
+  </div>
+  <div class="usa-footer__secondary-section">
+    <div class="grid-container">
+      <!-- Render secondary section according to variant -->
+      @if (variant() == 'big' || variant() == 'medium') {
+        <div class="grid-row grid-gap">
+          <div class="usa-footer__logo grid-row mobile-lg:grid-col-6 mobile-lg:grid-gap-2">
+            @if (agencyLogoImagePath()) {
+              <div class="mobile-lg:grid-col-auto">
+                <img
+                  class="usa-footer__logo-img"
+                  [src]="agencyLogoImagePath()"
+                  [alt]="agencyLogoAlt()"
+                />
+              </div>
+            }
+            @if (agencyName()) {
+              <div class="mobile-lg:grid-col-auto">
+                <p class="usa-footer__logo-heading">{{ agencyName() }}</p>
+              </div>
+            }
+          </div>
+          <div class="usa-footer__contact-links mobile-lg:grid-col-6">
+            <div class="usa-footer__social-links grid-row grid-gap-1">
+              @if (facebookLink()) {
+                <div class="grid-col-auto">
+                  <a class="usa-social-link" [href]="facebookLink()"
+                    ><img class="usa-social-link__icon" [src]="facebookIconPath()" alt="Facebook"
+                  /></a>
+                </div>
+              }
+              @if (twitterLink()) {
+                <div class="grid-col-auto">
+                  <a class="usa-social-link" [href]="twitterLink()"
+                    ><img class="usa-social-link__icon" [src]="twitterIconPath()" alt="Twitter"
+                  /></a>
+                </div>
+              }
+              @if (youtubeLink()) {
+                <div class="grid-col-auto">
+                  <a class="usa-social-link" [href]="youtubeLink()"
+                    ><img class="usa-social-link__icon" [src]="youtubeIconPath()" alt="YouTube"
+                  /></a>
+                </div>
+              }
+              @if (instagramLink()) {
+                <div class="grid-col-auto">
+                  <a class="usa-social-link" [href]="instagramLink()"
+                    ><img class="usa-social-link__icon" [src]="instagramIconPath()" alt="Instagram"
+                  /></a>
+                </div>
+              }
+              @if (rssLink()) {
+                <div class="grid-col-auto">
+                  <a class="usa-social-link" [href]="rssLink()"
+                    ><img class="usa-social-link__icon" [src]="rssFeedIconPath()" alt="RSS"
+                  /></a>
+                </div>
+              }
+            </div>
+            @if (agencyContactHeading()) {
+              <p class="usa-footer__contact-heading">{{ agencyContactHeading() }}</p>
+            }
+            <address class="usa-footer__address">
+              <div class="usa-footer__contact-info grid-row grid-gap">
+                @if (agencyPhone()) {
+                  <div class="grid-col-auto">
+                    <a [href]="`tel:${agencyPhone()}`">{{ agencyPhoneLabel() }}</a>
+                  </div>
+                }
+                @if (agencyEmail()) {
+                  <div class="grid-col-auto">
+                    <a [href]="`mailto:${agencyEmail()}`">{{ agencyEmail() }}</a>
+                  </div>
+                }
+              </div>
+            </address>
+          </div>
+        </div>
+      } @else if (variant() == 'slim') {
+        <div class="usa-footer__logo grid-row grid-gap-2">
+          <div class="grid-col-auto">
+            @if (agencyLogoImagePath()) {
+              <img
+                class="usa-footer__logo-img"
+                [src]="agencyLogoImagePath()"
+                [alt]="agencyLogoAlt()"
+              />
+            }
+          </div>
+          @if (agencyName()) {
+            <div class="grid-col-auto">
+              <p class="usa-footer__logo-heading">{{ agencyName() }}</p>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</footer>

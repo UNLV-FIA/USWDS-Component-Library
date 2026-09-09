@@ -11,33 +11,41 @@
 <!-- Single line text input -->
 @if (variant() == 'text') {
   <input
+    #inputEl
     class="usa-input"
     [ngClass]="inputClasses()"
-    [class.invisible_caret]="computedAriaDisabled()"
+    [class.invisible_caret]="computedDisabled()"
     [id]="inputId()"
     [name]="inputId()"
     [required]="required()"
-    [attr.aria-disabled]="computedAriaDisabled()"
+    [attr.aria-disabled]="computedDisabled()"
     (keydown)="onKeydown($event)"
+    [value]="value()"
+    (input)="handleInput($event)"
     [attr.aria-describedby]="computedAriaDescribedBy()"
-    [attr.maxlength]="maxLen()"
+    (blur)="handleTouched()"
+    [attr.maxlength]="maxLength()"
     [attr.type]="type()"
-    [attr.autocomplete]="autocomplete()"
+    [attr.autocomplete]="computedAutocomplete()"
   />
 }
 <!-- Multi-line text input -->
 @if (variant() == 'textarea') {
   <textarea
+    #inputEl
     class="usa-textarea"
     [ngClass]="inputClasses()"
-    [class.invisible_caret]="computedAriaDisabled()"
+    [class.invisible_caret]="computedDisabled()"
     [id]="inputId()"
     [name]="inputId()"
     [required]="required()"
-    [attr.aria-disabled]="computedAriaDisabled()"
+    [attr.aria-disabled]="computedDisabled()"
     (keydown)="onKeydown($event)"
+    [value]="value()"
+    (input)="handleInput($event)"
+    (blur)="handleTouched()"
     [attr.aria-describedby]="computedAriaDescribedBy()"
-    [attr.maxlength]="maxLen()"
-    [attr.autocomplete]="autocomplete()"
+    [attr.maxlength]="maxLength()"
+    [attr.autocomplete]="computedAutocomplete()"
   ></textarea>
 }

@@ -1,0 +1,13 @@
+<svg
+  class="usa-icon"
+  role="img"
+  [ngClass]="iconSizeCss()"
+  [attr.aria-hidden]="ariaHidden()"
+  [attr.focusable]="focusable()"
+  [attr.aria-labelledby]="ariaLabelledBy()"
+>
+  @if (title()) {
+    <title [id]="computedTitleId()">{{ title() }}</title>
+  }
+  <use [attr.href]="iconPath()"></use>
+</svg>

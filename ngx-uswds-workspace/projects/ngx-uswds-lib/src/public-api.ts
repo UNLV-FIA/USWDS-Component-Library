@@ -18,7 +18,7 @@ export type { AccordionVariant } from './components/uswds-accordion/accordion-ty
 
 // Breadcrumb Component
 export * from './components/uswds-breadcrumb/uswds-breadcrumb';
-export type { BreadcrumbVariant } from './components/uswds-breadcrumb/uswds-breadcrumb';
+export type { BreadcrumbVariant } from './components/uswds-breadcrumb/breadcrumb-types';
 
 // Checkbox Component
 export * from './components/uswds-checkbox/uswds-checkbox';

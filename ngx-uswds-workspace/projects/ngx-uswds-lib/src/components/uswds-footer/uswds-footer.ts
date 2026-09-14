@@ -170,7 +170,7 @@ export class UswdsFooter implements AfterViewInit {
   /* Footer variant selection function */
   // v8 ignore next
   footerVariantCss = computed(() => this.footerVariantCssFn());
-  footerVariantCssFn = () => {
+  private footerVariantCssFn = () => {
     const variant = this.variant();
     switch (variant) {
       case 'big':
@@ -191,7 +191,7 @@ export class UswdsFooter implements AfterViewInit {
   agencyLogoImagePath = computed(() => this.agencyInfo()?.logoImagePath);
   // v8 ignore next
   agencyLogoAlt = computed(() => this.agencyLogoAltFn());
-  agencyLogoAltFn = () => {
+  private agencyLogoAltFn = () => {
     const logoAlt = this.agencyInfo()?.logoAlt;
     if (!logoAlt) return '';
     return logoAlt;
@@ -202,7 +202,7 @@ export class UswdsFooter implements AfterViewInit {
   agencyPhone = computed(() => this.agencyInfo()?.phone);
   // v8 ignore next
   agencyPhoneLabel = computed(() => this.agencyPhoneLabelFn());
-  agencyPhoneLabelFn = () => {
+  private agencyPhoneLabelFn = () => {
     const phoneLabel = this.agencyInfo()?.phoneLabel;
     if (!phoneLabel) return this.agencyPhone();
     return phoneLabel;
@@ -213,21 +213,21 @@ export class UswdsFooter implements AfterViewInit {
   /* Sign up form items for the big footer */
   // v8 ignore next
   signUpHeading = computed(() => this.signUpHeadingFn());
-  signUpHeadingFn = () => {
+  private signUpHeadingFn = () => {
     const heading = this.signUpFormInfo()?.heading;
     if (!heading) return 'Sign up';
     return heading;
   };
   // v8 ignore next
   signUpInputLabel = computed(() => this.signUpInputLabelFn());
-  signUpInputLabelFn = () => {
+  private signUpInputLabelFn = () => {
     const label = this.signUpFormInfo()?.label;
     if (!label) return 'Your email address';
     return label;
   };
   // v8 ignore next
   signUpInputId = computed(() => this.signUpInputIdFn());
-  signUpInputIdFn = () => {
+  private signUpInputIdFn = () => {
     const id = this.signUpFormInfo()?.inputId;
     if (!id) return 'sign-up-input-footer';
     return id;
@@ -238,21 +238,21 @@ export class UswdsFooter implements AfterViewInit {
   signUpInputHint = computed(() => this.signUpFormInfo()?.inputHint);
   // v8 ignore next
   signUpButtonText = computed(() => this.signUpButtonTextFn());
-  signUpButtonTextFn = () => {
+  private signUpButtonTextFn = () => {
     const btnText = this.signUpFormInfo()?.buttonText;
     if (!btnText) return 'Sign up';
     return btnText;
   };
   // v8 ignore next
   signUpButtonStyle = computed(() => this.signUpButtonStyleFn());
-  signUpButtonStyleFn = () => {
+  private signUpButtonStyleFn = () => {
     const btnStyle = this.signUpFormInfo()?.buttonStyle;
     if (!btnStyle) return 'Default';
     return btnStyle;
   };
   // v8 ignore next
   signUpSuccessMsg = computed(() => this.signUpSuccessMsgFn());
-  signUpSuccessMsgFn = () => {
+  private signUpSuccessMsgFn = () => {
     const msg = this.signUpFormInfo()?.successMessage;
     if (!msg) return "Sent! You're signed up for newsletters.";
     return msg;
@@ -260,7 +260,7 @@ export class UswdsFooter implements AfterViewInit {
   // Toggle error container, label, and message when email field is invalid/valid
   // v8 ignore next
   showError = computed(() => this.showErrorFn());
-  showErrorFn = () => {
+  private showErrorFn = () => {
     if (this.formState() === 'error') return true;
     return false;
   };
@@ -268,7 +268,7 @@ export class UswdsFooter implements AfterViewInit {
   // Toggle text input error/success state when email field is invalid/valid
   // v8 ignore next
   inputState = computed(() => this.inputStateFn());
-  inputStateFn = (): TextInputState | undefined => {
+  private inputStateFn = (): TextInputState | undefined => {
     const state = this.formState();
     if (state == 'success') {
       return 'success';

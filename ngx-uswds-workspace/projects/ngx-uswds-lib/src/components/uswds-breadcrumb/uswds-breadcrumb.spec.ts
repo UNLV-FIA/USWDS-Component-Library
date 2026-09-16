@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UswdsBreadcrumb, BreadcrumbItem } from './uswds-breadcrumb';
+import { UswdsBreadcrumb } from './uswds-breadcrumb';
+import { BreadcrumbItem } from './breadcrumb-types';
 
 const SAMPLE_ITEMS: BreadcrumbItem[] = [
   { label: 'Home', href: '/' },
@@ -47,13 +48,13 @@ describe('UswdsBreadcrumb', () => {
     it('should include usa-breadcrumb for default variant', () => {
       fixture.componentRef.setInput('variant', 'default');
       expect(component.containerClasses()).toContain('usa-breadcrumb');
-      expect(component.containerClasses()).not.toContain('usa-breadcrumb--wrap');
+      expect(component.containerClasses()).not.toContain('usa-breadcrumb--truncate');
     });
 
-    it('should include usa-breadcrumb--wrap for wrap variant', () => {
-      fixture.componentRef.setInput('variant', 'wrap');
+    it('should include usa-breadcrumb--truncate for truncate variant', () => {
+      fixture.componentRef.setInput('variant', 'truncate');
       expect(component.containerClasses()).toContain('usa-breadcrumb');
-      expect(component.containerClasses()).toContain('usa-breadcrumb--wrap');
+      expect(component.containerClasses()).toContain('usa-breadcrumb--truncate');
     });
   });
 
@@ -149,17 +150,17 @@ describe('UswdsBreadcrumb', () => {
     });
   });
 
-  // DOM: Wrap variant
-  describe('DOM rendering (wrap variant)', () => {
+  // DOM: Truncate variant
+  describe('DOM rendering (truncate variant)', () => {
     beforeEach(() => {
       fixture.componentRef.setInput('items', SAMPLE_ITEMS);
-      fixture.componentRef.setInput('variant', 'wrap');
+      fixture.componentRef.setInput('variant', 'truncate');
       fixture.detectChanges();
     });
 
-    it('should apply usa-breadcrumb--wrap class', () => {
+    it('should apply usa-breadcrumb--truncate class', () => {
       const nav = el.querySelector('nav');
-      expect(nav?.classList.contains('usa-breadcrumb--wrap')).toBe(true);
+      expect(nav?.classList.contains('usa-breadcrumb--truncate')).toBe(true);
     });
   });
 

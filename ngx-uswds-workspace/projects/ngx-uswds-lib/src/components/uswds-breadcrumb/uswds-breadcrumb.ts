@@ -1,13 +1,7 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-
-export interface BreadcrumbItem {
-  label: string;
-  href?: string;
-}
-
-export type BreadcrumbVariant = 'default' | 'wrap';
+import { BreadcrumbVariant, BreadcrumbItem } from './breadcrumb-types';
 
 /**
  * @class UswdsBreadcrumb
@@ -39,8 +33,8 @@ export type BreadcrumbVariant = 'default' | 'wrap';
  *   rendered as the current page (non-linked).
  *
  * @input {BreadcrumbVariant} [variant='default'] - The layout variant for the breadcrumb list.
- *   Accepts 'default' for single-line display (may truncate on small screens) or
- *   'wrap' to allow items to wrap onto multiple lines.
+ *   Accepts 'default' to allow items to wrap onto multiple lines or
+ *   'truncate' for single-line display with ellipsis.
  *
  * @input {boolean} [rdfa=false] - When true, renders the breadcrumb with RDFa structured
  *   data attributes (`schema.org/BreadcrumbList`).
@@ -50,7 +44,7 @@ export type BreadcrumbVariant = 'default' | 'wrap';
   standalone: true,
   imports: [NgClass],
   templateUrl: './uswds-breadcrumb.html',
-  styleUrls: ['./uswds-breadcrumb.scss'],
+  styleUrl: './uswds-breadcrumb.scss',
 })
 export class UswdsBreadcrumb {
   private sanitizer = inject(DomSanitizer);
@@ -70,8 +64,8 @@ export class UswdsBreadcrumb {
   containerClasses = computed(() => this.containerClassesFn());
   containerClassesFn = () => {
     const classes = ['usa-breadcrumb'];
-    if (this.variant() === 'wrap') {
-      classes.push('usa-breadcrumb--wrap');
+    if (this.variant() === 'truncate') {
+      classes.push('usa-breadcrumb--truncate');
     }
     return classes;
   };

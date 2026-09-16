@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UswdsBreadcrumb, BreadcrumbItem } from './uswds-breadcrumb';
+import { UswdsBreadcrumb } from './uswds-breadcrumb';
+import { BreadcrumbItem } from './breadcrumb-types';
 
 const SAMPLE_ITEMS: BreadcrumbItem[] = [
   { label: 'Home', href: '/' },

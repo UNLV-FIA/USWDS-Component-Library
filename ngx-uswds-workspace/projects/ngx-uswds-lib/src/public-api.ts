@@ -30,7 +30,7 @@ export * from "./components/uswds-tag/uswds-tag";
 
 // Footer Component
 export * from './components/uswds-footer/uswds-footer';
-export type { FooterVariant, FooterLink, FooterLinkColumn, FooterForm, FooterAgencyInfo, FooterSocialLinks, FooterFormState } from './components/uswds-footer/footer-types';
+export type { FooterVariant, FooterHeadingLevel, FooterLink, FooterLinkColumns, FooterLinkColumn, FooterForm, FooterAgencyInfo, FooterSocialLinks, FooterFormState } from './components/uswds-footer/footer-types';
 
 // Text Input Component
 export * from './components/uswds-text-input/uswds-text-input';

@@ -1,3 +1,28 @@
 .footer_form_success {
   color: #4b7a00;
 }
+
+:host ::ng-deep h2.usa-footer__primary-link,
+:host ::ng-deep button.usa-footer__primary-link[data-tag='H2'] {
+  font-size: 1.5rem;
+}
+
+:host ::ng-deep h3.usa-footer__primary-link,
+:host ::ng-deep button.usa-footer__primary-link[data-tag='H3'] {
+  font-size: 1.17rem;
+}
+
+:host ::ng-deep h4.usa-footer__primary-link,
+:host ::ng-deep button.usa-footer__primary-link[data-tag='H4'] {
+  font-size: 1rem;
+}
+
+:host ::ng-deep h5.usa-footer__primary-link,
+:host ::ng-deep button.usa-footer__primary-link[data-tag='H5'] {
+  font-size: 0.83rem;
+}
+
+:host ::ng-deep h6.usa-footer__primary-link,
+:host ::ng-deep button.usa-footer__primary-link[data-tag='H6'] {
+  font-size: 0.67rem;
+}

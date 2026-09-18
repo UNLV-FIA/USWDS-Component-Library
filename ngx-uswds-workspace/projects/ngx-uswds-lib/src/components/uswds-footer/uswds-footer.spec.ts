@@ -3,7 +3,13 @@ import { By } from '@angular/platform-browser';
 import { UswdsFooter } from './uswds-footer';
 import { UswdsButton } from '../uswds-button/uswds-button';
 import { UswdsTextInput } from '../uswds-text-input/uswds-text-input';
-import { FooterLinkColumn, FooterForm, FooterLink, FooterAgencyInfo } from './footer-types';
+import {
+  FooterLinkColumn,
+  FooterLinkColumns,
+  FooterForm,
+  FooterLink,
+  FooterAgencyInfo,
+} from './footer-types';
 import { vi } from 'vitest';
 vi.hoisted(() => {
   Object.defineProperty(window, 'matchMedia', {
@@ -21,7 +27,7 @@ vi.hoisted(() => {
   });
 });
 
-const SAMPLE_LINK_COLUMNS: FooterLinkColumn[] = [
+const SAMPLE_COLUMNS: FooterLinkColumn[] = [
   {
     topic: 'Topic1',
     links: [
@@ -141,10 +147,6 @@ describe('UswdsFooter', () => {
       expect(component.links()).toEqual([]);
     });
 
-    it('should have empty secondary links', () => {
-      expect(component.linkColumns()).toEqual([]);
-    });
-
     it('should have a return to top link', () => {
       const a = el.querySelector('div.usa-footer__return-to-top a');
       expect(a).toBeTruthy();
@@ -197,14 +199,15 @@ describe('UswdsFooter', () => {
       });
 
       it('should render nothing when links are empty', () => {
-        fixture.componentRef.setInput('linkColumns', []);
-        fixture.detectChanges();
         const links = el.querySelectorAll('li.usa-footer__secondary-link a');
         expect(links!.length).toBe(0);
       });
 
       describe('Link columns', () => {
         beforeEach(() => {
+          const SAMPLE_LINK_COLUMNS: FooterLinkColumns = {
+            columns: SAMPLE_COLUMNS,
+          };
           fixture.componentRef.setInput('linkColumns', SAMPLE_LINK_COLUMNS);
           fixture.detectChanges();
         });
@@ -215,14 +218,14 @@ describe('UswdsFooter', () => {
         });
 
         it('should render the correct number of topics', () => {
-          const topics = el.querySelectorAll('h4.usa-footer__primary-link');
+          const topics = el.querySelectorAll('.usa-footer__primary-link');
           expect(topics.length).toBe(4);
         });
 
         it('should render the correct text of topics', () => {
-          const topics = el.querySelectorAll('h4.usa-footer__primary-link');
+          const topics = el.querySelectorAll('.usa-footer__primary-link');
           topics.forEach((topic, i) => {
-            expect(topic.textContent).toBe(SAMPLE_LINK_COLUMNS[i].topic);
+            expect(topic.textContent).toBe(SAMPLE_COLUMNS[i].topic);
           });
         });
 
@@ -231,7 +234,7 @@ describe('UswdsFooter', () => {
           cols.forEach((col, i) => {
             const links = col.querySelectorAll('li.usa-footer__secondary-link a');
             expect(links).toBeTruthy();
-            expect(links.length).toBe(SAMPLE_LINK_COLUMNS[i].links.length);
+            expect(links.length).toBe(SAMPLE_COLUMNS[i].links.length);
           });
         });
 
@@ -240,7 +243,7 @@ describe('UswdsFooter', () => {
           cols.forEach((col, i) => {
             const links = col.querySelectorAll('li.usa-footer__secondary-link a');
             links.forEach((link, j) => {
-              expect(link!.textContent).toBe(SAMPLE_LINK_COLUMNS[i].links[j].label);
+              expect(link!.textContent).toBe(SAMPLE_COLUMNS[i].links[j].label);
             });
           });
         });
@@ -250,8 +253,64 @@ describe('UswdsFooter', () => {
           cols.forEach((col, i) => {
             const links = col.querySelectorAll('li.usa-footer__secondary-link a');
             links.forEach((link, j) => {
-              expect(link!.getAttribute('href')).toBe(SAMPLE_LINK_COLUMNS[i].links[j].href);
+              expect(link!.getAttribute('href')).toBe(SAMPLE_COLUMNS[i].links[j].href);
             });
+          });
+        });
+
+        describe('Topic heading level rendering', () => {
+          it('should render h2 when headingLevel is 2', () => {
+            const SAMPLE_LINK_COLUMNS: FooterLinkColumns = {
+              headingLevel: 2,
+              columns: SAMPLE_COLUMNS,
+            };
+            fixture.componentRef.setInput('linkColumns', SAMPLE_LINK_COLUMNS);
+            fixture.detectChanges();
+            const topics = el.querySelectorAll('h2.usa-footer__primary-link');
+            expect(topics.length).toBe(4);
+          });
+
+          it('should render h3 when headingLevel is 3', () => {
+            const SAMPLE_LINK_COLUMNS: FooterLinkColumns = {
+              headingLevel: 3,
+              columns: SAMPLE_COLUMNS,
+            };
+            fixture.componentRef.setInput('linkColumns', SAMPLE_LINK_COLUMNS);
+            fixture.detectChanges();
+            const topics = el.querySelectorAll('h3.usa-footer__primary-link');
+            expect(topics.length).toBe(4);
+          });
+
+          it('should render h4 when headingLevel is 4 by default', () => {
+            const SAMPLE_LINK_COLUMNS: FooterLinkColumns = {
+              columns: SAMPLE_COLUMNS,
+            };
+            fixture.componentRef.setInput('linkColumns', SAMPLE_LINK_COLUMNS);
+            fixture.detectChanges();
+            const topics = el.querySelectorAll('h4.usa-footer__primary-link');
+            expect(topics.length).toBe(4);
+          });
+
+          it('should render h5 when headingLevel is 5', () => {
+            const SAMPLE_LINK_COLUMNS: FooterLinkColumns = {
+              headingLevel: 5,
+              columns: SAMPLE_COLUMNS,
+            };
+            fixture.componentRef.setInput('linkColumns', SAMPLE_LINK_COLUMNS);
+            fixture.detectChanges();
+            const topics = el.querySelectorAll('h5.usa-footer__primary-link');
+            expect(topics.length).toBe(4);
+          });
+
+          it('should render h6 when headingLevel is 6', () => {
+            const SAMPLE_LINK_COLUMNS: FooterLinkColumns = {
+              headingLevel: 6,
+              columns: SAMPLE_COLUMNS,
+            };
+            fixture.componentRef.setInput('linkColumns', SAMPLE_LINK_COLUMNS);
+            fixture.detectChanges();
+            const topics = el.querySelectorAll('h6.usa-footer__primary-link');
+            expect(topics.length).toBe(4);
           });
         });
       });

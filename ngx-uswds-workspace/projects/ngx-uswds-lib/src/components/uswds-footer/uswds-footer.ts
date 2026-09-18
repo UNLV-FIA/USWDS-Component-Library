@@ -7,7 +7,7 @@ import {
   FooterVariant,
   FooterFormState,
   FooterLink,
-  FooterLinkColumn,
+  FooterLinkColumns,
   FooterAgencyInfo,
   FooterForm,
   FooterSocialLinks,
@@ -62,8 +62,12 @@ import { FormField, form, email, ValidationError } from '@angular/forms/signals'
  *     - 'email': Agency's contact email
  *   If any of the above fields are not provided, it will not render in the footer.
  *
- * @input {FooterLinkColumn[]} [linkColumns=[]] - A list of columns of links to display in the 'big' footer only.
- *   Each item requires a 'topic' and `links` for the column. Each link requires a 'label' and 'href'.
+ * @input {FooterLinkColumns} linkColumns - An object that stores the information for the link columns in the 'big' footer.
+ *   Fields include:
+ *     - 'headingLevel': Heading level for all the topic headings
+ *     - 'columns': A list of columns of links to display. Each item requires a 'topic' and `links` for the column.
+ *       Each link requires a 'label' and 'href'.
+ *   If headingLevel is not provided, it will default to 4 (`<h4>`).
  *
  * @input {FooterLink[]} [links=[]] - A list of links to display in the 'medium' and 'slim' footer only.
  *    Each item requires a 'label' and `href`.
@@ -108,7 +112,7 @@ export class UswdsFooter implements AfterViewInit {
 
   /* For the big variant footer */
   // v8 ignore next
-  linkColumns = input<FooterLinkColumn[]>([]);
+  linkColumns = input<FooterLinkColumns>();
   // v8 ignore next
   signUpFormInfo = input<FooterForm>();
   // Below are internally managed for the form
@@ -209,6 +213,13 @@ export class UswdsFooter implements AfterViewInit {
   };
   // v8 ignore next
   agencyEmail = computed(() => this.agencyInfo()?.email);
+  // v8 ignore next
+  topicHeadingLevel = computed(() => this.topicHeadingLevelFn());
+  topicHeadingLevelFn = () => {
+    const level = this.linkColumns()?.headingLevel;
+    if (!level) return 4;
+    return level;
+  };
 
   /* Sign up form items for the big footer */
   // v8 ignore next

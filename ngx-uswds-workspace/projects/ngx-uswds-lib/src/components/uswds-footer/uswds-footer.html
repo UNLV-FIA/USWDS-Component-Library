@@ -11,12 +11,28 @@
             <nav class="usa-footer__nav" aria-label="Footer navigation">
               <div class="grid-row grid-gap-4">
                 <!-- Load in link columns -->
-                @for (col of linkColumns(); track col.topic) {
+                @for (col of linkColumns()?.columns; track col.topic) {
                   <div class="mobile-lg:grid-col-6 desktop:grid-col-3">
                     <section
                       class="usa-footer__primary-content usa-footer__primary-content--collapsible"
                     >
-                      <h4 class="usa-footer__primary-link">{{ col.topic }}</h4>
+                      @switch (topicHeadingLevel()) {
+                        @case (2) {
+                          <h2 class="usa-footer__primary-link">{{ col.topic }}</h2>
+                        }
+                        @case (3) {
+                          <h3 class="usa-footer__primary-link">{{ col.topic }}</h3>
+                        }
+                        @case (5) {
+                          <h5 class="usa-footer__primary-link">{{ col.topic }}</h5>
+                        }
+                        @case (6) {
+                          <h6 class="usa-footer__primary-link">{{ col.topic }}</h6>
+                        }
+                        @default {
+                          <h4 class="usa-footer__primary-link">{{ col.topic }}</h4>
+                        }
+                      }
                       <ul class="usa-list usa-list--unstyled">
                         <!-- Load in each link -->
                         @for (link of col.links; track link.href) {

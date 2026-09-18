@@ -5,9 +5,16 @@ export type FooterVariant = 'big' | 'medium' | 'slim';
 
 export type FooterFormState = 'success' | 'error' | 'default';
 
+export type FooterHeadingLevel = 2 | 3 | 4 | 5 | 6;
+
 export interface FooterLink {
   label: string;
   href: string;
+}
+
+export interface FooterLinkColumns {
+  headingLevel?: FooterHeadingLevel;
+  columns: FooterLinkColumn[];
 }
 
 export interface FooterLinkColumn {

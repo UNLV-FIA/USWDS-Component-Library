@@ -8,7 +8,7 @@ import {
   AfterContentInit,
 } from '@angular/core';
 import { UswdsAccordionItem } from '../uswds-accordion-item/uswds-accordion-item';
-import { AccordionVariant, HeadingLevel } from './accordion-types';
+import { AccordionVariant, HeadingLevel, AccordionIconPosition } from './accordion-types';
 
 /**
  * @class UswdsAccordion
@@ -61,6 +61,10 @@ import { AccordionVariant, HeadingLevel } from './accordion-types';
  * @input {string} [idPrefix] - Custom prefix for generated element IDs. If not provided,
  *   a unique prefix is auto-generated to avoid ID collisions between multiple accordions
  *   on the same page.
+ *
+ * @input {AccordionIconPosition} [icon='start'] - The accordion icon placement for all child accordion items.
+ *   Accepts 'start' and 'end'. 'start' is ideal for languages that are read left to right and 'end' is ideal for
+ *   right to left languages.
  */
 @Component({
   selector: 'ngx-uswds-accordion',
@@ -77,6 +81,8 @@ export class UswdsAccordion implements AfterContentInit {
   headingLevel = input<HeadingLevel>(4);
   // v8 ignore next
   idPrefix = input<string>();
+  // v8 ignore next
+  iconPosition = input<AccordionIconPosition>('start');
 
   // v8 ignore next
   expandedIndices = signal<Set<number>>(new Set());
@@ -123,6 +129,10 @@ export class UswdsAccordion implements AfterContentInit {
 
     if (this.multiselectable()) {
       classes.push('usa-accordion--multiselectable');
+    }
+
+    if (this.iconPosition() == 'end') {
+      classes.push('usa-accordion--icon-end');
     }
 
     return classes;

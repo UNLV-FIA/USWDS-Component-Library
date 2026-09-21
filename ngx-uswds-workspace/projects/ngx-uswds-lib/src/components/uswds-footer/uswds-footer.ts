@@ -74,7 +74,8 @@ import { FormField, form, email, ValidationError } from '@angular/forms/signals'
  *
  * @input {FooterForm} signUpFormInfo - An object that stores the form information to display in the 'big' footer.
  *   Fields include:
- *     - 'heading': Heading shown above the form
+ *     - 'heading': Heading text shown above the form
+ *     - 'headingLevel': Heading level of the form heading. Default is 3 (`<h3>`).
  *     - 'label': Label for the text input
  *     - 'inputId': ID of the text input
  *     - 'inputWidth': Width of the text input
@@ -215,7 +216,7 @@ export class UswdsFooter implements AfterViewInit {
   agencyEmail = computed(() => this.agencyInfo()?.email);
   // v8 ignore next
   topicHeadingLevel = computed(() => this.topicHeadingLevelFn());
-  topicHeadingLevelFn = () => {
+  private topicHeadingLevelFn = () => {
     const level = this.linkColumns()?.headingLevel;
     if (!level) return 4;
     return level;
@@ -228,6 +229,13 @@ export class UswdsFooter implements AfterViewInit {
     const heading = this.signUpFormInfo()?.heading;
     if (!heading) return 'Sign up';
     return heading;
+  };
+  // v8 ignore next
+  signUpHeadingLevel = computed(() => this.signUpHeadingLevelFn());
+  private signUpHeadingLevelFn = () => {
+    const level = this.signUpFormInfo()?.headingLevel;
+    if (!level) return 3;
+    return level;
   };
   // v8 ignore next
   signUpInputLabel = computed(() => this.signUpInputLabelFn());

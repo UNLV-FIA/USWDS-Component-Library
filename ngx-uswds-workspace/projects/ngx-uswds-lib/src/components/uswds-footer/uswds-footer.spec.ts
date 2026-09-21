@@ -392,6 +392,48 @@ describe('UswdsFooter', () => {
           expect(component.signUpForm.email().value()).toBe('view to model');
         });
 
+        describe('Form heading level rendering', () => {
+          it('should render h2 when headingLevel is 2', () => {
+            const SAMPLE_FORM_HEADING: FooterForm = {
+              headingLevel: 2,
+            };
+            fixture.componentRef.setInput('signUpFormInfo', SAMPLE_FORM_HEADING);
+            fixture.detectChanges();
+            const heading = el.querySelector('h2.usa-sign-up__heading');
+            expect(heading).toBeTruthy();
+          });
+
+          it('should render h4 when headingLevel is 4', () => {
+            const SAMPLE_FORM_HEADING: FooterForm = {
+              headingLevel: 4,
+            };
+            fixture.componentRef.setInput('signUpFormInfo', SAMPLE_FORM_HEADING);
+            fixture.detectChanges();
+            const heading = el.querySelector('h4.usa-sign-up__heading');
+            expect(heading).toBeTruthy();
+          });
+
+          it('should render h5 when headingLevel is 5', () => {
+            const SAMPLE_FORM_HEADING: FooterForm = {
+              headingLevel: 5,
+            };
+            fixture.componentRef.setInput('signUpFormInfo', SAMPLE_FORM_HEADING);
+            fixture.detectChanges();
+            const heading = el.querySelector('h5.usa-sign-up__heading');
+            expect(heading).toBeTruthy();
+          });
+
+          it('should render h6 when headingLevel is 6', () => {
+            const SAMPLE_FORM_HEADING: FooterForm = {
+              headingLevel: 6,
+            };
+            fixture.componentRef.setInput('signUpFormInfo', SAMPLE_FORM_HEADING);
+            fixture.detectChanges();
+            const heading = el.querySelector('h6.usa-sign-up__heading');
+            expect(heading).toBeTruthy();
+          });
+        });
+
         describe('Success state', () => {
           let button: HTMLButtonElement;
 
@@ -651,8 +693,9 @@ describe('UswdsFooter', () => {
         });
 
         describe('Fallback values', () => {
-          it('should render default heading', () => {
-            const heading = el.querySelector('.usa-sign-up__heading');
+          it('should render default h3 heading', () => {
+            //
+            const heading = el.querySelector('h3.usa-sign-up__heading');
             expect(heading!.textContent).toBe('Sign up');
           });
 

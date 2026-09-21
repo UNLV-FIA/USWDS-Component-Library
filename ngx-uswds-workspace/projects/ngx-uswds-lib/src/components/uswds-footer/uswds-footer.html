@@ -49,7 +49,23 @@
           </div>
           <div class="tablet:grid-col-4">
             <div class="usa-sign-up">
-              <h3 class="usa-sign-up__heading">{{ signUpHeading() }}</h3>
+              @switch (signUpHeadingLevel()) {
+                @case (2) {
+                  <h2 class="usa-sign-up__heading">{{ signUpHeading() }}</h2>
+                }
+                @case (4) {
+                  <h4 class="usa-sign-up__heading">{{ signUpHeading() }}</h4>
+                }
+                @case (5) {
+                  <h5 class="usa-sign-up__heading">{{ signUpHeading() }}</h5>
+                }
+                @case (6) {
+                  <h6 class="usa-sign-up__heading">{{ signUpHeading() }}</h6>
+                }
+                @default {
+                  <h3 class="usa-sign-up__heading">{{ signUpHeading() }}</h3>
+                }
+              }
               <form class="usa-form" (submit)="onSubmit($event)" novalidate>
                 <div
                   id="sign-up-container-error-footer"

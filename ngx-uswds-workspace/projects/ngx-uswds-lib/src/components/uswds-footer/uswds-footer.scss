@@ -3,26 +3,31 @@
 }
 
 :host ::ng-deep h2.usa-footer__primary-link,
-:host ::ng-deep button.usa-footer__primary-link[data-tag='H2'] {
+:host ::ng-deep button.usa-footer__primary-link[data-tag='H2'],
+h2.usa-sign-up__heading {
   font-size: 1.5rem;
 }
 
 :host ::ng-deep h3.usa-footer__primary-link,
-:host ::ng-deep button.usa-footer__primary-link[data-tag='H3'] {
+:host ::ng-deep button.usa-footer__primary-link[data-tag='H3'],
+h3.usa-sign-up__heading {
   font-size: 1.17rem;
 }
 
 :host ::ng-deep h4.usa-footer__primary-link,
-:host ::ng-deep button.usa-footer__primary-link[data-tag='H4'] {
+:host ::ng-deep button.usa-footer__primary-link[data-tag='H4'],
+h4.usa-sign-up__heading {
   font-size: 1rem;
 }
 
 :host ::ng-deep h5.usa-footer__primary-link,
-:host ::ng-deep button.usa-footer__primary-link[data-tag='H5'] {
+:host ::ng-deep button.usa-footer__primary-link[data-tag='H5'],
+h5.usa-sign-up__heading {
   font-size: 0.83rem;
 }
 
 :host ::ng-deep h6.usa-footer__primary-link,
-:host ::ng-deep button.usa-footer__primary-link[data-tag='H6'] {
+:host ::ng-deep button.usa-footer__primary-link[data-tag='H6'],
+h6.usa-sign-up__heading {
   font-size: 0.67rem;
 }

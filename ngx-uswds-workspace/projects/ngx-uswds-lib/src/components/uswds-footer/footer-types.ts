@@ -24,6 +24,7 @@ export interface FooterLinkColumn {
 
 export interface FooterForm {
   heading?: string;
+  headingLevel?: FooterHeadingLevel;
   label?: string;
   inputId?: string;
   inputWidth?: TextInputWidth;

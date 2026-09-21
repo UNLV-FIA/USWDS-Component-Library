@@ -62,7 +62,7 @@ import { AccordionVariant, HeadingLevel, AccordionIconPosition } from './accordi
  *   a unique prefix is auto-generated to avoid ID collisions between multiple accordions
  *   on the same page.
  *
- * @input {AccordionIconPosition} [icon='start'] - The accordion icon placement for all child accordion items.
+ * @input {AccordionIconPosition} [iconPosition='start'] - The accordion icon placement for all child accordion items.
  *   Accepts 'start' and 'end'. 'start' is ideal for languages that are read left to right and 'end' is ideal for
  *   right to left languages.
  */
@@ -70,7 +70,7 @@ import { AccordionVariant, HeadingLevel, AccordionIconPosition } from './accordi
   selector: 'ngx-uswds-accordion',
   standalone: true,
   templateUrl: './uswds-accordion.html',
-  styleUrls: ['./uswds-accordion.scss'],
+  styleUrl: './uswds-accordion.scss',
 })
 export class UswdsAccordion implements AfterContentInit {
   // v8 ignore next

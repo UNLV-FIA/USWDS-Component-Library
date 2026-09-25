@@ -140,6 +140,10 @@ describe('UswdsAccordion', () => {
         expect(host.accordion.multiselectable()).toBe(false);
       });
 
+      it('should default iconPosition to start', () => {
+        expect(host.accordion.iconPosition()).toBe('start');
+      });
+
       it('should discover three content children', () => {
         expect(host.accordion.items().length).toBe(3);
       });
@@ -172,7 +176,7 @@ describe('UswdsAccordion', () => {
     });
 
     describe('CSS classes and styling', () => {
-      it('should apply correct classes based on variant and multiselectable', () => {
+      it('should apply correct classes based on variant, multiselectable, and iconPosition', () => {
         const f = TestBed.createComponent(UswdsAccordion);
 
         // Borderless variant (default)
@@ -187,10 +191,16 @@ describe('UswdsAccordion', () => {
         // Multiselectable
         f.componentRef.setInput('multiselectable', true);
         f.detectChanges();
+
+        // End icon position
+        f.componentRef.setInput('iconPosition', 'end');
+        f.detectChanges();
+
         const classes = f.componentInstance.containerClasses();
         expect(classes).toContain('usa-accordion');
         expect(classes).toContain('usa-accordion--bordered');
         expect(classes).toContain('usa-accordion--multiselectable');
+        expect(classes).toContain('usa-accordion--icon-end');
       });
 
       it('should apply only multiselectable class when borderless and multiselectable', () => {

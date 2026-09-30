@@ -131,7 +131,7 @@ export class UswdsAccordion implements AfterContentInit {
       classes.push('usa-accordion--multiselectable');
     }
 
-    if (this.iconPosition() == 'end') {
+    if (this.iconPosition() === 'end') {
       classes.push('usa-accordion--icon-end');
     }
 

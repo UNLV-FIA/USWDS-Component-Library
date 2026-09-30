@@ -1,5 +1,5 @@
 <nav [ngClass]="containerClasses()" aria-label="Breadcrumbs">
-  <!-- Default / Wrap variant -->
+  <!-- Default / Truncated variant -->
   @if (!rdfa()) {
     <ol class="usa-breadcrumb__list">
       @for (item of leadingItems(); track item.label) {

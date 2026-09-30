@@ -25,8 +25,8 @@ import { BreadcrumbVariant, BreadcrumbItem } from './breadcrumb-types';
  * ></ngx-uswds-breadcrumb>
  *
  * @example
- * <!-- Wrapping variant with RDFa structured data -->
- * <ngx-uswds-breadcrumb [items]="breadcrumbs" variant="wrap" [rdfa]="true"></ngx-uswds-breadcrumb>
+ * <!-- Default variant with RDFa structured data -->
+ * <ngx-uswds-breadcrumb [items]="breadcrumbs" [rdfa]="true"></ngx-uswds-breadcrumb>
  *
  * @input {BreadcrumbItem[]} [items=[]] - The ordered list of breadcrumb items to display.
  *   Each item requires a `label` and accepts an optional `href`. The last item is
